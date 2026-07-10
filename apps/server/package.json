@@ -18,6 +18,7 @@
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "seed:system": "ts-node src/scripts/seed-system-user.ts",
+    "seed:admin": "ts-node src/scripts/seed-admin.ts",
     "seed:banners": "ts-node src/scripts/seed-banners.ts",
     "seed:agri": "ts-node src/scripts/seed-agri-data.ts"
   },
