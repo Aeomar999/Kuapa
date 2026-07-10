@@ -1,5 +1,17 @@
-import { IsString, IsNumber, IsOptional, Min, IsArray, ValidateNested } from "class-validator";
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  Min,
+  IsArray,
+  ValidateNested,
+  IsEnum,
+  IsBoolean,
+  IsInt,
+  IsDateString,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { ProduceUnit } from "@prisma/client";
 import { ProductImageDto } from "./create-product.dto";
 
 export class UpdateProductDto {
@@ -38,4 +50,21 @@ export class UpdateProductDto {
   @ValidateNested({ each: true })
   @Type(() => ProductImageDto)
   images?: ProductImageDto[];
+
+  @IsOptional()
+  @IsEnum(ProduceUnit)
+  unit?: ProduceUnit;
+
+  @IsOptional()
+  @IsDateString()
+  harvestDate?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  shelfLifeDays?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isPerishable?: boolean;
 }
