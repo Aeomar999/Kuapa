@@ -19,15 +19,15 @@
 
 export const lightTokens = {
   // Brand / primary
-  primary: "#06406b", // brand-700
-  primaryHover: "#04365b", // brand-800
-  primaryActive: "#022d4d", // brand-900
-  primarySubtle: "#f0f7fb", // brand-50
+  primary: "#15803d", // brand-700
+  primaryHover: "#166534", // brand-800
+  primaryActive: "#14532d", // brand-900
+  primarySubtle: "#f0fdf4", // brand-50
   primaryText: "#ffffff",
 
   // Secondary / accent
-  secondary: "#0ea5e9", // accent-500
-  secondaryHover: "#0284c7", // accent-600
+  secondary: "#f97316", // accent-500
+  secondaryHover: "#ea580c", // accent-600
   secondaryText: "#ffffff",
 
   // Feedback
@@ -36,13 +36,13 @@ export const lightTokens = {
   warning: "#F59E0B",
 
   // Surfaces & text
-  background: "#F8FAFC", // surface-50
+  background: "#FAFAF9", // surface-50
   surface: "#ffffff",
-  border: "#E2E8F0", // surface-200
-  textPrimary: "#0F172A", // surface-900
-  textSecondary: "#475569", // surface-600
-  textMuted: "#94A3B8", // surface-400
-  textDisabled: "#CBD5E1", // surface-300
+  border: "#E7E5E4", // surface-200
+  textPrimary: "#1C1917", // surface-900
+  textSecondary: "#57534E", // surface-600
+  textMuted: "#A8A29E", // surface-400
+  textDisabled: "#D6D3D1", // surface-300
 } as const;
 
 export type ColorScheme = "light" | "dark";
@@ -50,15 +50,15 @@ export type ThemeColors = { readonly [K in keyof typeof lightTokens]: string };
 
 export const darkTokens: ThemeColors = {
   // Brand / primary — lighter brand steps for contrast on dark surfaces
-  primary: "#5193c6", // brand-400
-  primaryHover: "#88b7da", // brand-300
-  primaryActive: "#b9d5ea", // brand-200
-  primarySubtle: "#022d4d", // brand-900
+  primary: "#4ade80", // brand-400
+  primaryHover: "#86efac", // brand-300
+  primaryActive: "#bbf7d0", // brand-200
+  primarySubtle: "#14532d", // brand-900
   primaryText: "#ffffff",
 
   // Secondary / accent
-  secondary: "#38bdf8", // accent-400
-  secondaryHover: "#7dd3fc", // accent-300
+  secondary: "#fb923c", // accent-400
+  secondaryHover: "#fdba74", // accent-300
   secondaryText: "#ffffff",
 
   // Feedback — read fine on dark, unchanged
@@ -67,13 +67,13 @@ export const darkTokens: ThemeColors = {
   warning: "#F59E0B",
 
   // Surfaces & text — inverted scale
-  background: "#020617", // surface-950
-  surface: "#0F172A", // surface-900
-  border: "#334155", // surface-700
-  textPrimary: "#F8FAFC", // surface-50
-  textSecondary: "#CBD5E1", // surface-300
-  textMuted: "#64748B", // surface-500
-  textDisabled: "#475569", // surface-600
+  background: "#0C0A09", // surface-950
+  surface: "#1C1917", // surface-900
+  border: "#44403C", // surface-700
+  textPrimary: "#FAFAF9", // surface-50
+  textSecondary: "#D6D3D1", // surface-300
+  textMuted: "#78716C", // surface-500
+  textDisabled: "#57534E", // surface-600
 };
 
 /** Return the resolved palette for a concrete scheme (non-React callers). */

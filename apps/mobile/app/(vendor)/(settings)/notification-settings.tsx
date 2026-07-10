@@ -95,7 +95,7 @@ export default function NotificationSettingsScreen() {
             <View>
               <Text className="text-body-lg font-bold text-foreground">Promotions</Text>
               <Text className="text-body-sm text-muted-foreground mt-0.5">
-                BexieMart seller tips and promos
+                Kuapa seller tips and promos
               </Text>
             </View>
             <Switch

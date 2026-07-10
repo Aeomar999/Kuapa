@@ -81,7 +81,7 @@ export default function VendorPromotionsScreen() {
               <View className="flex-row items-center">
                 <Icon name="zap" size={20} color="#fcd34d" style={{ marginRight: 8 }} />
                 <Text className="text-heading-md font-heading font-black text-white">
-                  BexieMart Flash Sales
+                  Kuapa Flash Sales
                 </Text>
               </View>
               <Switch
@@ -92,8 +92,8 @@ export default function VendorPromotionsScreen() {
               />
             </View>
             <Text className="text-body-md text-white/80 leading-relaxed">
-              Opt-in to platform-wide flash sales. BexieMart will automatically apply a 15% discount
-              to your top products during flash sale hours.
+              Opt-in to platform-wide flash sales. Kuapa will automatically apply a 15% discount to
+              your top products during flash sale hours.
             </Text>
           </View>
 

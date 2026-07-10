@@ -31,7 +31,7 @@ export default function WelcomeScreen() {
           <FontAwesome5 name="store" size={42} color="#FFFFFF" solid />
         </View>
         <Text className="text-[40px] font-heading font-black text-foreground text-center mb-2 leading-[48px]">
-          Bexie<Text className="text-primary">Mart</Text>
+          Kua<Text className="text-primary">pa</Text>
         </Text>
         <Text className="text-body-lg text-muted-foreground font-body text-center">
           Shop smart on campus

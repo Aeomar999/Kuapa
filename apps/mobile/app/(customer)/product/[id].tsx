@@ -152,7 +152,7 @@ export default function ProductDetailsScreen() {
               className="w-10 h-10 rounded-full bg-card/90 items-center justify-center"
               onPress={() =>
                 Share.share({
-                  message: `Check out ${product.name} on Bexiemart! Only GHS ${product.price.toFixed(2)}`,
+                  message: `Check out ${product.name} on Kuapa! Only GHS ${product.price.toFixed(2)}`,
                 })
               }
             >

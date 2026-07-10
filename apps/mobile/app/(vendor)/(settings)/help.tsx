@@ -13,11 +13,11 @@ const FAQS = [
   },
   {
     q: "How do I manage my delivery options?",
-    a: "When an order is ready, you can choose to request a BexieMart rider or handle the delivery yourself. Set your default preference in Settings.",
+    a: "When an order is ready, you can choose to request a Kuapa rider or handle the delivery yourself. Set your default preference in Settings.",
   },
   {
     q: "What is the platform fee?",
-    a: "BexieMart charges a flat 5% commission on successful sales, plus a GHS 5.00 flat fee for withdrawals.",
+    a: "Kuapa charges a flat 5% commission on successful sales, plus a GHS 5.00 flat fee for withdrawals.",
   },
 ];
 

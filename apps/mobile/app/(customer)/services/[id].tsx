@@ -178,14 +178,14 @@ export default function ProviderDetailsScreen() {
               })
             }
           >
-            <Icon name="message-circle" size={18} color="#0284c7" />
+            <Icon name="message-circle" size={18} color="#166534" />
             <Text className="text-primary-hover font-bold text-body-md">Chat</Text>
           </Pressable>
           <Pressable
             className="flex-1 bg-primary-subtle border border-border py-3 rounded-xl flex-row items-center justify-center gap-2"
             onPress={() => Linking.openURL("tel:+233555555555")}
           >
-            <Icon name="phone" size={18} color="#0284c7" />
+            <Icon name="phone" size={18} color="#166534" />
             <Text className="text-primary-hover font-bold text-body-md">Call</Text>
           </Pressable>
         </View>

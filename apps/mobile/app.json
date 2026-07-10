@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "BexieMart",
+    "name": "Kuapa",
     "slug": "bexiemart",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,9 +17,9 @@
         "googleMapsApiKey": "REPLACE_WITH_GOOGLE_MAPS_IOS_KEY"
       },
       "infoPlist": {
-        "NSCameraUsageDescription": "Take photos of products to sell on BexieMart.",
+        "NSCameraUsageDescription": "Take photos of products to sell on Kuapa.",
         "NSPhotoLibraryUsageDescription": "Select product images from your photo library.",
-        "NSLocationWhenInUseUsageDescription": "BexieMart needs your location to track deliveries and riders."
+        "NSLocationWhenInUseUsageDescription": "Kuapa needs your location to track deliveries and riders."
       }
     },
     "android": {
@@ -88,13 +88,13 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "BexieMart needs your location to track deliveries and match you with nearby riders."
+          "locationWhenInUsePermission": "Kuapa needs your location to track deliveries and match you with nearby riders."
         }
       ],
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#004CFF",
+          "backgroundColor": "#15803d",
           "image": "./assets/images/icon.png",
           "imageWidth": 200
         }
@@ -102,8 +102,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Select product images for your BexieMart listings.",
-          "cameraPermission": "Take photos of your products for BexieMart."
+          "photosPermission": "Select product images for your Kuapa listings.",
+          "cameraPermission": "Take photos of your products for Kuapa."
         }
       ],
       [

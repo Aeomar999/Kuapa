@@ -37,7 +37,7 @@ export default function BecomeDispatcherScreen() {
         Toast.show({
           type: "success",
           text1: "Welcome!",
-          text2: "You are now a Bexiemart Dispatcher.",
+          text2: "You are now a Kuapa Dispatcher.",
         });
 
         // Root index.tsx will auto-redirect based on role

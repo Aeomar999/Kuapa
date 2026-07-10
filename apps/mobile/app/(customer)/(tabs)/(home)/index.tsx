@@ -200,7 +200,7 @@ export default function HomeScreen() {
   };
 
   if (isProductsLoading || isCategoriesLoading) {
-    return <LoadingState type="grid" message="Loading BexieMart..." />;
+    return <LoadingState type="grid" message="Loading Kuapa..." />;
   }
 
   if (isProductsError || isCategoriesError) {
@@ -226,7 +226,7 @@ export default function HomeScreen() {
           </Pressable>
 
           <Text className="text-display-sm font-heading font-black text-foreground tracking-tight">
-            Bexiemart
+            Kuapa
           </Text>
 
           <Pressable

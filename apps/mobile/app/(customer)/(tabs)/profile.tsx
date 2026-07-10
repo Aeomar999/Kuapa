@@ -80,7 +80,7 @@ const PROFILE_SECTIONS: ProfileSection[] = [
       {
         id: "drive",
         icon: "truck",
-        label: "Drive for Bexiemart",
+        label: "Drive for Kuapa",
         route: "/(customer)/become-dispatcher",
         requiresAuth: true,
       },
@@ -161,7 +161,7 @@ export default function ProfileScreen() {
               className="text-display-sm font-heading font-bold text-foreground"
               numberOfLines={1}
             >
-              {isAuthenticated ? user?.name || "Bexiemart" : "Sign in or sign up"}
+              {isAuthenticated ? user?.name || "Kuapa" : "Sign in or sign up"}
             </Text>
             <Text className="text-body-sm font-body text-muted-foreground" numberOfLines={1}>
               {isAuthenticated

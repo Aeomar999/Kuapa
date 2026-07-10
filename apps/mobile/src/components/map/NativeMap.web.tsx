@@ -41,7 +41,7 @@ const MapView = React.forwardRef(({ children }: any, ref) => {
         Map view is not supported on Web
       </Text>
       <Text style={{ color: "#94a3b8", fontSize: 15, textAlign: "center" }}>
-        Please use the Bexiemart mobile app on an iOS or Android device to view the map.
+        Please use the Kuapa mobile app on an iOS or Android device to view the map.
       </Text>
       <View style={{ display: "none" }}>{children}</View>
     </View>

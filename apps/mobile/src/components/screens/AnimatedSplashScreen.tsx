@@ -171,9 +171,9 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }, screenStyle]}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {/* Pulse Rings */}
-        <Animated.View style={[ring3Style, { position: "absolute", backgroundColor: "#06406b" }]} />
-        <Animated.View style={[ring2Style, { position: "absolute", backgroundColor: "#06406b" }]} />
-        <Animated.View style={[ring1Style, { position: "absolute", backgroundColor: "#06406b" }]} />
+        <Animated.View style={[ring3Style, { position: "absolute", backgroundColor: "#15803d" }]} />
+        <Animated.View style={[ring2Style, { position: "absolute", backgroundColor: "#15803d" }]} />
+        <Animated.View style={[ring1Style, { position: "absolute", backgroundColor: "#15803d" }]} />
 
         {/* Logo Icon */}
         <Animated.View style={logoStyle}>
@@ -182,7 +182,7 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
               width: 96,
               height: 96,
               borderRadius: 28,
-              backgroundColor: "#06406b",
+              backgroundColor: "#15803d",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -202,7 +202,7 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
               fontFamily: "Raleway_700Bold",
             }}
           >
-            Bexie<Text style={{ color: "#06406b" }}>Mart</Text>
+            Kua<Text style={{ color: "#15803d" }}>pa</Text>
           </Text>
         </Animated.View>
 

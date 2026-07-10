@@ -9,7 +9,7 @@ interface SearchBarProps extends Omit<TouchableOpacityProps, "onPress"> {
 }
 
 export function SearchBar({
-  placeholder = "Search Bexiemart...",
+  placeholder = "Search Kuapa...",
   onPress,
   showCamera = true,
   ...props

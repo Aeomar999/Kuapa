@@ -105,7 +105,7 @@ export default function SearchScreen() {
           <Icon name="search" size={18} color="#64748b" />
           <TextInput
             className="flex-1 ml-2 text-body-lg font-body text-foreground h-full"
-            placeholder="Search Bexiemart..."
+            placeholder="Search Kuapa..."
             placeholderTextColor="#94a3b8"
             value={query}
             onChangeText={setQuery}

@@ -30,7 +30,7 @@ appId: com.bexiemart.app
     timeout: 10000
 - tapOn: "Mark as Ready"
 - extendedWaitUntil:
-    visible: "Request BexieMart Rider"
+    visible: "Request Kuapa Rider"
     timeout: 10000
 - tapOn:
     point: 4%, 6%

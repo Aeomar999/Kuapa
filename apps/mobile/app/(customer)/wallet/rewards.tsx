@@ -64,7 +64,7 @@ export default function RewardsScreen() {
 
   const handleConvert = () => {
     const ghsValue = (bexieCoins * COIN_RATE).toFixed(2);
-    Alert.alert("Convert Coins", `Convert ${bexieCoins} BexieCoins to GHS ${ghsValue}?`, [
+    Alert.alert("Convert Coins", `Convert ${bexieCoins} Kuapa Coins to GHS ${ghsValue}?`, [
       { text: "Cancel", style: "cancel" },
       { text: "Convert", onPress: () => Alert.alert("Success", "Coins converted successfully!") },
     ]);
@@ -79,7 +79,7 @@ export default function RewardsScreen() {
         <View className="flex-row items-center gap-3">
           <BackButton />
           <Text className="text-display-sm font-heading font-black text-foreground">
-            BexieRewards
+            Kuapa Rewards
           </Text>
         </View>
       </View>

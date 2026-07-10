@@ -14,7 +14,7 @@ describe("SearchBar", () => {
 
   it("renders default placeholder", () => {
     const { getByText } = render(<SearchBar />);
-    expect(getByText("Search Bexiemart...")).toBeTruthy();
+    expect(getByText("Search Kuapa...")).toBeTruthy();
   });
 
   it("renders custom placeholder", () => {

@@ -11,7 +11,7 @@ describe("NativeMap.web", () => {
   it("renders description text", () => {
     const { getByText } = render(<MapView />);
     expect(
-      getByText("Please use the Bexiemart mobile app on an iOS or Android device to view the map.")
+      getByText("Please use the Kuapa mobile app on an iOS or Android device to view the map.")
     ).toBeTruthy();
   });
 
