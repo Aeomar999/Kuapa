@@ -32,7 +32,7 @@ export class NegotiationsController {
 
   @ApiOperation({ summary: "Accept, Reject, or Counter a price negotiation" })
   @Patch(":id/respond")
-  respond(@Param("id") id: string, @Body() dto: RespondNegotiationDto) {
-    return this.negotiationsService.respondToNegotiation(id, dto);
+  respond(@Req() req: any, @Param("id") id: string, @Body() dto: RespondNegotiationDto) {
+    return this.negotiationsService.respondToNegotiation(id, dto, req.user.id);
   }
 }

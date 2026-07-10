@@ -89,10 +89,10 @@ describe("NegotiationsController", () => {
       const expectedResult = { id: "neg-1", status: NegotiationStatus.ACCEPTED };
       mockService.respondToNegotiation.mockResolvedValue(expectedResult);
 
-      const result = await controller.respond("neg-1", dto);
+      const result = await controller.respond({ user: { id: "farmer-user-1" } }, "neg-1", dto);
 
       expect(result).toEqual(expectedResult);
-      expect(mockService.respondToNegotiation).toHaveBeenCalledWith("neg-1", dto);
+      expect(mockService.respondToNegotiation).toHaveBeenCalledWith("neg-1", dto, "farmer-user-1");
     });
   });
 });

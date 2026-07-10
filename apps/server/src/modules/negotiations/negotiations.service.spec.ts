@@ -26,6 +26,7 @@ describe("NegotiationsService", () => {
         id: "p-100",
         name: "Fresh Tomatoes",
         unit: "CRATE",
+        vendorId: "v-100",
         vendor: {
           id: "v-100",
           phone: "+233240000000",
@@ -46,7 +47,6 @@ describe("NegotiationsService", () => {
 
       const result = await service.createNegotiation("user-1", {
         productId: "p-100",
-        vendorId: "v-100",
         proposedPrice: 110,
         proposedQuantity: 10,
       });
@@ -55,7 +55,12 @@ describe("NegotiationsService", () => {
         where: { id: "p-100" },
         include: { vendor: true },
       });
-      expect(prisma.priceNegotiation.create).toHaveBeenCalled();
+      // vendorId must come from the product record, never the client DTO.
+      expect(prisma.priceNegotiation.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ vendorId: "v-100", buyerId: "user-1" }),
+        })
+      );
       expect(notifySpy).toHaveBeenCalledWith("+233240000000", "Fresh Tomatoes", "110", 10, "CRATE");
       expect(result).toEqual(mockCreated);
     });
@@ -66,7 +71,6 @@ describe("NegotiationsService", () => {
       await expect(
         service.createNegotiation("user-1", {
           productId: "nonexistent",
-          vendorId: "v-100",
           proposedPrice: 100,
           proposedQuantity: 5,
         })
@@ -151,6 +155,24 @@ describe("NegotiationsService", () => {
           status: NegotiationStatus.REJECTED,
         })
       ).rejects.toThrow("Negotiation offer not found");
+    });
+
+    it("should reject a responder who does not own the listing", async () => {
+      prisma.priceNegotiation.findUnique.mockResolvedValue({
+        id: "neg-1",
+        status: NegotiationStatus.PENDING,
+        product: { id: "p-100" },
+        vendor: { userId: "owner-user" },
+      } as any);
+
+      await expect(
+        service.respondToNegotiation(
+          "neg-1",
+          { status: NegotiationStatus.ACCEPTED },
+          "someone-else"
+        )
+      ).rejects.toThrow("Only the farmer who owns this listing can respond");
+      expect(prisma.priceNegotiation.update).not.toHaveBeenCalled();
     });
   });
 });

@@ -5,9 +5,11 @@ export class CreateNegotiationDto {
   @IsNotEmpty()
   productId: string;
 
+  // Deprecated: the server derives the vendor from the product; kept optional
+  // so older clients that still send it don't fail validation.
   @IsString()
-  @IsNotEmpty()
-  vendorId: string;
+  @IsOptional()
+  vendorId?: string;
 
   @IsNumber()
   @IsPositive()

@@ -10,6 +10,10 @@ import {
   Pressable,
   Share,
   ActivityIndicator,
+  Modal,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -18,6 +22,7 @@ import { Image } from "expo-image";
 import { Button } from "@/components/ui/Button";
 import { useProduct } from "@/lib/hooks/use-products";
 import { useAddToCart } from "@/lib/hooks/use-cart";
+import { useCreateNegotiation } from "@/lib/hooks/use-negotiations";
 import { useRequireAuth } from "@/lib/hooks/use-require-auth";
 import { Icon } from "@/components/ui/Icon";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -42,6 +47,11 @@ export default function ProductDetailsScreen() {
   const [showFullDesc, setShowFullDesc] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [showOfferSheet, setShowOfferSheet] = useState(false);
+  const [offerPrice, setOfferPrice] = useState("");
+  const [offerQuantity, setOfferQuantity] = useState("");
+  const [offerMessage, setOfferMessage] = useState("");
+  const createNegotiation = useCreateNegotiation();
 
   const flatListRef = useRef<FlatList>(null);
 
@@ -100,6 +110,44 @@ export default function ProductDetailsScreen() {
     if (!requireAuth()) return;
     handleAddToCart();
     router.push("/(customer)/cart");
+  };
+
+  const openOfferSheet = () => {
+    if (!requireAuth()) return;
+    setOfferPrice(String(product.price));
+    setOfferQuantity(String(quantity));
+    setShowOfferSheet(true);
+  };
+
+  const handleSubmitOffer = () => {
+    const price = parseFloat(offerPrice);
+    const qty = parseInt(offerQuantity, 10);
+    if (isNaN(price) || price <= 0 || isNaN(qty) || qty <= 0) {
+      Toast.show({ type: "error", text1: "Enter a valid price and quantity" });
+      return;
+    }
+    createNegotiation.mutate(
+      {
+        productId: product.id,
+        proposedPrice: price,
+        proposedQuantity: qty,
+        message: offerMessage.trim() || undefined,
+      },
+      {
+        onSuccess: () => {
+          setShowOfferSheet(false);
+          setOfferMessage("");
+          Toast.show({
+            type: "success",
+            text1: "Offer sent to the farmer",
+            text2: "They'll be notified by SMS and can accept, reject, or counter.",
+          });
+        },
+        onError: () => {
+          Toast.show({ type: "error", text1: "Could not send offer", text2: "Please try again." });
+        },
+      }
+    );
   };
 
   return (
@@ -506,9 +554,7 @@ export default function ProductDetailsScreen() {
         <Pressable
           style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
           className="mt-2 h-[44px] rounded-full items-center justify-center border-2 border-emerald-600 bg-emerald-50 active:scale-[0.98]"
-          onPress={() => {
-            alert("Bargaining Offer Submitted! The farmer will receive an SMS alert.");
-          }}
+          onPress={openOfferSheet}
         >
           <View className="flex-row items-center gap-2">
             <Icon name="tag" size={16} color="#059669" />
@@ -517,6 +563,85 @@ export default function ProductDetailsScreen() {
             </Text>
           </View>
         </Pressable>
+
+        {/* Make-an-Offer sheet */}
+        <Modal
+          visible={showOfferSheet}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowOfferSheet(false)}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            className="flex-1 justify-end bg-black/40"
+          >
+            <View className="bg-card rounded-t-3xl p-6 pb-10">
+              <View className="flex-row items-center justify-between mb-1">
+                <Text className="text-heading-lg font-heading font-black text-foreground">
+                  Make an Offer
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Close offer sheet"
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  onPress={() => setShowOfferSheet(false)}
+                >
+                  <Icon name="x" size={22} color="#64748b" />
+                </Pressable>
+              </View>
+              <Text className="text-body-sm text-muted-foreground font-body mb-5">
+                Listed at GHS {Number(product.price).toFixed(2)} per {product.unit || "unit"}. The
+                farmer can accept, reject, or counter your offer.
+              </Text>
+
+              <Text className="text-body-sm font-bold font-body text-foreground mb-2">
+                Your price (GHS per {product.unit || "unit"})
+              </Text>
+              <TextInput
+                value={offerPrice}
+                onChangeText={setOfferPrice}
+                keyboardType="decimal-pad"
+                placeholder="e.g. 220"
+                className="bg-background border border-border p-4 rounded-xl font-body text-body-lg mb-4 text-foreground"
+              />
+
+              <Text className="text-body-sm font-bold font-body text-foreground mb-2">
+                Quantity ({product.unit ? `${product.unit}S`.toLowerCase() : "units"})
+              </Text>
+              <TextInput
+                value={offerQuantity}
+                onChangeText={setOfferQuantity}
+                keyboardType="number-pad"
+                placeholder="e.g. 10"
+                className="bg-background border border-border p-4 rounded-xl font-body text-body-lg mb-4 text-foreground"
+              />
+
+              <Text className="text-body-sm font-bold font-body text-foreground mb-2">
+                Message to the farmer (optional)
+              </Text>
+              <TextInput
+                value={offerMessage}
+                onChangeText={setOfferMessage}
+                placeholder="e.g. Weekly supply for my restaurant"
+                multiline
+                className="bg-background border border-border p-4 rounded-xl font-body text-body-lg mb-6 text-foreground min-h-[64px]"
+              />
+
+              <Pressable
+                style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+                className="h-[52px] rounded-full items-center justify-center bg-emerald-600 active:scale-[0.98]"
+                onPress={handleSubmitOffer}
+                disabled={createNegotiation.isPending}
+              >
+                {createNegotiation.isPending ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text className="text-body-md font-bold text-white font-body">Send Offer</Text>
+                )}
+              </Pressable>
+            </View>
+          </KeyboardAvoidingView>
+        </Modal>
 
         {/* Buy Now */}
         <Pressable
