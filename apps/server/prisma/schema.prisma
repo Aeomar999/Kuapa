@@ -254,6 +254,9 @@ model Product {
   unit            ProduceUnit    @default(CRATE)
   harvestDate     DateTime?
   shelfLifeDays   Int?
+  isPerishable    Boolean        @default(true)
+  farmLocationLat Float?
+  farmLocationLng Float?
   negotiable      Boolean        @default(true)
   minimumOrderQty Int            @default(1)
 
