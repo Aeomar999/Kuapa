@@ -33,16 +33,11 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-[var(--color-card)] p-8 shadow-md border border-[var(--color-border)]">
         <div className="text-center">
-          <div className="flex flex-col items-center justify-center mb-4">
-            <img
-              src="/brand/kuapa-icon.svg"
-              alt="Kuapa Icon"
-              className="h-16 w-16 mb-3 drop-shadow-md"
-            />
+          <div className="flex items-center justify-center mb-6">
             <img
               src="/brand/kuapa-lockup.svg"
               alt="Kuapa"
-              className="h-10 w-auto"
+              className="h-14 w-auto drop-shadow-sm"
             />
           </div>
           <h2 className="mt-2 text-center text-2xl font-bold tracking-tight text-[var(--color-text)]">
