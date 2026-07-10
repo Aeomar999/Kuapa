@@ -18,62 +18,62 @@
  */
 
 export const lightTokens = {
-  // Brand / primary
-  primary: "#15803d", // brand-700
-  primaryHover: "#166534", // brand-800
-  primaryActive: "#14532d", // brand-900
-  primarySubtle: "#f0fdf4", // brand-50
+  // Brand / primary (Kuapa Green 800)
+  primary: "#0B5233",
+  primaryHover: "#09442a",
+  primaryActive: "#073B24",
+  primarySubtle: "#f2faf6",
   primaryText: "#ffffff",
 
-  // Secondary / accent
-  secondary: "#f97316", // accent-500
-  secondaryHover: "#ea580c", // accent-600
-  secondaryText: "#ffffff",
+  // Secondary / accent (Harvest Gold)
+  secondary: "#F2A81D",
+  secondaryHover: "#d98f12",
+  secondaryText: "#142019",
 
   // Feedback
   success: "#00D084",
   error: "#EF4444",
   warning: "#F59E0B",
 
-  // Surfaces & text
-  background: "#FAFAF9", // surface-50
+  // Surfaces & text (Kuapa Cream & Ink)
+  background: "#FDFBF7",
   surface: "#ffffff",
-  border: "#E7E5E4", // surface-200
-  textPrimary: "#1C1917", // surface-900
-  textSecondary: "#57534E", // surface-600
-  textMuted: "#A8A29E", // surface-400
-  textDisabled: "#D6D3D1", // surface-300
+  border: "#EBE5D8",
+  textPrimary: "#142019",
+  textSecondary: "#554F43",
+  textMuted: "#A8A090",
+  textDisabled: "#D8D0BF",
 } as const;
 
 export type ColorScheme = "light" | "dark";
 export type ThemeColors = { readonly [K in keyof typeof lightTokens]: string };
 
 export const darkTokens: ThemeColors = {
-  // Brand / primary — lighter brand steps for contrast on dark surfaces
-  primary: "#4ade80", // brand-400
-  primaryHover: "#86efac", // brand-300
-  primaryActive: "#bbf7d0", // brand-200
-  primarySubtle: "#14532d", // brand-900
+  // Brand / primary — lighter Kuapa steps for contrast on dark surfaces
+  primary: "#1E9960",
+  primaryHover: "#4abb84",
+  primaryActive: "#BFE6CD",
+  primarySubtle: "#073B24",
   primaryText: "#ffffff",
 
   // Secondary / accent
-  secondary: "#fb923c", // accent-400
-  secondaryHover: "#fdba74", // accent-300
-  secondaryText: "#ffffff",
+  secondary: "#fbbf24",
+  secondaryHover: "#fcd34d",
+  secondaryText: "#142019",
 
-  // Feedback — read fine on dark, unchanged
+  // Feedback
   success: "#00D084",
   error: "#EF4444",
   warning: "#F59E0B",
 
-  // Surfaces & text — inverted scale
-  background: "#0C0A09", // surface-950
-  surface: "#1C1917", // surface-900
-  border: "#44403C", // surface-700
-  textPrimary: "#FAFAF9", // surface-50
-  textSecondary: "#D6D3D1", // surface-300
-  textMuted: "#78716C", // surface-500
-  textDisabled: "#57534E", // surface-600
+  // Surfaces & text — Kuapa Ink dark container
+  background: "#0A110D",
+  surface: "#142019",
+  border: "#3A352C",
+  textPrimary: "#F8F4EA",
+  textSecondary: "#D8D0BF",
+  textMuted: "#787062",
+  textDisabled: "#554F43",
 };
 
 /** Return the resolved palette for a concrete scheme (non-React callers). */

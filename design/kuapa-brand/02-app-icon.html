@@ -1,0 +1,87 @@
+<!-- @dsCard group="Brand" name="Kuapa · App icon" subtitle="Home screen · sizes · favicon" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuapa · App icon</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800;900&family=Nunito:wght@500;600;700;800&display=swap');
+:root{--green-800:#0B5233;--green-600:#147A4B;--gold:#F2A81D;--cream:#F8F4EA;--ink:#142019}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink);padding:56px}
+.wrap{max-width:1240px;margin:0 auto}
+.eyebrow{font-family:'Raleway',sans-serif;font-weight:800;font-size:12px;letter-spacing:3.5px;color:var(--green-600)}
+h1{font-family:'Raleway',sans-serif;font-weight:900;font-size:40px;letter-spacing:-1px;margin-top:10px}
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;margin-top:36px}
+.tile{background:#fff;border:1px solid rgba(20,32,25,.08);border-radius:22px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;min-height:380px}
+.lbl{position:absolute;left:18px;top:15px;font-family:'Raleway',sans-serif;font-weight:800;font-size:11px;letter-spacing:2px;color:rgba(20,32,25,.42);text-transform:uppercase;z-index:5}
+.dark .lbl{color:rgba(255,255,255,.5)}
+.tile.home{background:linear-gradient(160deg,#0d1f16,#1c3527);}
+.dock{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:30px}
+.app{display:flex;flex-direction:column;align-items:center;gap:9px}
+.app .ph{width:74px;height:74px;border-radius:19px;background:rgba(255,255,255,.10)}
+.app .nm{font-size:11px;font-weight:700;color:rgba(255,255,255,.55)}
+.app .nm.on{color:#fff}
+.sizes{display:flex;align-items:flex-end;gap:34px}
+.sz{display:flex;flex-direction:column;align-items:center;gap:10px}
+.sz .cap{font-size:11.5px;font-weight:800;color:rgba(20,32,25,.45)}
+.full{grid-column:1/-1;min-height:300px;gap:60px}
+.fav{display:flex;align-items:center;gap:12px;background:#2b2f36;border-radius:12px;padding:12px 18px}
+.fav .tab{display:flex;align-items:center;gap:9px;background:#3c414a;border-radius:9px;padding:9px 16px;color:#e8eaed;font-size:12.5px;font-weight:700}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <linearGradient id="iconGrad" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#147A4B"/><stop offset="1" stop-color="#0B5233"/>
+  </linearGradient>
+  <symbol id="k-icon" viewBox="0 0 240 240">
+   <rect width="240" height="240" rx="54" fill="url(#iconGrad)"/>
+   <g fill="#fff">
+    <rect x="72" y="56" width="26" height="132" rx="13"/>
+    <path d="M96 120 C95 86 124 58 168 54 C169 96 140 122 96 120 Z"/>
+    <path d="M96 124 C95 158 124 186 168 190 C169 148 140 122 96 124 Z"/>
+   </g>
+   <circle cx="85" cy="122" r="8" fill="#F2A81D"/>
+  </symbol>
+ </defs>
+</svg>
+
+<div class="wrap">
+ <div class="eyebrow">KUAPA · BRAND</div>
+ <h1>App icon</h1>
+
+ <div class="grid">
+  <div class="tile home dark"><span class="lbl">Home screen</span>
+   <div class="dock">
+    <div class="app"><div class="ph"></div><div class="nm">Momo</div></div>
+    <div class="app">
+     <svg width="74" height="74" viewBox="0 0 240 240" style="border-radius:19px;box-shadow:0 10px 26px rgba(0,0,0,.4)"><use href="#k-icon"/></svg>
+     <div class="nm on">Kuapa</div>
+    </div>
+    <div class="app"><div class="ph"></div><div class="nm">Maps</div></div>
+    <div class="app"><div class="ph"></div><div class="nm">Calls</div></div>
+    <div class="app"><div class="ph"></div><div class="nm">Chat</div></div>
+    <div class="app"><div class="ph"></div><div class="nm">Camera</div></div>
+   </div>
+  </div>
+
+  <div class="tile"><span class="lbl">Scale test</span>
+   <div class="sizes">
+    <div class="sz"><svg width="120" height="120" viewBox="0 0 240 240"><use href="#k-icon"/></svg><div class="cap">120</div></div>
+    <div class="sz"><svg width="64" height="64" viewBox="0 0 240 240"><use href="#k-icon"/></svg><div class="cap">64</div></div>
+    <div class="sz"><svg width="40" height="40" viewBox="0 0 240 240"><use href="#k-icon"/></svg><div class="cap">40</div></div>
+    <div class="sz"><svg width="24" height="24" viewBox="0 0 240 240"><use href="#k-icon"/></svg><div class="cap">24</div></div>
+   </div>
+  </div>
+
+  <div class="tile full"><span class="lbl">Master · 240 grid · radius 54</span>
+   <svg width="240" height="240" viewBox="0 0 240 240"><use href="#k-icon"/></svg>
+   <div class="fav">
+    <div class="tab">
+     <svg width="16" height="16" viewBox="0 0 240 240"><use href="#k-icon"/></svg>
+     Kuapa — Farm to Market
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+</body></html>

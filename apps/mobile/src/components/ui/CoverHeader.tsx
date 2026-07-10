@@ -35,8 +35,8 @@ export function CoverHeader({
   imageUrl,
   height = COVER_HEIGHT,
   fallbackIcon = "image",
-  fallbackIconColor = "#94a3b8",
-  fallbackClassName = "bg-secondary",
+  fallbackIconColor = "#BFE6CD",
+  fallbackClassName = "bg-primary",
   imageOpacity = 1,
   overlay = false,
   children,
@@ -50,9 +50,18 @@ export function CoverHeader({
           contentFit="cover"
         />
       ) : (
-        <View className={`absolute w-full h-full items-center justify-center ${fallbackClassName}`}>
+        <LinearGradient
+          colors={["#147A4B", "#0B5233"]}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Icon name={fallbackIcon} size={48} color={fallbackIconColor} />
-        </View>
+        </LinearGradient>
       )}
 
       {overlay && (

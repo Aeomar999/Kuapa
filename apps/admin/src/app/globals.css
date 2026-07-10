@@ -1,44 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand Scale (Bexiemart Navy — canonical, mirrors apps/mobile/global.css) ── */
-  --color-brand-50: #f0f7fb;
-  --color-brand-100: #dbeaf5;
-  --color-brand-200: #b9d5ea;
-  --color-brand-300: #88b7da;
-  --color-brand-400: #5193c6;
-  --color-brand-500: #2c75a9;
-  --color-brand-600: #1b5b8b;
-  --color-brand-700: #06406b;
-  --color-brand-800: #04365b;
-  --color-brand-900: #022d4d;
-  --color-brand-950: #011d35;
+  /* ── Brand Scale (Kuapa Green — canonical, mirrors apps/mobile/global.css) ── */
+  --color-brand-50: #f2faf6;
+  --color-brand-100: #e2f5ec;
+  --color-brand-200: #BFE6CD;
+  --color-brand-300: #88d3aa;
+  --color-brand-400: #4abb84;
+  --color-brand-500: #1E9960;
+  --color-brand-600: #147A4B;
+  --color-brand-700: #0B5233;
+  --color-brand-800: #09442a;
+  --color-brand-900: #073B24;
+  --color-brand-950: #032013;
 
-  /* ── Accent Scale (Sky) — FULL scale, mirrors apps/mobile ── */
-  --color-accent-50: #f0f9ff;
-  --color-accent-100: #e0f2fe;
-  --color-accent-200: #bae6fd;
-  --color-accent-300: #7dd3fc;
-  --color-accent-400: #38bdf8;
-  --color-accent-500: #0ea5e9;
-  --color-accent-600: #0284c7;
-  --color-accent-700: #0369a1;
-  --color-accent-800: #075985;
-  --color-accent-900: #0c4a6e;
-  --color-accent-950: #082f49;
+  /* ── Accent Scale (Harvest Gold: #F2A81D) — mirrors apps/mobile ── */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #F2A81D;
+  --color-accent-600: #d98f12;
+  --color-accent-700: #b4720d;
+  --color-accent-800: #925b11;
+  --color-accent-900: #784b12;
+  --color-accent-950: #452805;
 
-  /* ── Surface Scale (Cool Gray) ── */
-  --color-surface-50: #F8FAFC;
-  --color-surface-100: #F1F5F9;
-  --color-surface-200: #E2E8F0;
-  --color-surface-300: #CBD5E1;
-  --color-surface-400: #94A3B8;
-  --color-surface-500: #64748B;
-  --color-surface-600: #475569;
-  --color-surface-700: #334155;
-  --color-surface-800: #1E293B;
-  --color-surface-900: #0F172A;
-  --color-surface-950: #020617;
+  /* ── Surface Scale (Kuapa Cream & Ink integrated) ── */
+  --color-surface-50: #FDFBF7;
+  --color-surface-100: #F8F4EA;
+  --color-surface-200: #EBE5D8;
+  --color-surface-300: #D8D0BF;
+  --color-surface-400: #A8A090;
+  --color-surface-500: #787062;
+  --color-surface-600: #554F43;
+  --color-surface-700: #3A352C;
+  --color-surface-800: #24221C;
+  --color-surface-900: #142019;
+  --color-surface-950: #0A110D;
+
+  /* ── Kuapa Brand Direct Utilities ── */
+  --color-cream: #F8F4EA;
+  --color-ink: #142019;
+  --color-gold: #F2A81D;
+  --color-leaf: #BFE6CD;
 
   /* ── Feedback (+ light tints, mirrors apps/mobile) ── */
   --color-success: #00D084;

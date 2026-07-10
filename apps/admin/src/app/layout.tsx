@@ -15,8 +15,8 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "BexieMart Admin",
-  description: "Admin dashboard for BexieMart platform",
+  title: "Kuapa Admin · Farm to Market",
+  description: "Admin dashboard for Kuapa platform — Farm to Market",
 };
 
 export default function RootLayout({

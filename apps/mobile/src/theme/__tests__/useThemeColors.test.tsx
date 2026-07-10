@@ -19,10 +19,10 @@ describe("getThemeColors", () => {
   });
 
   it("exposes the expected surface hexes", () => {
-    expect(getThemeColors("light").background).toBe("#F8FAFC");
-    expect(getThemeColors("dark").background).toBe("#020617");
-    expect(getThemeColors("dark").surface).toBe("#0F172A");
-    expect(getThemeColors("dark").textPrimary).toBe("#F8FAFC");
+    expect(getThemeColors("light").background).toBe("#FDFBF7");
+    expect(getThemeColors("dark").background).toBe("#0A110D");
+    expect(getThemeColors("dark").surface).toBe("#142019");
+    expect(getThemeColors("dark").textPrimary).toBe("#F8F4EA");
   });
 });
 

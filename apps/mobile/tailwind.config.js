@@ -61,6 +61,10 @@ module.exports = {
           hover: "var(--color-secondary-hover)",
           text: "var(--color-secondary-text)",
         },
+        cream: "var(--color-cream)",
+        ink: "var(--color-ink)",
+        gold: "var(--color-gold)",
+        leaf: "var(--color-leaf)",
         success: {
           DEFAULT: "var(--color-success)",
           light: "var(--success-light)",
