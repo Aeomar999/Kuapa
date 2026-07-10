@@ -10,7 +10,7 @@ export function buildEmailVerifyHtml(params: {
 }): string {
   const { userName, verifyUrl, otpCode, token } = params;
   const c = otpCode.split("");
-  const appUrl = `bexiemart://verify-email?token=${token}`;
+  const appUrl = `kuapa://verify-email?token=${token}`;
 
   return `
   <!DOCTYPE html>
@@ -84,11 +84,11 @@ export function buildEmailVerifyHtml(params: {
           <a href="${verifyUrl}" style="color:#15803d;word-break:break-all;text-decoration:underline;">${verifyUrl}</a>
         </p>
         <p style="color:#64748B;font-size:12px;margin:0 0 20px;">
-          <strong>On your mobile device?</strong> <a href="${appUrl}" style="color:#15803d;text-decoration:none;font-weight:600;">Open directly in BexieMart app &rarr;</a>
+          <strong>On your mobile device?</strong> <a href="${appUrl}" style="color:#15803d;text-decoration:none;font-weight:600;">Open directly in Kuapa app &rarr;</a>
         </p>
         <div style="height:1px;background:#E2E8F0;margin:24px auto;width:60px;"></div>
         <p style="color:#94A3B8;font-size:11px;margin:0;">
-          © ${new Date().getFullYear()} BexieMart Technologies. All rights reserved.<br />
+          © ${new Date().getFullYear()} Kuapa AgriTech Marketplace. All rights reserved.<br />
           Secure Hybrid Authentication System
         </p>
       </div>

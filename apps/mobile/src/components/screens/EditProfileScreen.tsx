@@ -146,7 +146,7 @@ export function EditProfileScreen() {
             <View className="mb-4">
               <Input
                 label="Email Address"
-                placeholder="Enter your email"
+                placeholder="john123@mail.com"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}

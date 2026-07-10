@@ -222,7 +222,7 @@ export default function StaffManagementScreen() {
               />
               <Input
                 label="Email Address"
-                placeholder="e.g. jane@kuapa.com"
+                placeholder="john123@mail.com"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"

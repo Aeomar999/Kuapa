@@ -3,19 +3,19 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { BackButton } from "../../src/components/ui/BackButton";
 import { useAuthStore } from "../../src/lib/stores/auth-store";
 import { Input } from "../../src/components/ui/Input";
 import { Button } from "../../src/components/ui/Button";
 import { Announcement } from "../../src/components/ui/Announcement";
 import { useLogin, useResendVerification } from "../../src/lib/hooks/use-auth";
-// @ts-expect-error
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { SocialLogins } from "../../src/components/auth/SocialLogins";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useFormValidation } from "../../src/lib/hooks/use-form-validation";
 import { loginSchema } from "../../src/lib/validation/schemas";
+// @ts-expect-error
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function LoginScreen() {
   const { isAuthenticated, setAuth } = useAuthStore();
@@ -63,26 +63,27 @@ export default function LoginScreen() {
 
   return (
     <View className="flex-1 bg-background px-6" style={{ paddingTop: insets.top }}>
-      <View className="absolute top-4 left-2 z-10" style={{ top: insets.top + 8 }}>
-        <BackButton />
-      </View>
       <View className="flex-1 justify-center py-12">
         <View className="mb-10 items-center">
-          <View className="w-16 h-16 rounded-2xl bg-primary-subtle items-center justify-center mb-6">
-            <FontAwesome5 name="store" size={28} color={tokens.primary} />
+          <View className="w-16 h-16 mb-4">
+            <Image
+              source={require("../../assets/brand/kuapa-icon.svg")}
+              style={{ width: 64, height: 64 }}
+              contentFit="contain"
+            />
           </View>
           <Text className="text-display-md font-heading font-bold text-foreground mb-2 text-center">
             Welcome back
           </Text>
           <Text className="text-body-lg text-muted-foreground font-body text-center">
-            Sign in to continue shopping on campus
+            Sign in to the Kuapa AgriMarket
           </Text>
         </View>
 
         <View className="bg-card p-6 rounded-3xl border border-border gap-5">
           <Input
             label="Email address"
-            placeholder="you@school.edu.gh"
+            placeholder="john123@mail.com"
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}

@@ -32,12 +32,24 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-[var(--color-card)] p-8 shadow-md border border-[var(--color-border)]">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-[var(--color-text)]">
-            Kuapa AgriMarket Admin
+        <div className="text-center">
+          <div className="flex flex-col items-center justify-center mb-4">
+            <img
+              src="/brand/kuapa-icon.svg"
+              alt="Kuapa Icon"
+              className="h-16 w-16 mb-3 drop-shadow-md"
+            />
+            <img
+              src="/brand/kuapa-lockup.svg"
+              alt="Kuapa"
+              className="h-10 w-auto"
+            />
+          </div>
+          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight text-[var(--color-text)]">
+            Farmer-to-Buyer Marketplace Admin
           </h2>
-          <p className="mt-2 text-center text-sm text-[var(--color-text-muted)]">
-            Sign in to access your dashboard
+          <p className="mt-1 text-center text-sm text-[var(--color-text-muted)]">
+            Sign in to manage farms, produce listings & deliveries
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -52,7 +64,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="Email address"
+                placeholder="john123@mail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

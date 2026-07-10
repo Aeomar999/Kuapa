@@ -70,7 +70,7 @@ describe("OtpNotificationService", () => {
       expect(mockSendMail).toHaveBeenCalledWith(
         expect.objectContaining({
           to: "user@example.com",
-          subject: "Your BexieMart verification code",
+          subject: "Your Kuapa AgriMarket verification code",
         })
       );
       // The template renders each digit in its own segmented <td> cell with an

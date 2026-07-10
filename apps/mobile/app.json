@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "Kuapa",
-    "slug": "bexiemart",
+    "slug": "kuapa",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "bexiemart",
+    "scheme": "kuapa",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
