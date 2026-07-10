@@ -9,25 +9,25 @@ datasource db {
 // ─── Better Auth Models ────────────────────────────────────────────────────────
 
 model User {
-  id                  String   @id
+  id                  String    @id
   name                String
-  email               String   @unique
-  emailVerified       Boolean  @default(false)
+  email               String    @unique
+  emailVerified       Boolean   @default(false)
   image               String?
-  role                UserRole @default(CUSTOMER)
+  role                UserRole  @default(CUSTOMER)
   // Super admins are ADMINs with the extra privilege of managing the admin team
   // (creating new admin accounts). Gated by SuperAdminGuard, not the role enum.
-  isSuperAdmin        Boolean  @default(false)
-  onboardingCompleted Boolean  @default(false)
-  phoneNumber         String?  @unique
-  phoneNumberVerified Boolean  @default(false)
-  isActive            Boolean  @default(true)
+  isSuperAdmin        Boolean   @default(false)
+  onboardingCompleted Boolean   @default(false)
+  phoneNumber         String?   @unique
+  phoneNumberVerified Boolean   @default(false)
+  isActive            Boolean   @default(true)
   bannedAt            DateTime?
   banReason           String?
   pushToken           String?
   pushTokenUpdatedAt  DateTime?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   sessions Session[]
   accounts Account[]
@@ -61,6 +61,7 @@ model User {
 
   supportTickets  SupportTicket[] @relation("TicketOwner")
   assignedTickets SupportTicket[] @relation("AssignedAgent")
+  buyerNegotiations PriceNegotiation[] @relation("BuyerNegotiations")
 }
 
 model Session {
@@ -143,6 +144,13 @@ model VendorProfile {
   foodCarts  FoodCart[]
   foodOrders FoodOrder[]
   follows    VendorFollow[]
+  negotiations PriceNegotiation[]
+
+  farmName        String?
+  cooperativeName String?
+  district        String?
+  gpsCoordinates  String?
+  certifications  String[] @default([])
 
   @@index([isActive])
 }
@@ -241,6 +249,13 @@ model Product {
   reels           Reel[]
   flashSaleItems  FlashSaleItem[]
   CollectionItem  CollectionItem[]
+  negotiations    PriceNegotiation[]
+
+  unit            ProduceUnit    @default(CRATE)
+  harvestDate     DateTime?
+  shelfLifeDays   Int?
+  negotiable      Boolean        @default(true)
+  minimumOrderQty Int            @default(1)
 
   @@index([categoryId])
   @@index([vendorId])
@@ -406,7 +421,7 @@ model Payment {
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   amount        Decimal
-  currency      String        @default("NGN")
+  currency      String        @default("GHS")
   status        PaymentStatus @default(pending)
   paystackRef   String        @unique
   paystackTxRef String?
@@ -825,25 +840,25 @@ model Escrow {
 }
 
 model PlatformConfig {
-  id                   String   @id @default(uuid())
-  commissionRate       Decimal  @default(0.05)
-  taxRate              Decimal  @default(0.075)
-  withdrawalFeeFlat    Decimal  @default(2.00)
-  minTopup             Decimal  @default(5.00)
-  maxTopup             Decimal  @default(5000.00)
-  minWithdrawal        Decimal  @default(10.00)
-  dailyWithdrawalLimit Decimal  @default(5000.00)
+  id                   String  @id @default(uuid())
+  commissionRate       Decimal @default(0.05)
+  taxRate              Decimal @default(0.075)
+  withdrawalFeeFlat    Decimal @default(2.00)
+  minTopup             Decimal @default(5.00)
+  maxTopup             Decimal @default(5000.00)
+  minWithdrawal        Decimal @default(10.00)
+  dailyWithdrawalLimit Decimal @default(5000.00)
 
   // Delivery pricing knobs (GHS). customerFee = max(minFee, (base + perKm*km + perMin*min) * vehicleMult * surge)
-  deliveryBaseFare         Decimal @default(5.00)
-  deliveryPerKm            Decimal @default(1.50)
-  deliveryPerMin           Decimal @default(0.20)
-  deliveryMinFee           Decimal @default(6.00)
-  deliveryCommissionRate   Decimal @default(0.20) // platform's cut of the delivery fee
-  deliverySurgeMultiplier  Decimal @default(1.00)
-  deliveryBikeMultiplier   Decimal @default(1.00)
-  deliveryCarMultiplier    Decimal @default(1.60)
-  deliveryVanMultiplier    Decimal @default(2.20)
+  deliveryBaseFare        Decimal @default(5.00)
+  deliveryPerKm           Decimal @default(1.50)
+  deliveryPerMin          Decimal @default(0.20)
+  deliveryMinFee          Decimal @default(6.00)
+  deliveryCommissionRate  Decimal @default(0.20) // platform's cut of the delivery fee
+  deliverySurgeMultiplier Decimal @default(1.00)
+  deliveryBikeMultiplier  Decimal @default(1.00)
+  deliveryCarMultiplier   Decimal @default(1.60)
+  deliveryVanMultiplier   Decimal @default(2.20)
 
   updatedAt DateTime @updatedAt
 }
@@ -971,9 +986,9 @@ model DeliveryJob {
   dispatcher   DispatcherProfile? @relation("DispatcherJobs", fields: [dispatcherId], references: [id])
 
   // Polymorphic links to the underlying order (null for PARCEL).
-  orderId     String? @unique
-  order       Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  foodOrderId String? @unique
+  orderId     String?    @unique
+  order       Order?     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  foodOrderId String?    @unique
   foodOrder   FoodOrder? @relation(fields: [foodOrderId], references: [id], onDelete: Cascade)
 
   vehicleType String // bike | car | van
@@ -1233,4 +1248,49 @@ model CollectionItem {
   createdAt    DateTime   @default(now())
 
   @@unique([collectionId, productId])
+}
+
+// ─── Agricultural Price Negotiation & Produce Enums ─────────────────────────────
+
+model PriceNegotiation {
+  id               String            @id @default(cuid())
+  productId        String
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  buyerId          String
+  buyer            User              @relation("BuyerNegotiations", fields: [buyerId], references: [id], onDelete: Cascade)
+  vendorId         String
+  vendor           VendorProfile     @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  proposedPrice    Decimal
+  proposedQuantity Int               @default(1)
+  status           NegotiationStatus @default(PENDING)
+  message          String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([productId])
+  @@index([buyerId])
+  @@index([vendorId])
+  @@index([status])
+}
+
+enum ProduceUnit {
+  KG
+  CRATE
+  BASKET
+  BAG
+  TONNE
+}
+
+enum AgriVehicleType {
+  COLD_TRUCK
+  VENTILATED_VAN
+  TRICYCLE_ABOBOYAA
+  FLATBED_TRUCK
+}
+
+enum NegotiationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COUNTERED
 }

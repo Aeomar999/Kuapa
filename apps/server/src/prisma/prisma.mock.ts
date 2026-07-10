@@ -397,4 +397,12 @@ export const mockPrisma = (): any => ({
     updateMany: jest.fn(),
     count: jest.fn(),
   },
+  priceNegotiation: {
+    findUnique: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    count: jest.fn(),
+  },
 });

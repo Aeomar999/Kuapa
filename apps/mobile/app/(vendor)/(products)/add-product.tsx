@@ -22,15 +22,19 @@ export default function AddProductScreen() {
   const updateMutation = useUpdateProduct();
 
   const insets = useSafeAreaInsets();
-  const [name, setName] = useState(isEdit ? "Wireless Earbuds Pro" : "");
-  const [category, setCategory] = useState(isEdit ? "Electronics" : "");
+  const [name, setName] = useState(isEdit ? "Fresh Akumadan Tomatoes (Grade A)" : "");
+  const [category, setCategory] = useState(isEdit ? "Tomatoes" : "");
   const [description, setDescription] = useState(
-    isEdit ? "High-quality wireless earbuds with active noise cancellation." : ""
+    isEdit
+      ? "Freshly harvested red tomatoes from Akumadan farming cooperative. Firm texture, excellent for storage and transport."
+      : ""
   );
-  const [price, setPrice] = useState(isEdit ? "124.99" : "");
+  const [price, setPrice] = useState(isEdit ? "120.00" : "");
   const [comparePrice, setComparePrice] = useState("");
   const [quantity, setQuantity] = useState(isEdit ? "45" : "");
-  const [sku, setSku] = useState(isEdit ? "EB-001" : "");
+  const [sku, setSku] = useState(isEdit ? "TOM-AKM-01" : "");
+  const [unit, setUnit] = useState("CRATE");
+  const [shelfLifeDays, setShelfLifeDays] = useState(isEdit ? "5" : "");
   const [shippingRequired, setShippingRequired] = useState(true);
 
   const [localImages, setLocalImages] = useState<
@@ -76,6 +80,8 @@ export default function AddProductScreen() {
         description,
         price: parseFloat(price),
         stock: quantity ? parseInt(quantity, 10) : 0,
+        unit,
+        shelfLifeDays: shelfLifeDays ? parseInt(shelfLifeDays, 10) : null,
         images: uploadedImages,
       };
 
@@ -139,15 +145,15 @@ export default function AddProductScreen() {
             <Text className="text-body-lg font-bold text-foreground mb-4">Basic Details</Text>
             <View className="gap-4">
               <Input
-                label="Product Name"
-                placeholder="e.g. Wireless Earbuds Pro"
+                label="Produce Name"
+                placeholder="e.g. Fresh Akumadan Tomatoes (Grade A)"
                 value={name}
                 onChangeText={setName}
                 error={errors.name}
               />
               <Input
-                label="Category"
-                placeholder="e.g. Electronics"
+                label="Crop Category"
+                placeholder="e.g. Tomatoes, Peppers, Okra"
                 value={category}
                 onChangeText={setCategory}
                 error={errors.category}
@@ -181,11 +187,10 @@ export default function AddProductScreen() {
               </View>
               <View className="flex-1">
                 <Input
-                  label="Compare at Price"
-                  placeholder="0.00"
-                  keyboardType="decimal-pad"
-                  value={comparePrice}
-                  onChangeText={setComparePrice}
+                  label="Produce Unit"
+                  placeholder="e.g. CRATE, KG, BASKET"
+                  value={unit}
+                  onChangeText={setUnit}
                 />
               </View>
             </View>
@@ -208,10 +213,11 @@ export default function AddProductScreen() {
               </View>
               <View className="flex-1">
                 <Input
-                  label="SKU (Optional)"
-                  placeholder="e.g. EB-001"
-                  value={sku}
-                  onChangeText={setSku}
+                  label="Shelf Life (Days)"
+                  placeholder="e.g. 5"
+                  keyboardType="number-pad"
+                  value={shelfLifeDays}
+                  onChangeText={setShelfLifeDays}
                 />
               </View>
             </View>

@@ -108,6 +108,18 @@ export default function DispatcherTasks() {
               </View>
             </View>
 
+            {/* Perishable Agri-Produce Warning & Vehicle Type */}
+            <View className="flex-row items-center justify-between bg-amber-50 border border-amber-200 rounded-xl p-2.5 mb-2">
+              <View className="flex-row items-center gap-1.5">
+                <Text className="text-xs font-bold text-amber-900">🥬 Perishable Produce</Text>
+              </View>
+              <View className="bg-amber-100 px-2 py-0.5 rounded-md">
+                <Text className="text-xs font-bold text-amber-950">
+                  {ride.requiredVehicle || "Aboboyaa / Cold Van"}
+                </Text>
+              </View>
+            </View>
+
             <View className="flex-row items-center justify-between mt-2 pt-4 border-t border-border">
               <View className="flex-row items-center gap-2">
                 <View className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden">

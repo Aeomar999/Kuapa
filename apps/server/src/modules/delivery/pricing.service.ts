@@ -2,7 +2,23 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { RoutesService, LatLng, RouteResult, TravelMode } from "../maps/routes.service";
 
-export type VehicleType = "bike" | "car" | "van";
+export type VehicleType =
+  | "bike"
+  | "car"
+  | "van"
+  | "ABOBOYAA_TRICYCLE"
+  | "PICKUP_TRUCK"
+  | "REFRIGERATED_VAN"
+  | "MINI_TRUCK"
+  | "HEAVY_TRUCK";
+
+export const AGRI_VEHICLE_TYPES: VehicleType[] = [
+  "ABOBOYAA_TRICYCLE",
+  "PICKUP_TRUCK",
+  "REFRIGERATED_VAN",
+  "MINI_TRUCK",
+  "HEAVY_TRUCK",
+];
 
 /** Delivery pricing knobs, resolved from PlatformConfig (with safe defaults). */
 export interface DeliveryPricingConfig {
@@ -15,6 +31,11 @@ export interface DeliveryPricingConfig {
   bikeMultiplier: number;
   carMultiplier: number;
   vanMultiplier: number;
+  aboboyaaMultiplier?: number;
+  pickupTruckMultiplier?: number;
+  refrigeratedVanMultiplier?: number;
+  miniTruckMultiplier?: number;
+  heavyTruckMultiplier?: number;
 }
 
 export const DEFAULT_PRICING_CONFIG: DeliveryPricingConfig = {
@@ -27,6 +48,11 @@ export const DEFAULT_PRICING_CONFIG: DeliveryPricingConfig = {
   bikeMultiplier: 1,
   carMultiplier: 1.6,
   vanMultiplier: 2.2,
+  aboboyaaMultiplier: 1.2,
+  pickupTruckMultiplier: 1.6,
+  refrigeratedVanMultiplier: 2.4,
+  miniTruckMultiplier: 2.0,
+  heavyTruckMultiplier: 3.0,
 };
 
 export interface PricingQuote {
@@ -87,7 +113,10 @@ export class PricingService {
     dropoff: LatLng;
   }): Promise<PricingQuote> {
     const config = await this.getConfig();
-    const travelMode: TravelMode = params.vehicleType === "bike" ? "TWO_WHEELER" : "DRIVE";
+    const travelMode: TravelMode =
+      params.vehicleType === "bike" || params.vehicleType === "ABOBOYAA_TRICYCLE"
+        ? "TWO_WHEELER"
+        : "DRIVE";
     const route = await this.routes.computeRoute(params.pickup, params.dropoff, travelMode);
     return this.price(params.vehicleType, route, config);
   }
@@ -133,8 +162,17 @@ export class PricingService {
 
   private vehicleMultiplier(vehicleType: VehicleType, config: DeliveryPricingConfig): number {
     switch (vehicleType) {
+      case "ABOBOYAA_TRICYCLE":
+        return config.aboboyaaMultiplier ?? 1.2;
+      case "PICKUP_TRUCK":
       case "car":
-        return config.carMultiplier;
+        return config.pickupTruckMultiplier ?? config.carMultiplier;
+      case "REFRIGERATED_VAN":
+        return config.refrigeratedVanMultiplier ?? 2.4;
+      case "MINI_TRUCK":
+        return config.miniTruckMultiplier ?? 2.0;
+      case "HEAVY_TRUCK":
+        return config.heavyTruckMultiplier ?? 3.0;
       case "van":
         return config.vanMultiplier;
       case "bike":

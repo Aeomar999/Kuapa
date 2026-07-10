@@ -185,7 +185,7 @@ export default function RegisterScreen() {
         </Text>
         <Text className="text-body-lg text-muted-foreground font-body">
           {step === 1
-            ? "Choose your role and name"
+            ? "Are you buying or selling produce?"
             : step === 2
               ? "How can we reach you?"
               : "Set a strong password"}
@@ -226,7 +226,7 @@ export default function RegisterScreen() {
                     className="font-heading font-semibold"
                     style={{ color: role === "customer" ? tokens.primary : "#64748B" }}
                   >
-                    Shop
+                    Buy
                   </Text>
                 </TouchableOpacity>
 

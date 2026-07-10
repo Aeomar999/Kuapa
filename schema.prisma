@@ -38,6 +38,7 @@ model User {
   wallet            Wallet?
   reelLikes         ReelLike[]
   reels             Reel[]
+  buyerNegotiations PriceNegotiation[] @relation("BuyerNegotiations")
 }
 
 model Session {
@@ -100,6 +101,11 @@ model VendorProfile {
   phone       String?
   isActive    Boolean  @default(true)
 
+  farmSizeAcres   Decimal?
+  farmingDistrict String?
+  cropTypes       String[] @default([])
+  isCooperative   Boolean  @default(false)
+
   totalEarnings Decimal @default(0)
   pendingPayout Decimal @default(0)
 
@@ -155,6 +161,16 @@ model Product {
   reviews         Review[]
   deliveryOptions Json          @default("[]")
   reels           Reel[]
+
+  unit             ProduceUnit @default(KG)
+  minOrderQuantity Int         @default(1)
+  harvestDate      DateTime?
+  shelfLifeDays    Int?
+  isPerishable     Boolean     @default(true)
+  farmLocationLat  Float?
+  farmLocationLng  Float?
+
+  negotiations    PriceNegotiation[]
 
   @@index([categoryId])
   @@index([vendorId])
@@ -275,7 +291,7 @@ model ShippingAddress {
   city        String
   state       String
   zipCode     String?
-  country     String    @default("Nigeria")
+  country     String    @default("Ghana")
   instructions String?
 
   order       Order?
@@ -291,7 +307,7 @@ model Payment {
   user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   amount          Decimal
-  currency        String        @default("NGN")
+  currency        String        @default("GHS")
   status          PaymentStatus @default(pending)
   paystackRef     String        @unique
   paystackTxRef   String?
@@ -455,6 +471,49 @@ enum NotificationType {
   promotion
   system
   review
+}
+
+enum ProduceUnit {
+  KG
+  CRATE
+  BASKET
+  BAG
+  TON
+  PIECE
+}
+
+enum AgriVehicleType {
+  ABOBOYAA_TRICYCLE
+  PICKUP_TRUCK
+  REFRIGERATED_VAN
+  MINI_TRUCK
+  HEAVY_TRUCK
+}
+
+enum NegotiationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COUNTERED
+}
+
+model PriceNegotiation {
+  id               String            @id @default(cuid())
+  productId        String
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  buyerId          String
+  buyer            User              @relation("BuyerNegotiations", fields: [buyerId], references: [id], onDelete: Cascade)
+  vendorId         String
+  proposedPrice    Decimal
+  proposedQuantity Int
+  status           NegotiationStatus @default(PENDING)
+  message          String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([productId])
+  @@index([buyerId])
+  @@index([vendorId])
 }
 
 // ─── Wallet Models ────────────────────────────────────────────────────────

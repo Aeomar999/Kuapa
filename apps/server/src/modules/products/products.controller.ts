@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { AuthGuard } from "../../guards/auth.guard";
 import { ProductsService } from "./products.service";
-import { QueryProductsDto } from "./dto/query-products.dto";
+import { QueryProductsDto, SmartMatchQueryDto } from "./dto/query-products.dto";
 
 @Controller("products")
 @ApiTags("Products")
@@ -32,6 +32,12 @@ export class ProductsController {
   searchProducts(@Query("q") query: string, @Query("limit") limit?: string) {
     if (!query) return [];
     return this.productsService.searchProducts(query, Number(limit) || 20);
+  }
+
+  @ApiOperation({ summary: "Get smart matched produce ranked by freshness, proximity & price" })
+  @Get("smart-match")
+  getSmartMatched(@Query() query: SmartMatchQueryDto) {
+    return this.productsService.getSmartMatchedProducts(query);
   }
 
   @ApiOperation({ summary: "Get a product by ID" })

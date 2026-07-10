@@ -4,7 +4,9 @@
   "scripts": {
     "prepare": "husky",
     "build": "npm --prefix apps/server install --legacy-peer-deps && npm --prefix apps/server run prisma:generate && npm --prefix apps/server run build",
-    "start": "npm --prefix apps/server run start:prod"
+    "start": "npm --prefix apps/server run start:prod",
+    "lint:ds": "node scripts/check-design-system.mjs",
+    "lint:ds:strict": "node scripts/check-design-system.mjs --strict"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.29.7",

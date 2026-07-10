@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
-import { QueryProductsDto, ProductSort } from "./dto/query-products.dto";
+import { QueryProductsDto, ProductSort, SmartMatchQueryDto } from "./dto/query-products.dto";
 import { getCache, setCache } from "../../utils/cache";
 
 @Injectable()
@@ -267,5 +267,116 @@ export class ProductsService {
       vendor: p.vendor?.shopName ?? null,
       image: p.images[0]?.url ?? null,
     }));
+  }
+
+  /**
+   * Smart produce matching algorithm computing multi-factor score:
+   * Score = 0.40 * Freshness + 0.35 * Proximity + 0.25 * PriceCompetitiveness
+   */
+  async getSmartMatchedProducts(query: SmartMatchQueryDto) {
+    const where: any = { isActive: true, isDeleted: false, stock: { gt: 0 } };
+    if (query.category && query.category !== "All") {
+      where.category = { name: query.category };
+    }
+
+    const products = await this.prisma.product.findMany({
+      where,
+      include: {
+        images: { orderBy: { order: "asc" }, take: 1 },
+        category: true,
+        vendor: { select: { id: true, shopName: true, logo: true } },
+      },
+      take: 100,
+    });
+
+    const avgPriceByCategory: Record<string, number> = {};
+    const countByCategory: Record<string, number> = {};
+    for (const p of products) {
+      const cat = p.category.name;
+      avgPriceByCategory[cat] = (avgPriceByCategory[cat] ?? 0) + Number(p.price);
+      countByCategory[cat] = (countByCategory[cat] ?? 0) + 1;
+    }
+    for (const cat of Object.keys(avgPriceByCategory)) {
+      avgPriceByCategory[cat] = avgPriceByCategory[cat] / countByCategory[cat];
+    }
+
+    const now = new Date();
+    const scored = products.map((p) => {
+      let distanceKm: number | null = null;
+      let proximityScore = 70;
+      if (
+        query.lat != null &&
+        query.lng != null &&
+        p.farmLocationLat != null &&
+        p.farmLocationLng != null
+      ) {
+        distanceKm = this.calculateHaversineKm(
+          query.lat,
+          query.lng,
+          p.farmLocationLat,
+          p.farmLocationLng
+        );
+        proximityScore = Math.max(0, 100 - (distanceKm / 50) * 100);
+      }
+
+      const harvestDate = p.harvestDate ? new Date(p.harvestDate) : p.createdAt;
+      const shelfLifeDays = p.shelfLifeDays ?? 7;
+      const daysSinceHarvest = Math.max(
+        0,
+        (now.getTime() - harvestDate.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      const remainingDays = Math.max(0, shelfLifeDays - daysSinceHarvest);
+      const freshnessScore = Math.min(100, Math.max(0, (remainingDays / shelfLifeDays) * 100));
+
+      const avgPrice = avgPriceByCategory[p.category.name] || Number(p.price) || 1;
+      const priceRatio = Number(p.price) / avgPrice;
+      const priceScore = Math.min(100, Math.max(0, (2 - priceRatio) * 50));
+
+      const smartMatchScore = Math.round(
+        0.4 * freshnessScore + 0.35 * proximityScore + 0.25 * priceScore
+      );
+
+      let tag = "PEAK_FRESHNESS";
+      if (remainingDays <= 2 && p.isPerishable) {
+        tag = "URGENT_SALE_DISCOUNT";
+      } else if (distanceKm != null && distanceKm <= 10) {
+        tag = "LOCAL_FARM_NEARBY";
+      }
+
+      return {
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        description: p.description,
+        price: Number(p.price),
+        stock: p.stock,
+        unit: p.unit,
+        category: p.category.name,
+        vendor: p.vendor?.shopName ?? null,
+        image: p.images[0]?.url ?? null,
+        isPerishable: p.isPerishable,
+        remainingShelfLifeDays: Math.round(remainingDays * 10) / 10,
+        distanceKm: distanceKm != null ? Math.round(distanceKm * 10) / 10 : null,
+        smartMatchScore,
+        tag,
+      };
+    });
+
+    scored.sort((a, b) => b.smartMatchScore - a.smartMatchScore);
+    return scored.slice(0, query.limit ?? 20);
+  }
+
+  private calculateHaversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
   }
 }

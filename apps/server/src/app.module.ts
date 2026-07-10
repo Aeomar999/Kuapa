@@ -46,6 +46,8 @@ import { DeliveryModule } from "./modules/delivery/delivery.module";
 import { StoryModule } from "./modules/story/story.module";
 import { MetricsModule } from "./modules/metrics/metrics.module";
 import { CollectionsModule } from "./modules/collections/collections.module";
+import { NegotiationsModule } from "./modules/negotiations/negotiations.module";
+import { UssdModule } from "./modules/ussd/ussd.module";
 
 import { WinstonModule } from "nest-winston";
 import * as winston from "winston";
@@ -105,6 +107,8 @@ import * as winston from "winston";
     StoryModule,
     MetricsModule,
     CollectionsModule,
+    NegotiationsModule,
+    UssdModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

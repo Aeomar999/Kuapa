@@ -14,7 +14,16 @@ import { DeliveryGateway } from "./delivery.gateway";
 import { LatLng, RoutesService } from "../maps/routes.service";
 import { CreateParcelJobDto } from "./dto/delivery.dto";
 
-const ALL_VEHICLES: VehicleType[] = ["bike", "car", "van"];
+const ALL_VEHICLES: VehicleType[] = [
+  "bike",
+  "car",
+  "van",
+  "ABOBOYAA_TRICYCLE",
+  "PICKUP_TRUCK",
+  "REFRIGERATED_VAN",
+  "MINI_TRUCK",
+  "HEAVY_TRUCK",
+];
 const NEARBY_RADIUS_KM = 10;
 const MAX_OFFER_DRIVERS = 25;
 

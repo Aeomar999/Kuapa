@@ -21,7 +21,8 @@ import {
   ShieldCheck,
   Ticket,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Sprout
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { useUiStore } from "../../lib/stores/ui-store";
@@ -47,6 +48,7 @@ const navigationConfig: NavGroup[] = [
     group: "Overview",
     items: [
       { name: "Dashboard", href: "/", icon: LayoutDashboard },
+      { name: "AgriMarket & Harvests", href: "/marketplace", icon: Sprout, badge: "NEW" },
       { name: "Reports", href: "/reports", icon: FileText },
     ]
   },

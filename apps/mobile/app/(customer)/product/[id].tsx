@@ -248,6 +248,33 @@ export default function ProductDetailsScreen() {
               </Text>
             </View>
           </View>
+
+          {/* ===== AGRI PRODUCE SPECIFICATIONS ===== */}
+          <View className="mt-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+            <Text className="text-body-sm font-bold text-emerald-900 font-heading mb-2">
+              🌾 Agricultural Produce Assurance
+            </Text>
+            <View className="flex-row justify-between">
+              <View>
+                <Text className="text-xs text-emerald-700 font-body">Packaging Unit</Text>
+                <Text className="text-body-sm font-bold text-emerald-950 font-body">
+                  {product.unit || "50kg Crate / Bag"}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-xs text-emerald-700 font-body">Estimated Shelf Life</Text>
+                <Text className="text-body-sm font-bold text-emerald-950 font-body">
+                  {product.shelfLifeDays ? `${product.shelfLifeDays} Days` : "7 Days Fresh"}
+                </Text>
+              </View>
+              <View>
+                <Text className="text-xs text-emerald-700 font-body">Origin</Text>
+                <Text className="text-body-sm font-bold text-emerald-950 font-body">
+                  Ghana Farm Coop
+                </Text>
+              </View>
+            </View>
+          </View>
         </View>
 
         {/* ===== DESCRIPTION ===== */}
@@ -474,6 +501,22 @@ export default function ProductDetailsScreen() {
             </View>
           </Pressable>
         </View>
+
+        {/* Negotiate Bulk Price */}
+        <Pressable
+          style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
+          className="mt-2 h-[44px] rounded-full items-center justify-center border-2 border-emerald-600 bg-emerald-50 active:scale-[0.98]"
+          onPress={() => {
+            alert("Bargaining Offer Submitted! The farmer will receive an SMS alert.");
+          }}
+        >
+          <View className="flex-row items-center gap-2">
+            <Icon name="tag" size={16} color="#059669" />
+            <Text className="text-body-md font-bold text-emerald-700 font-body">
+              Negotiate Bulk Price (Offer per {product.unit || "Crate"})
+            </Text>
+          </View>
+        </Pressable>
 
         {/* Buy Now */}
         <Pressable

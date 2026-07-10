@@ -1,7 +1,16 @@
 import { IsNumber, IsString, IsNotEmpty, IsIn, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
-export const VEHICLE_TYPES = ["bike", "car", "van"] as const;
+export const VEHICLE_TYPES = [
+  "bike",
+  "car",
+  "van",
+  "ABOBOYAA_TRICYCLE",
+  "PICKUP_TRUCK",
+  "REFRIGERATED_VAN",
+  "MINI_TRUCK",
+  "HEAVY_TRUCK",
+] as const;
 
 export class QuoteDeliveryDto {
   @ApiProperty()

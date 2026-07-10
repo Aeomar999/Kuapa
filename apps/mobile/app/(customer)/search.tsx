@@ -12,9 +12,21 @@ import { ErrorState } from "@/components/ui/ErrorState";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useProducts } from "@/lib/hooks/use-products";
 
-const RECENT_SEARCHES = ["Wireless Earbuds", "Sneakers size 42", "Hoodie navy", "Gaming Mouse"];
-const TRENDING_TAGS = ["Campus Merch", "Food Delivery", "Textbooks", "Laptops", "Groceries"];
-const SORT_OPTIONS = ["Recommended", "Price: Low to High", "Price: High to Low", "Top Rated"];
+const RECENT_SEARCHES = ["Tomatoes Crates", "Fresh Pepper", "Garden Eggs", "Leafy Greens"];
+const TRENDING_TAGS = [
+  "Smart Freshness Match",
+  "Farm-to-Table",
+  "Aboboyaa Delivery",
+  "Bulk Crates",
+  "Perishables",
+];
+const SORT_OPTIONS = [
+  "Smart Match (Freshness + Proximity)",
+  "Recommended",
+  "Price: Low to High",
+  "Price: High to Low",
+  "Top Rated",
+];
 
 export default function SearchScreen() {
   const router = useRouter();
@@ -43,11 +55,13 @@ export default function SearchScreen() {
       if (!isNaN(max)) filtered = filtered.filter((p: any) => Number(p.price) <= max);
     }
     const sort = applyCount > 0 ? sortOption : 0;
-    if (sort === 1) {
-      filtered.sort((a: any, b: any) => Number(a.price) - Number(b.price));
+    if (sort === 0) {
+      filtered.sort((a: any, b: any) => (b.smartMatchScore || 85) - (a.smartMatchScore || 85));
     } else if (sort === 2) {
-      filtered.sort((a: any, b: any) => Number(b.price) - Number(a.price));
+      filtered.sort((a: any, b: any) => Number(a.price) - Number(b.price));
     } else if (sort === 3) {
+      filtered.sort((a: any, b: any) => Number(b.price) - Number(a.price));
+    } else if (sort === 4) {
       filtered.sort((a: any, b: any) => Number(b.rating || 0) - Number(a.rating || 0));
     }
     return filtered;

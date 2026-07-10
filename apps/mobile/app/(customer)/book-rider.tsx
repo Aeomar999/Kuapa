@@ -27,10 +27,56 @@ const RIDER_TYPES: {
   icon: string;
   time: string;
   color: string;
+  capacity?: string;
 }[] = [
-  { id: "bike", label: "Motorbike", icon: "truck", time: "10-15 min", color: "#059669" },
-  { id: "car", label: "Car", icon: "car", time: "5-10 min", color: tokens.primary },
-  { id: "van", label: "Van", icon: "package", time: "15-20 min", color: "#7c3aed" },
+  {
+    id: "ABOBOYAA_TRICYCLE",
+    label: "Aboboyaa Tricycle",
+    icon: "truck",
+    time: "15-25 min",
+    color: "#16a34a",
+    capacity: "Up to 15 Crates/Baskets",
+  },
+  {
+    id: "PICKUP_TRUCK",
+    label: "Pickup Truck",
+    icon: "truck",
+    time: "15-30 min",
+    color: "#ea580c",
+    capacity: "Up to 50 Crates/Bags",
+  },
+  {
+    id: "REFRIGERATED_VAN",
+    label: "Refrigerated Van",
+    icon: "package",
+    time: "20-35 min",
+    color: "#0284c7",
+    capacity: "Temperature-Controlled Leafy Greens/Tomatoes",
+  },
+  {
+    id: "bike",
+    label: "Motorbike",
+    icon: "truck",
+    time: "10-15 min",
+    color: "#059669",
+    capacity: "Small vegetable bags",
+  },
+  {
+    id: "car",
+    label: "Car / Taxi",
+    icon: "car",
+    time: "5-10 min",
+    color: tokens.primary,
+    capacity: "Standard cargo",
+  },
+  {
+    id: "van",
+    label: "Standard Van",
+    icon: "package",
+    time: "15-20 min",
+    color: "#7c3aed",
+    capacity: "Medium farm loads",
+  },
 ];
 
 export default function BookRiderScreen() {
@@ -45,7 +91,7 @@ export default function BookRiderScreen() {
   const [dropoff, setDropoff] = useState("");
   const [pickupCoords, setPickupCoords] = useState<Coords | null>(null);
   const [dropoffCoords, setDropoffCoords] = useState<Coords | null>(null);
-  const [selectedRider, setSelectedRider] = useState<VehicleType>("bike");
+  const [selectedRider, setSelectedRider] = useState<VehicleType>("ABOBOYAA_TRICYCLE");
   const [selectingField, setSelectingField] = useState<"pickup" | "dropoff" | null>(null);
   const [isLocating, setIsLocating] = useState(false);
 
@@ -270,6 +316,11 @@ export default function BookRiderScreen() {
                   <Text className="text-body-lg font-bold font-body text-foreground">
                     {rider.label}
                   </Text>
+                  {rider.capacity && (
+                    <Text className="text-xs font-semibold text-primary mb-0.5">
+                      {rider.capacity}
+                    </Text>
+                  )}
                   <Text
                     className={`text-sm font-body ${isSelected ? "text-primary" : "text-muted-foreground"}`}
                   >

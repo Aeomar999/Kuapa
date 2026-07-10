@@ -1,6 +1,14 @@
 import { apiClient } from "./client";
 
-export type VehicleType = "bike" | "car" | "van";
+export type VehicleType =
+  | "bike"
+  | "car"
+  | "van"
+  | "ABOBOYAA_TRICYCLE"
+  | "PICKUP_TRUCK"
+  | "REFRIGERATED_VAN"
+  | "MINI_TRUCK"
+  | "HEAVY_TRUCK";
 
 export interface DeliveryQuote {
   vehicleType: VehicleType;

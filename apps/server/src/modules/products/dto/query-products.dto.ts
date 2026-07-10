@@ -27,3 +27,10 @@ export class QueryProductsDto {
     return ((this.page ?? 1) - 1) * (this.limit ?? 20);
   }
 }
+
+export class SmartMatchQueryDto {
+  @IsOptional() @Type(() => Number) lat?: number;
+  @IsOptional() @Type(() => Number) lng?: number;
+  @IsOptional() @IsString() category?: string;
+  @IsOptional() @Type(() => Number) @IsInt() @Min(1) limit?: number = 20;
+}

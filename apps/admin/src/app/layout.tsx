@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+// Canonical typefaces — mirror apps/mobile (Raleway heading / Nunito body).
+import { Nunito, Raleway } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const inter = Inter({
+const nunito = Nunito({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
-const outfit = Outfit({
+const raleway = Raleway({
   variable: "--font-heading",
   subsets: ["latin"],
 });
@@ -25,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${outfit.variable} antialiased`}>
+      <body className={`${nunito.variable} ${raleway.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -14,10 +14,18 @@
   --color-brand-900: #022d4d;
   --color-brand-950: #011d35;
 
-  /* ── Accent Scale (Sky) ── */
+  /* ── Accent Scale (Sky) — FULL scale, mirrors apps/mobile ── */
   --color-accent-50: #f0f9ff;
+  --color-accent-100: #e0f2fe;
+  --color-accent-200: #bae6fd;
+  --color-accent-300: #7dd3fc;
+  --color-accent-400: #38bdf8;
   --color-accent-500: #0ea5e9;
+  --color-accent-600: #0284c7;
   --color-accent-700: #0369a1;
+  --color-accent-800: #075985;
+  --color-accent-900: #0c4a6e;
+  --color-accent-950: #082f49;
 
   /* ── Surface Scale (Cool Gray) ── */
   --color-surface-50: #F8FAFC;
@@ -32,14 +40,46 @@
   --color-surface-900: #0F172A;
   --color-surface-950: #020617;
 
-  /* ── Feedback ── */
+  /* ── Feedback (+ light tints, mirrors apps/mobile) ── */
   --color-success: #00D084;
+  --color-success-light: #E6F9F3;
   --color-error: #EF4444;
+  --color-error-light: #FEF2F2;
   --color-warning: #F59E0B;
+  --color-warning-light: #FFFBEB;
 
-  /* ── Typography ── */
+  /* ── Typography families (Raleway heading / Nunito body — mirrors apps/mobile) ── */
   --font-heading: var(--font-heading), system-ui, sans-serif;
   --font-body: var(--font-body), system-ui, sans-serif;
+
+  /* ── Type scale (canonical named scale, mirrors apps/mobile/tailwind.config.js) ── */
+  --text-display-lg: 32px;
+  --text-display-lg--line-height: 40px;
+  --text-display-lg--font-weight: 700;
+  --text-display-md: 24px;
+  --text-display-md--line-height: 32px;
+  --text-display-md--font-weight: 700;
+  --text-display-sm: 20px;
+  --text-display-sm--line-height: 28px;
+  --text-display-sm--font-weight: 700;
+  --text-heading-md: 18px;
+  --text-heading-md--line-height: 26px;
+  --text-heading-md--font-weight: 600;
+  --text-heading-sm: 16px;
+  --text-heading-sm--line-height: 24px;
+  --text-heading-sm--font-weight: 600;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-lg--font-weight: 400;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-md--font-weight: 400;
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 16px;
+  --text-body-sm--font-weight: 400;
+  --text-caption: 11px;
+  --text-caption--line-height: 14px;
+  --text-caption--font-weight: 500;
 
   /* ── Spacing (8px base) ── */
   --spacing-1: 4px;
@@ -53,12 +93,13 @@
   --spacing-12: 48px;
   --spacing-16: 64px;
 
-  /* ── Radius ── */
+  /* ── Radius (mirrors apps/mobile — 3xl added for parity) ── */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-2xl: 24px;
+  --radius-3xl: 32px;
   --radius-full: 9999px;
 
   /* ── Sidebar ── */
@@ -68,33 +109,66 @@
 
 @layer base {
   :root {
+    /* ── Semantic tokens — CANONICAL names (mirror apps/mobile/global.css) ── */
     --color-primary: var(--color-brand-700);
     --color-primary-hover: var(--color-brand-800);
+    --color-primary-active: var(--color-brand-900);
     --color-primary-subtle: var(--color-brand-50);
+    --color-primary-text: #ffffff;
+
     --color-secondary: var(--color-accent-500);
-    --color-bg: var(--color-surface-50);
-    --color-card: #ffffff;
+    --color-secondary-hover: var(--color-accent-600);
+    --color-secondary-text: #ffffff;
+
+    --color-background: var(--color-surface-50);
+    --color-surface: #ffffff;
+    --color-surface-hover: var(--color-surface-50);
     --color-border: var(--color-surface-200);
-    --color-text: var(--color-surface-900);
+
+    --color-text-primary: var(--color-surface-900);
     --color-text-secondary: var(--color-surface-600);
     --color-text-muted: var(--color-surface-400);
+    --color-text-disabled: var(--color-surface-300);
+
+    /* ── Legacy aliases — DEPRECATED. Migrate usages to canonical names in the
+       component phases (Phase 2–4), then delete these. Point at the same fixed
+       primitives so dark mode stays correct without var-to-var theme aliasing. ── */
+    --color-bg: var(--color-surface-50);
+    --color-card: #ffffff;
+    --color-text: var(--color-surface-900);
   }
 
   .dark {
+    /* ── Canonical (dark) ── */
     --color-primary: var(--color-brand-400);
     --color-primary-hover: var(--color-brand-300);
+    --color-primary-active: var(--color-brand-200);
     --color-primary-subtle: var(--color-brand-950);
-    --color-bg: var(--color-surface-950);
-    --color-card: var(--color-surface-900);
+    --color-primary-text: #ffffff;
+
+    --color-secondary: var(--color-accent-400);
+    --color-secondary-hover: var(--color-accent-300);
+    --color-secondary-text: #ffffff;
+
+    --color-background: var(--color-surface-950);
+    --color-surface: var(--color-surface-900);
+    --color-surface-hover: var(--color-surface-800);
     --color-border: var(--color-surface-700);
-    --color-text: var(--color-surface-50);
+
+    --color-text-primary: var(--color-surface-50);
     --color-text-secondary: var(--color-surface-300);
     --color-text-muted: var(--color-surface-500);
+    --color-text-disabled: var(--color-surface-600);
+
+    /* ── Legacy aliases (dark) — keep in sync until usages migrate ── */
+    --color-bg: var(--color-surface-950);
+    --color-card: var(--color-surface-900);
+    --color-text: var(--color-surface-50);
   }
 
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
     font-family: var(--font-body);
   }
 
