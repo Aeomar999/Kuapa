@@ -3,7 +3,7 @@ import "./instrument";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
-import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { LogLevel, ValidationPipe, VersioningType } from "@nestjs/common";
 import { GlobalExceptionFilter } from "./filters/global-exception.filter";
 import helmet from "helmet";
 import { join } from "path";
@@ -11,8 +11,15 @@ import { existsSync, mkdirSync } from "fs";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
+  const logLevels: LogLevel[] =
+    process.env.LOG_LEVEL === "verbose"
+      ? ["log", "error", "warn", "debug", "verbose"]
+      : process.env.LOG_LEVEL === "debug"
+        ? ["log", "error", "warn", "debug"]
+        : ["log", "error", "warn"];
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: ["log", "error", "warn", "debug", "verbose"],
+    logger: logLevels,
     // Capture the unparsed request body so the Paystack webhook handler can
     // verify the HMAC signature against the exact bytes Paystack signed.
     rawBody: true,
@@ -24,8 +31,17 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.CORS_ORIGIN
       ? process.env.CORS_ORIGIN.split(",")
-      : ["bexiemart://", "exp://", "http://localhost:3001", "https://admin.bexiemart.com"],
+      : [
+          "kuapa://",
+          "exp://",
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "https://admin.kuapa.com",
+          "https://kuapa.com",
+        ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "X-Correlation-Id"],
   });
 
   const uploadDir = join(process.cwd(), "uploads");
@@ -56,8 +72,8 @@ async function bootstrap() {
   // Swagger exposes the full API surface; only mount it outside production.
   if (process.env.NODE_ENV !== "production") {
     const config = new DocumentBuilder()
-      .setTitle("BexieMart API")
-      .setDescription("Campus marketplace API")
+      .setTitle("Kuapa AgriMarket API")
+      .setDescription("Agricultural marketplace & logistics API")
       .setVersion("1.0")
       .addBearerAuth()
       .build();
@@ -69,6 +85,6 @@ async function bootstrap() {
   app.enableShutdownHooks();
   const port = process.env.PORT ?? 3000;
   await app.listen(port, "0.0.0.0");
-  console.log(`BexieMart API running on port ${port}`);
+  console.log(`Kuapa AgriMarket API running on port ${port}`);
 }
 bootstrap();
