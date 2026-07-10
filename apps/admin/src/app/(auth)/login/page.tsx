@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8 rounded-xl bg-[var(--color-card)] p-8 shadow-md border border-[var(--color-border)]">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-[var(--color-text)]">
-            BexieMart Admin
+            Kuapa AgriMarket Admin
           </h2>
           <p className="mt-2 text-center text-sm text-[var(--color-text-muted)]">
             Sign in to access your dashboard

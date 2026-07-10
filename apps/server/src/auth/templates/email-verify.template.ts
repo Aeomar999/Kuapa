@@ -18,27 +18,27 @@ export function buildEmailVerifyHtml(params: {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verify Your BexieMart Account</title>
+    <title>Verify Your Kuapa AgriMarket Account</title>
   </head>
   <body style="margin:0;padding:0;background-color:#F1F5F9;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
     <div style="max-width:520px;margin:0 auto;padding:48px 20px;">
       <!-- Logo Header -->
       <div style="text-align:center;margin-bottom:32px;">
-        <div style="display:inline-block;background:#004CFF;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(0,76,255,0.25);">B</div>
-        <span style="color:#0F172A;font-size:24px;font-weight:800;letter-spacing:-0.5px;vertical-align:middle;">BexieMart</span>
+        <div style="display:inline-block;background:#059669;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(5,150,105,0.25);">K</div>
+        <span style="color:#0F172A;font-size:24px;font-weight:800;letter-spacing:-0.5px;vertical-align:middle;">Kuapa AgriMarket</span>
       </div>
 
       <!-- Main Card -->
       <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:24px;padding:40px 32px;text-align:center;box-shadow:0 10px 25px -5px rgba(0,0,0,0.05),0 8px 10px -6px rgba(0,0,0,0.01);">
-        <h2 style="color:#0F172A;font-size:22px;font-weight:800;margin:0 0 12px;letter-spacing:-0.5px;">Welcome to BexieMart</h2>
+        <h2 style="color:#0F172A;font-size:22px;font-weight:800;margin:0 0 12px;letter-spacing:-0.5px;">Welcome to Kuapa AgriMarket</h2>
         <p style="color:#475569;font-size:15px;line-height:1.6;margin:0 0 28px;">
           Hi ${userName},<br />
-          We're thrilled to have you! Please confirm your email address to unlock your full shopping experience.
+          We're thrilled to have you! Please confirm your email address to unlock fresh farm produce listings and transport logistics.
         </p>
         
         <!-- Primary Action Button -->
         <div style="margin-bottom:36px;">
-          <a href="${verifyUrl}" style="display:inline-block;padding:16px 36px;background:#004CFF;color:#FFFFFF;text-decoration:none;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 6px 20px rgba(0,76,255,0.3);letter-spacing:0.2px;">Verify Email Address</a>
+          <a href="${verifyUrl}" style="display:inline-block;padding:16px 36px;background:#059669;color:#FFFFFF;text-decoration:none;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 6px 20px rgba(5,150,105,0.3);letter-spacing:0.2px;">Verify Email Address</a>
         </div>
         
         <!-- Divider -->

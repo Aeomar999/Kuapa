@@ -77,11 +77,8 @@ export function createAuth(prisma: PrismaClient) {
     emailVerification: {
       sendOnSignUp: true,
       sendVerificationEmail: async ({ user, url, token }, request) => {
-        const webUrl =
-          isDev && process.env.DEV_EMAIL_HOST
-            ? url.replace("localhost", process.env.DEV_EMAIL_HOST)
-            : url;
-        const appUrl = `bexiemart://verify-email?token=${token}`;
+        const webUrl = `${process.env.WEB_URL || "https://kuapa-admin.vercel.app"}/verify-email?token=${token}`;
+        const appUrl = `kuapa://verify-email?token=${token}`;
 
         const emailOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
         const cuid = crypto.randomUUID();
@@ -110,9 +107,9 @@ export function createAuth(prisma: PrismaClient) {
 
         try {
           const info = await mailTransporter.sendMail({
-            from: process.env.EMAIL_FROM || "BexieMart <onboarding@bexiemart.com>",
+            from: process.env.EMAIL_FROM || "Kuapa AgriMarket <onboarding@kuapa.com>",
             to: user.email,
-            subject: "Verify your BexieMart Email",
+            subject: "Verify your Kuapa AgriMarket Email",
             html,
           });
           console.log("Email sent successfully via Nodemailer:", info.messageId);
@@ -137,12 +134,17 @@ export function createAuth(prisma: PrismaClient) {
       },
     },
     trustedOrigins: [
+      "kuapa://",
+      "com.kuapa.agrimarket://",
       "bexiemart://",
       "com.bexiemart.app://",
       "exp://",
       "http://localhost:3000",
       "http://localhost:3001",
       "http://localhost:8081",
+      "https://kuapa-admin.vercel.app",
+      "https://admin.kuapa.com",
+      "https://kuapa.com",
     ],
   });
 }

@@ -36,6 +36,7 @@ async function bootstrap() {
           "exp://",
           "http://localhost:3000",
           "http://localhost:3001",
+          "https://kuapa-admin.vercel.app",
           "https://admin.kuapa.com",
           "https://kuapa.com",
         ],
