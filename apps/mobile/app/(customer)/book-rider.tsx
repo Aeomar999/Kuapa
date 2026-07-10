@@ -247,7 +247,7 @@ export default function BookRiderScreen() {
         <View className="flex-row items-center gap-3">
           <BackButton />
           <Text className="text-display-sm font-heading font-black text-foreground">
-            Book a Rider
+            Request Transport
           </Text>
         </View>
       </View>
@@ -294,7 +294,7 @@ export default function BookRiderScreen() {
 
         {/* Rider Selection */}
         <Text className="text-body-lg font-bold text-foreground font-heading mb-4 px-1">
-          Choose Rider Type
+          Choose Vehicle Type
         </Text>
         <View className="gap-3 mb-8">
           {RIDER_TYPES.map((rider) => {

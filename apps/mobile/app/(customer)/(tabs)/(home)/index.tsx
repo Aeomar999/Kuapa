@@ -13,17 +13,18 @@ import { useFavoritesStore } from "@/lib/stores/favorites-store";
 import { Product, Category } from "@/lib/stores/product-store";
 import { useRiderStore } from "@/lib/stores/rider-store";
 import { useCountdown } from "@/hooks/useCountdown";
+import { FEATURES } from "@/lib/config/agri";
 
 const FILTER_PILLS = [
-  { id: "1", label: "Instant Delivery", icon: "clock", iconColor: "#10b981", bgColor: "#f0fdf4" },
-  { id: "2", label: "Featured Meals", icon: "activity", iconColor: "#ef4444", bgColor: "#fef2f2" },
-  { id: "3", label: "New Arrivals", icon: "star", iconColor: "#3b82f6", bgColor: "#eff6ff" },
+  { id: "1", label: "Same-Day Transport", icon: "clock", iconColor: "#10b981", bgColor: "#f0fdf4" },
+  { id: "2", label: "Fresh Harvest", icon: "activity", iconColor: "#ef4444", bgColor: "#fef2f2" },
+  { id: "3", label: "New Listings", icon: "star", iconColor: "#3b82f6", bgColor: "#eff6ff" },
 ];
 
 const FEATURED_HIGHLIGHTS = [
   {
     id: "1",
-    name: "Shopping",
+    name: "Produce",
     icon: "shopping-bag",
     bgColor: "#fce7f3",
     iconColor: "#ec4899",
@@ -39,7 +40,7 @@ const FEATURED_HIGHLIGHTS = [
   },
   {
     id: "3",
-    name: "Delivery",
+    name: "Transport",
     icon: "truck",
     bgColor: "#ffedd5",
     iconColor: "#f97316",
@@ -72,8 +73,8 @@ const FEATURED_HIGHLIGHTS = [
 ];
 
 const SHOPS = [
-  { id: "1", name: "Jean Collections", desc: "Bags, Shoes, Dresses", rating: 4.8, image: "" },
-  { id: "2", name: "KFC Ghana", desc: "Burger, Chicken, Fries", rating: 4.8, image: "" },
+  { id: "1", name: "Akumadan Farms", desc: "Tomatoes, Peppers, Okra", rating: 4.8, image: "" },
+  { id: "2", name: "Techiman Growers", desc: "Yam, Cassava, Garden Eggs", rating: 4.8, image: "" },
 ];
 
 const QUICK_ACTIONS = [
@@ -87,7 +88,7 @@ const QUICK_ACTIONS = [
   },
   {
     id: "2",
-    label: "Shop\nProducts",
+    label: "Buy\nProduce",
     icon: "shopping-bag",
     bgColor: "#f8fafc",
     iconColor: "#3b82f6",
@@ -95,7 +96,7 @@ const QUICK_ACTIONS = [
   },
   {
     id: "3",
-    label: "Book\nRider",
+    label: "Request\nTransport",
     icon: "navigation",
     bgColor: "#f8fafc",
     iconColor: "#16a34a",
@@ -118,6 +119,16 @@ const QUICK_ACTIONS = [
     route: "/(customer)/wallet",
   },
 ];
+
+// Agri trim: routes behind disabled FEATURES flags are dropped from the
+// data-driven grids; destination screens still exist, only entry points hide.
+const isTrimmedRoute = (route?: string) =>
+  (!FEATURES.reels && !!route?.includes("/reels")) ||
+  (!FEATURES.services && !!route?.includes("/services")) ||
+  (!FEATURES.restaurant && (!!route?.includes("/food") || !!route?.includes("/restaurant")));
+
+const VISIBLE_HIGHLIGHTS = FEATURED_HIGHLIGHTS.filter((h) => !isTrimmedRoute(h.route));
+const VISIBLE_QUICK_ACTIONS = QUICK_ACTIONS.filter((a) => !isTrimmedRoute(a.route));
 
 // Soft, on-brand tint + foreground pairs for category tiles. Reused hue family
 // from FEATURED_HIGHLIGHTS so the home screen keeps one palette. Assigned by
@@ -266,10 +277,10 @@ export default function HomeScreen() {
             title="Delivery in progress"
             subtitle={
               activeRide.status === "searching"
-                ? "Locating your rider..."
+                ? "Locating your transporter..."
                 : activeRide.status === "on_the_way"
-                  ? "Your rider is arriving"
-                  : "Rider is outside"
+                  ? "Your transporter is arriving"
+                  : "Transporter is outside"
             }
             actionLabel="Track"
             onPress={() => router.push("/(customer)/track-order")}
@@ -308,7 +319,7 @@ export default function HomeScreen() {
             Featured Highlights
           </Text>
           <View className="flex-row flex-wrap justify-between gap-y-5">
-            {FEATURED_HIGHLIGHTS.map((item) => (
+            {VISIBLE_HIGHLIGHTS.map((item) => (
               <Pressable
                 key={item.id}
                 style={({ pressed }) => ({ opacity: pressed ? 0.7 : 1 })}
@@ -699,7 +710,7 @@ export default function HomeScreen() {
             borderColor: "#f1f5f9",
           }}
         >
-          {QUICK_ACTIONS.map((action) => (
+          {VISIBLE_QUICK_ACTIONS.map((action) => (
             <Pressable
               key={action.id}
               onPress={() => router.push(action.route as any)}

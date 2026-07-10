@@ -80,7 +80,7 @@ const PROFILE_SECTIONS: ProfileSection[] = [
       {
         id: "drive",
         icon: "truck",
-        label: "Drive for Kuapa",
+        label: "Transport for Kuapa",
         route: "/(customer)/become-dispatcher",
         requiresAuth: true,
       },

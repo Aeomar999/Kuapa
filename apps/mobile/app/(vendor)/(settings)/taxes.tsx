@@ -109,7 +109,7 @@ export default function TaxesDocumentsScreen() {
               </Text>
               <Text className="text-sm text-amber-700 leading-relaxed">
                 Please complete your KYC to increase your withdrawal limits and get the "Verified
-                Vendor" badge.
+                Farmer" badge.
               </Text>
             </View>
           </View>
