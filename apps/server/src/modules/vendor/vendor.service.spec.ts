@@ -175,6 +175,35 @@ describe("VendorService", () => {
         })
       );
     });
+
+    it("persists agri fields (unit, harvestDate, shelfLifeDays, isPerishable)", async () => {
+      prisma.vendorProfile.findUnique.mockResolvedValue({ id: "vp1", userId: "u1" });
+
+      const dto = Object.assign(new CreateProductDto(), {
+        name: "Fresh Tomatoes",
+        description: "Akumadan tomatoes",
+        price: 250,
+        stock: 40,
+        categoryId: "cat1",
+        unit: "CRATE",
+        harvestDate: "2026-07-09T00:00:00.000Z",
+        shelfLifeDays: 5,
+        isPerishable: true,
+      });
+      prisma.product.create.mockResolvedValue({ id: "p2" });
+
+      await service.createProduct("u1", dto);
+      expect(prisma.product.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            unit: "CRATE",
+            harvestDate: new Date("2026-07-09T00:00:00.000Z"),
+            shelfLifeDays: 5,
+            isPerishable: true,
+          }),
+        })
+      );
+    });
   });
 
   describe("updateProduct", () => {

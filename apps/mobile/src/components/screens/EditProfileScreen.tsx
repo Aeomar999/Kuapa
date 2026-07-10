@@ -48,7 +48,7 @@ export function EditProfileScreen() {
       setLocation(user.location || "");
       setAvatarUrl(
         user.image ||
-          `https://api.dicebear.com/9.x/micah/png?seed=${encodeURIComponent(user.name || "Bexiemart")}&backgroundColor=b6e3f4,c0aede,d1d4f9`
+          `https://api.dicebear.com/9.x/micah/png?seed=${encodeURIComponent(user.name || "Kuapa")}&backgroundColor=b6e3f4,c0aede,d1d4f9`
       );
     }
   }, [user]);
@@ -123,7 +123,7 @@ export function EditProfileScreen() {
           <View className="items-center mb-8">
             <Avatar
               uri={avatarUrl}
-              name={name || user?.name || "Bexiemart"}
+              name={name || user?.name || "Kuapa"}
               size={96}
               fallback="dicebear"
               editable={!isSaving}
@@ -146,7 +146,7 @@ export function EditProfileScreen() {
             <View className="mb-4">
               <Input
                 label="Email Address"
-                placeholder="Enter your email"
+                placeholder="john123@mail.com"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}

@@ -45,7 +45,7 @@ export default function ReferralsScreen() {
   const handleShare = async () => {
     try {
       await Share.share({
-        message: `Join Bexiemart and get 50 BexieCoins! Use my referral code: ${referralCode} when signing up.`,
+        message: `Join Kuapa and get 50 Kuapa Coins! Use my referral code: ${referralCode} when signing up.`,
       });
     } catch (error) {
       console.log(error);
@@ -77,7 +77,7 @@ export default function ReferralsScreen() {
             <Icon name="gift" size={36} color="#fff" />
           </View>
           <Text className="text-display-md font-heading font-black text-amber-900 text-center mb-2">
-            Get 50 BexieCoins
+            Get 50 Kuapa Coins
           </Text>
           <Text className="text-body-md text-amber-700 font-medium text-center">
             For every friend who signs up and makes their first purchase!
@@ -196,7 +196,7 @@ export default function ReferralsScreen() {
             <View className="flex-1">
               <Text className="font-bold text-foreground font-body">You both get rewarded</Text>
               <Text className="text-body-sm text-muted-foreground mt-1">
-                Once they make a purchase, you both receive 50 BexieCoins!
+                Once they make a purchase, you both receive 50 Kuapa Coins!
               </Text>
             </View>
           </View>

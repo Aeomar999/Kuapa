@@ -27,7 +27,7 @@ export async function sendOtpViaSms(phoneNumber: string, code: string): Promise<
 
   if (isDev) {
     console.log(
-      `\n\n=== SMS GATEWAY ===\nTo: ${phoneNumber}\nMessage: Your BexieMart verification code is: ${code}\n===================\n\n`
+      `\n\n=== SMS GATEWAY ===\nTo: ${phoneNumber}\nMessage: Your Kuapa AgriMarket verification code is: ${code}\n===================\n\n`
     );
   }
 
@@ -44,8 +44,8 @@ export async function sendOtpViaSms(phoneNumber: string, code: string): Promise<
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: process.env.ARKESEL_SENDER_ID || "BexieMart",
-        message: `Your BexieMart verification code is: ${code}`,
+        sender: process.env.ARKESEL_SENDER_ID || "Kuapa",
+        message: `Your Kuapa AgriMarket verification code is: ${code}`,
         recipients: [phoneNumber],
       }),
     });
@@ -82,9 +82,9 @@ export async function sendOtpViaEmail(
     });
 
     const info = await mailTransporter.sendMail({
-      from: process.env.EMAIL_FROM || "BexieMart <onboarding@bexiemart.com>",
+      from: process.env.EMAIL_FROM || "Kuapa AgriMarket <onboarding@kuapa.com>",
       to: email,
-      subject: "Your BexieMart verification code",
+      subject: "Your Kuapa AgriMarket verification code",
       html,
     });
 

@@ -152,7 +152,7 @@ export default function AddReelScreen() {
             ) : (
               <View className="items-center justify-center p-6 w-full h-full border-[3px] border-dashed border-border rounded-3xl m-1">
                 <View className="w-20 h-20 rounded-full bg-primary/20 items-center justify-center mb-5">
-                  <Icon name="video" size={32} color="#38bdf8" />
+                  <Icon name="video" size={32} color="#4ade80" />
                 </View>
                 <Text className="text-display-sm font-heading font-black text-white mb-2 tracking-tight">
                   Upload Video

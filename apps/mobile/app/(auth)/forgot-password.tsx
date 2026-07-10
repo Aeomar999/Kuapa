@@ -69,7 +69,7 @@ export default function ForgotPasswordScreen() {
           <View className="bg-card p-6 rounded-3xl border border-border gap-5">
             <Input
               label="Email address"
-              placeholder="you@school.edu.gh"
+              placeholder="john123@mail.com"
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { AgriSmsService } from "../../common/services/sms.service";
 import { CreateNegotiationDto } from "./dto/create-negotiation.dto";
@@ -21,12 +21,16 @@ export class NegotiationsService {
     if (!product) {
       throw new NotFoundException("Produce listing not found");
     }
+    if (!product.vendorId) {
+      throw new NotFoundException("This listing has no farmer to negotiate with");
+    }
 
     const negotiation = await this.prisma.priceNegotiation.create({
       data: {
         productId: dto.productId,
         buyerId,
-        vendorId: dto.vendorId,
+        // The product's owner is authoritative — never trust a client-supplied vendorId.
+        vendorId: product.vendorId,
         proposedPrice: dto.proposedPrice,
         proposedQuantity: dto.proposedQuantity,
         message: dto.message,
@@ -73,14 +77,17 @@ export class NegotiationsService {
     });
   }
 
-  async respondToNegotiation(id: string, dto: RespondNegotiationDto) {
+  async respondToNegotiation(id: string, dto: RespondNegotiationDto, responderId?: string) {
     const negotiation = await this.prisma.priceNegotiation.findUnique({
       where: { id },
-      include: { product: true },
+      include: { product: true, vendor: { select: { userId: true } } },
     });
 
     if (!negotiation) {
       throw new NotFoundException("Negotiation offer not found");
+    }
+    if (responderId && negotiation.vendor?.userId !== responderId) {
+      throw new ForbiddenException("Only the farmer who owns this listing can respond");
     }
 
     return this.prisma.priceNegotiation.update({

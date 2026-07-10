@@ -169,9 +169,9 @@ export function Sidebar() {
     >
       <div className="flex h-16 items-center justify-center border-b border-[var(--color-border)] px-4">
         {isSidebarOpen ? (
-          <h1 className="text-xl font-bold text-[var(--color-primary)]">BexieMart</h1>
+          <img src="/brand/kuapa-lockup.svg" alt="Kuapa" className="h-9 w-auto" />
         ) : (
-          <h1 className="text-xl font-bold text-[var(--color-primary)]">B</h1>
+          <img src="/brand/kuapa-icon.svg" alt="Kuapa" className="h-8 w-8" />
         )}
       </div>
 

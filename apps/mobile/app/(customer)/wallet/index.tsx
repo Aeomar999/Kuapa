@@ -322,7 +322,7 @@ export default function WalletScreen() {
                   {bexieCoins.toLocaleString()}
                 </Text>
                 <Text className="text-body-md text-white/80 font-medium font-body">
-                  BexieCoins Available
+                  Kuapa Coins Available
                 </Text>
               </LinearGradient>
             </View>

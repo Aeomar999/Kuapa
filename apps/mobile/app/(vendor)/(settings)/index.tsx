@@ -151,7 +151,7 @@ export default function VendorSettingsScreen() {
               {user?.name || "My Store"}
             </Text>
             <Text className="text-body-sm font-body text-muted-foreground">
-              {user?.email || "Vendor Account"}
+              {user?.email || "Farmer Account"}
             </Text>
           </View>
           <Pressable

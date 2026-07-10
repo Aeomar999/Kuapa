@@ -8,11 +8,12 @@ import { Icon } from "@/components/ui/Icon";
 import { OrderCard, OrderItem } from "@/components/ui/OrderCard";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { useVendorStats, useVendorOrders, useVendorEarnings } from "@/lib/hooks/use-vendor";
+import { FEATURES, TERMS } from "@/lib/config/agri";
 
 const STAT_ITEMS = [
   {
     key: "totalProducts",
-    label: "Total Products",
+    label: TERMS.totalProduce,
     icon: "package",
     color: "#3b82f6",
     bg: "#eff6ff",
@@ -25,13 +26,13 @@ const STAT_ITEMS = [
     bg: "#d1fae5",
   },
   { key: "pendingOrders", label: "Pending", icon: "clock", color: "#f59e0b", bg: "#fef3c7" },
-  { key: "totalCustomers", label: "Customers", icon: "users", color: "#8b5cf6", bg: "#f3e8ff" },
+  { key: "totalCustomers", label: "Buyers", icon: "users", color: "#8b5cf6", bg: "#f3e8ff" },
 ];
 
 const QUICK_ACTIONS = [
   {
     id: "1",
-    label: "Add\nProduct",
+    label: "Add\nProduce",
     icon: "plus",
     color: "#10b981",
     bg: "#ecfdf5",
@@ -55,13 +56,13 @@ const QUICK_ACTIONS = [
   },
   {
     id: "4",
-    label: "Store\nSettings",
+    label: "Farm\nSettings",
     icon: "settings",
     color: "#64748b",
     bg: "#f1f5f9",
     route: "/(vendor)/(settings)",
   },
-];
+].filter((a) => FEATURES.reels || !a.route.includes("/add-reel"));
 
 export default function DashboardScreen() {
   const router = useRouter();
@@ -134,7 +135,7 @@ export default function DashboardScreen() {
         {/* ===== HERO / EARNINGS ===== */}
         <View className="px-5 mb-8">
           <Text className="text-body-md text-muted-foreground font-body mb-1">
-            Good morning, {user?.name?.split(" ")[0] || "Partner"}
+            Good morning, {user?.name?.split(" ")[0] || "Farmer"}
           </Text>
           <Text className="text-display-md font-heading font-black text-foreground mb-4 tracking-tight">
             Overview
@@ -215,7 +216,7 @@ export default function DashboardScreen() {
         {/* ===== STAT CARDS ===== */}
         <View className="px-5 mb-8">
           <Text className="text-heading-md font-heading font-bold text-foreground mb-4">
-            Store Performance
+            Farm Performance
           </Text>
           <View className="flex-row flex-wrap justify-between gap-y-4">
             {statsLoading ? (

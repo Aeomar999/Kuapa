@@ -49,7 +49,7 @@ export default function ContactUsScreen() {
             style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}
             className="bg-card p-5 rounded-2xl border border-border items-center gap-2"
             onPress={() =>
-              Linking.openURL("mailto:support@bexiemart.com").catch(() =>
+              Linking.openURL("mailto:support@kuapa.com").catch(() =>
                 Toast.show({
                   type: "error",
                   text1: "Email failed",
@@ -64,9 +64,7 @@ export default function ContactUsScreen() {
             <Text className="text-heading-sm font-bold text-foreground font-heading">
               Email Support
             </Text>
-            <Text className="text-body-md text-muted-foreground font-body">
-              support@bexiemart.com
-            </Text>
+            <Text className="text-body-md text-muted-foreground font-body">support@kuapa.com</Text>
           </Pressable>
           <Pressable
             style={({ pressed }) => [{ opacity: pressed ? 0.7 : 1 }]}

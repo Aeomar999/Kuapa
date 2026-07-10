@@ -8,44 +8,44 @@
        LAYER 1: PRIMITIVE TOKENS
        ========================================= */
     
-    /* Brand Colors (Primary: #06406B assigned to 700) */
-    --brand-50: #f0f7fb;
-    --brand-100: #dbeaf5;
-    --brand-200: #b9d5ea;
-    --brand-300: #88b7da;
-    --brand-400: #5193c6;
-    --brand-500: #2c75a9;
-    --brand-600: #1b5b8b;
-    --brand-700: #06406b;
-    --brand-800: #04365b;
-    --brand-900: #022d4d;
-    --brand-950: #011d35;
+    /* Brand Colors (Kuapa Green — Primary: #0B5233 assigned to 700) */
+    --brand-50: #f2faf6;
+    --brand-100: #e2f5ec;
+    --brand-200: #BFE6CD;
+    --brand-300: #88d3aa;
+    --brand-400: #4abb84;
+    --brand-500: #1E9960;
+    --brand-600: #147A4B;
+    --brand-700: #0B5233;
+    --brand-800: #09442a;
+    --brand-900: #073B24;
+    --brand-950: #032013;
 
-    /* Accent Colors (Sky Blue for matching) */
-    --accent-50: #f0f9ff;
-    --accent-100: #e0f2fe;
-    --accent-200: #bae6fd;
-    --accent-300: #7dd3fc;
-    --accent-400: #38bdf8;
-    --accent-500: #0ea5e9;
-    --accent-600: #0284c7;
-    --accent-700: #0369a1;
-    --accent-800: #075985;
-    --accent-900: #0c4a6e;
-    --accent-950: #082f49;
+    /* Accent Colors (Harvest Gold: #F2A81D assigned to 500) */
+    --accent-50: #fffbeb;
+    --accent-100: #fef3c7;
+    --accent-200: #fde68a;
+    --accent-300: #fcd34d;
+    --accent-400: #fbbf24;
+    --accent-500: #F2A81D;
+    --accent-600: #d98f12;
+    --accent-700: #b4720d;
+    --accent-800: #925b11;
+    --accent-900: #784b12;
+    --accent-950: #452805;
 
-    /* Surface Colors (Cool Grays to match Brand) */
-    --surface-50: #F8FAFC;
-    --surface-100: #F1F5F9;
-    --surface-200: #E2E8F0;
-    --surface-300: #CBD5E1;
-    --surface-400: #94A3B8;
-    --surface-500: #64748B;
-    --surface-600: #475569;
-    --surface-700: #334155;
-    --surface-800: #1E293B;
-    --surface-900: #0F172A;
-    --surface-950: #020617;
+    /* Surface Colors (Kuapa Cream & Ink integrated) */
+    --surface-50: #FDFBF7;
+    --surface-100: #F8F4EA;
+    --surface-200: #EBE5D8;
+    --surface-300: #D8D0BF;
+    --surface-400: #A8A090;
+    --surface-500: #787062;
+    --surface-600: #554F43;
+    --surface-700: #3A352C;
+    --surface-800: #24221C;
+    --surface-900: #142019;
+    --surface-950: #0A110D;
 
     /* Feedback Colors */
     --success-light: #E6F9F3;
@@ -90,6 +90,11 @@
     --color-secondary: var(--accent-500);
     --color-secondary-hover: var(--accent-600);
     --color-secondary-text: #ffffff;
+
+    --color-cream: var(--surface-100);
+    --color-ink: var(--surface-900);
+    --color-gold: var(--accent-500);
+    --color-leaf: var(--brand-200);
 
     --color-success: var(--success-default);
     --color-error: var(--error-default);

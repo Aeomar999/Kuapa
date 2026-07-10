@@ -80,7 +80,7 @@ export default function DispatcherTasks() {
                 <View className="bg-primary-subtle p-2 rounded-full">
                   <Icon name="package" size={16} color={tokens.primary} />
                 </View>
-                <Text className="font-bold text-foreground font-body">Ride Request</Text>
+                <Text className="font-bold text-foreground font-body">Transport Request</Text>
               </View>
               <Text className="font-black text-primary text-heading-md font-heading">
                 GH₵ {Number(ride.driverPayout).toFixed(2)}
@@ -201,7 +201,7 @@ export default function DispatcherTasks() {
           >
             <View className="flex-row items-center justify-between mb-3">
               <View>
-                <Text className="font-bold text-foreground font-body">Active Ride</Text>
+                <Text className="font-bold text-foreground font-body">Active Transport</Text>
                 <Text className="text-primary font-bold text-body-sm uppercase tracking-wider">
                   {ride.status}
                 </Text>

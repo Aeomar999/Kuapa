@@ -67,7 +67,7 @@ export default function FlashSalesScreen() {
               accessibilityLabel="Share flash sale"
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               className="w-8 h-8 rounded-full bg-rose-50 border border-rose-200 items-center justify-center"
-              onPress={() => Share.share({ message: "Check out this flash sale on Bexiemart!" })}
+              onPress={() => Share.share({ message: "Check out this flash sale on Kuapa!" })}
             >
               <Icon name="share-2" size={15} color="#e11d48" />
             </Pressable>

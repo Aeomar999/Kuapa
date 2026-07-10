@@ -102,7 +102,7 @@ export default function AdminsPage() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="jane@bexiemart.com"
+                    placeholder="john123@mail.com"
                   />
                 </div>
                 <div>

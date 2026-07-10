@@ -39,7 +39,7 @@ const SLIDES = [
     titleStart: "Secure",
     titleBold: "Payments",
     titleEnd: "With Mobile Money",
-    description: "Pay farmers securely via Mobile Money or your Farmo wallet.",
+    description: "Pay farmers securely via Mobile Money or your Kuapa wallet.",
     image: require("../../assets/images/onboarding/payment.png"),
   },
 ];

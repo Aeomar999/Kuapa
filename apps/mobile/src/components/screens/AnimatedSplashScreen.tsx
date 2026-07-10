@@ -14,8 +14,7 @@ import Animated, {
   SharedValue,
   useReducedMotion,
 } from "react-native-reanimated";
-// @ts-expect-error
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Image } from "expo-image";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -171,24 +170,17 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }, screenStyle]}>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         {/* Pulse Rings */}
-        <Animated.View style={[ring3Style, { position: "absolute", backgroundColor: "#06406b" }]} />
-        <Animated.View style={[ring2Style, { position: "absolute", backgroundColor: "#06406b" }]} />
-        <Animated.View style={[ring1Style, { position: "absolute", backgroundColor: "#06406b" }]} />
+        <Animated.View style={[ring3Style, { position: "absolute", backgroundColor: "#0B5233" }]} />
+        <Animated.View style={[ring2Style, { position: "absolute", backgroundColor: "#0B5233" }]} />
+        <Animated.View style={[ring1Style, { position: "absolute", backgroundColor: "#0B5233" }]} />
 
         {/* Logo Icon */}
         <Animated.View style={logoStyle}>
-          <View
-            style={{
-              width: 96,
-              height: 96,
-              borderRadius: 28,
-              backgroundColor: "#06406b",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <FontAwesome5 name="store" size={42} color="#FFFFFF" solid />
-          </View>
+          <Image
+            source={require("../../../assets/brand/kuapa-icon.svg")}
+            style={{ width: 96, height: 96 }}
+            contentFit="contain"
+          />
         </Animated.View>
 
         {/* Brand Name */}
@@ -202,7 +194,7 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
               fontFamily: "Raleway_700Bold",
             }}
           >
-            Bexie<Text style={{ color: "#06406b" }}>Mart</Text>
+            Kua<Text style={{ color: "#0B5233" }}>pa</Text>
           </Text>
         </Animated.View>
 
@@ -216,10 +208,10 @@ export function AnimatedSplashScreen({ onAnimationComplete }: AnimatedSplashScre
                 color: "#9ca3af",
                 fontFamily: "Nunito_500Medium",
                 textAlign: "center",
-                width: SCREEN_WIDTH * 0.6,
+                width: SCREEN_WIDTH * 0.85,
               }}
             >
-              Shop smart on campus
+              Farmer-to-Buyer Digital Marketplace
             </Text>
           </Animated.View>
         </Animated.View>

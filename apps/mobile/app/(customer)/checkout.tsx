@@ -403,7 +403,7 @@ export default function CheckoutScreen() {
               </View>
               <View>
                 <Text className="text-body-lg font-bold text-amber-900 font-heading">
-                  Use BexieCoins
+                  Use Kuapa Coins
                 </Text>
                 <Text className="text-sm text-amber-700 font-body">
                   Apply 1,000 coins for GHS 10 off
@@ -473,7 +473,9 @@ export default function CheckoutScreen() {
               </View>
               {useBexieCoins && (
                 <View className="flex-row justify-between">
-                  <Text className="text-body-sm text-amber-500 font-body">BexieCoins Discount</Text>
+                  <Text className="text-body-sm text-amber-500 font-body">
+                    Kuapa Coins Discount
+                  </Text>
                   <Text className="text-body-sm font-semibold text-amber-600 font-body">
                     -GHS {discount.toFixed(2)}
                   </Text>

@@ -100,8 +100,8 @@ function BannerCard({ banner, onPress }: { banner: Banner; onPress?: () => void 
 
         <View className="flex-1 p-5 justify-center">
           {banner.badge ? (
-            <View className="bg-success self-start px-2 py-1 rounded-md mb-2">
-              <Text className="text-caption font-bold text-white uppercase tracking-wider">
+            <View className="bg-leaf self-start px-2.5 py-1 rounded-md mb-2">
+              <Text className="text-caption font-bold text-ink uppercase tracking-wider">
                 {banner.badge}
               </Text>
             </View>
@@ -118,9 +118,9 @@ function BannerCard({ banner, onPress }: { banner: Banner; onPress?: () => void 
           )}
 
           {banner.ctaLabel ? (
-            <View className="bg-card self-start flex-row items-center rounded-full px-4 py-2">
-              <Text className="text-foreground font-bold text-caption mr-1">{banner.ctaLabel}</Text>
-              <Icon name="arrow-right" size={14} color="#0f172a" />
+            <View className="bg-gold self-start flex-row items-center rounded-full px-4 py-2">
+              <Text className="text-ink font-bold text-caption mr-1">{banner.ctaLabel}</Text>
+              <Icon name="arrow-right" size={14} color="#142019" />
             </View>
           ) : null}
         </View>

@@ -10,7 +10,7 @@ export function buildOtpEmailHtml(params: {
 
   const phoneNote = phoneNumber
     ? `
-      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-left:4px solid #004CFF;border-radius:8px;padding:14px 18px;margin-top:28px;text-align:left;">
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-left:4px solid #15803d;border-radius:8px;padding:14px 18px;margin-top:28px;text-align:left;">
         <p style="color:#334155;font-size:13px;line-height:1.5;margin:0;">
           <strong style="color:#0F172A;">Dual-Channel Security:</strong> For your convenience and protection, this verification code was also sent to your mobile device (<strong>${phoneNumber}</strong>) via SMS.
         </p>
@@ -23,14 +23,14 @@ export function buildOtpEmailHtml(params: {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your BexieMart Verification Code</title>
+    <title>Your Kuapa AgriMarket Verification Code</title>
   </head>
   <body style="margin:0;padding:0;background-color:#F1F5F9;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
     <div style="max-width:520px;margin:0 auto;padding:48px 20px;">
       <!-- Logo Header -->
       <div style="text-align:center;margin-bottom:32px;">
-        <div style="display:inline-block;background:#004CFF;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(0,76,255,0.25);">B</div>
-        <span style="color:#0F172A;font-size:24px;font-weight:800;letter-spacing:-0.5px;vertical-align:middle;">BexieMart</span>
+        <div style="display:inline-block;background:#15803d;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(21,128,61,0.25);">K</div>
+        <span style="color:#0F172A;font-size:24px;font-weight:800;letter-spacing:-0.5px;vertical-align:middle;">Kuapa AgriMarket</span>
       </div>
 
       <!-- Main Card -->
@@ -78,7 +78,7 @@ export function buildOtpEmailHtml(params: {
         </p>
         <div style="height:1px;background:#E2E8F0;margin:24px auto;width:60px;"></div>
         <p style="color:#94A3B8;font-size:11px;margin:0;">
-          © ${new Date().getFullYear()} BexieMart Technologies. All rights reserved.<br />
+          © ${new Date().getFullYear()} Kuapa AgriTech Marketplace. All rights reserved.<br />
           Secure Dual-Channel Verification System
         </p>
       </div>

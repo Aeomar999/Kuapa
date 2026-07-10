@@ -37,7 +37,7 @@ export default function BecomeDispatcherScreen() {
         Toast.show({
           type: "success",
           text1: "Welcome!",
-          text2: "You are now a Bexiemart Dispatcher.",
+          text2: "You are now a Kuapa Transporter.",
         });
 
         // Root index.tsx will auto-redirect based on role
@@ -62,7 +62,7 @@ export default function BecomeDispatcherScreen() {
       >
         <BackButton className="-ml-2 mr-2" />
         <Text className="text-display-sm font-heading font-black text-foreground">
-          Drive with us
+          Transport with us
         </Text>
       </View>
 
@@ -75,30 +75,34 @@ export default function BecomeDispatcherScreen() {
             Earn money on your schedule
           </Text>
           <Text className="text-muted-foreground font-body text-center">
-            Deliver food and groceries to students around campus and get paid weekly.
+            Move fresh produce from farms to buyers across your region and get paid weekly.
           </Text>
         </View>
 
         {/* Vehicle Type Selection */}
         <Text className="text-body-lg font-bold font-body text-foreground mb-2">Vehicle Type</Text>
         <View className="flex-row gap-3 mb-6">
-          {["bike", "car"].map((type) => {
-            const isSelected = form.vehicleType === type;
+          {[
+            { id: "bike", label: "Bike", icon: "briefcase" },
+            { id: "ABOBOYAA_TRICYCLE", label: "Aboboyaa", icon: "package" },
+            { id: "car", label: "Car", icon: "truck" },
+          ].map((vehicle) => {
+            const isSelected = form.vehicleType === vehicle.id;
             return (
               <Pressable
-                key={type}
-                onPress={() => setForm((prev) => ({ ...prev, vehicleType: type }))}
+                key={vehicle.id}
+                onPress={() => setForm((prev) => ({ ...prev, vehicleType: vehicle.id }))}
                 className={`flex-1 p-4 rounded-xl items-center border ${isSelected ? "border-primary bg-primary-subtle" : "border-border bg-card"}`}
               >
                 <Icon
-                  name={type === "bike" ? "briefcase" : "truck"}
+                  name={vehicle.icon}
                   size={24}
                   color={isSelected ? tokens.primary : "#64748b"}
                 />
                 <Text
-                  className={`mt-2 font-bold font-body capitalize ${isSelected ? "text-primary-hover" : "text-muted-foreground"}`}
+                  className={`mt-2 font-bold font-body ${isSelected ? "text-primary-hover" : "text-muted-foreground"}`}
                 >
-                  {type}
+                  {vehicle.label}
                 </Text>
               </Pressable>
             );

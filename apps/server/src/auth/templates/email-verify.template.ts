@@ -10,7 +10,7 @@ export function buildEmailVerifyHtml(params: {
 }): string {
   const { userName, verifyUrl, otpCode, token } = params;
   const c = otpCode.split("");
-  const appUrl = `bexiemart://verify-email?token=${token}`;
+  const appUrl = `kuapa://verify-email?token=${token}`;
 
   return `
   <!DOCTYPE html>
@@ -24,7 +24,7 @@ export function buildEmailVerifyHtml(params: {
     <div style="max-width:520px;margin:0 auto;padding:48px 20px;">
       <!-- Logo Header -->
       <div style="text-align:center;margin-bottom:32px;">
-        <div style="display:inline-block;background:#059669;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(5,150,105,0.25);">K</div>
+        <div style="display:inline-block;background:#15803d;border-radius:12px;width:40px;height:40px;line-height:40px;text-align:center;color:#FFFFFF;font-weight:900;font-size:20px;vertical-align:middle;margin-right:8px;box-shadow:0 4px 12px rgba(21,128,61,0.25);">K</div>
         <span style="color:#0F172A;font-size:24px;font-weight:800;letter-spacing:-0.5px;vertical-align:middle;">Kuapa AgriMarket</span>
       </div>
 
@@ -38,7 +38,7 @@ export function buildEmailVerifyHtml(params: {
         
         <!-- Primary Action Button -->
         <div style="margin-bottom:36px;">
-          <a href="${verifyUrl}" style="display:inline-block;padding:16px 36px;background:#059669;color:#FFFFFF;text-decoration:none;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 6px 20px rgba(5,150,105,0.3);letter-spacing:0.2px;">Verify Email Address</a>
+          <a href="${verifyUrl}" style="display:inline-block;padding:16px 36px;background:#15803d;color:#FFFFFF;text-decoration:none;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 6px 20px rgba(21,128,61,0.3);letter-spacing:0.2px;">Verify Email Address</a>
         </div>
         
         <!-- Divider -->
@@ -81,14 +81,14 @@ export function buildEmailVerifyHtml(params: {
       <div style="text-align:center;margin-top:32px;padding:0 16px;">
         <p style="color:#64748B;font-size:12px;line-height:1.6;margin:0 0 12px;">
           If the button above doesn't work, copy and paste this URL into your browser:<br/>
-          <a href="${verifyUrl}" style="color:#004CFF;word-break:break-all;text-decoration:underline;">${verifyUrl}</a>
+          <a href="${verifyUrl}" style="color:#15803d;word-break:break-all;text-decoration:underline;">${verifyUrl}</a>
         </p>
         <p style="color:#64748B;font-size:12px;margin:0 0 20px;">
-          <strong>On your mobile device?</strong> <a href="${appUrl}" style="color:#004CFF;text-decoration:none;font-weight:600;">Open directly in BexieMart app &rarr;</a>
+          <strong>On your mobile device?</strong> <a href="${appUrl}" style="color:#15803d;text-decoration:none;font-weight:600;">Open directly in Kuapa app &rarr;</a>
         </p>
         <div style="height:1px;background:#E2E8F0;margin:24px auto;width:60px;"></div>
         <p style="color:#94A3B8;font-size:11px;margin:0;">
-          © ${new Date().getFullYear()} BexieMart Technologies. All rights reserved.<br />
+          © ${new Date().getFullYear()} Kuapa AgriTech Marketplace. All rights reserved.<br />
           Secure Hybrid Authentication System
         </p>
       </div>

@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../../src/lib/stores/auth-store";
 import { useAuthEnabled } from "../../src/lib/feature-flags";
 import { Button } from "../../src/components/ui/Button";
-// @ts-expect-error
-import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function WelcomeScreen() {
   const router = useRouter();
@@ -27,14 +26,18 @@ export default function WelcomeScreen() {
   return (
     <View className="flex-1 bg-white items-center px-6">
       <View className="flex-1 w-full items-center justify-center pt-20">
-        <View className="w-24 h-24 rounded-3xl bg-primary items-center justify-center mb-8">
-          <FontAwesome5 name="store" size={42} color="#FFFFFF" solid />
+        <View className="w-24 h-24 mb-6">
+          <Image
+            source={require("../../assets/brand/kuapa-icon.svg")}
+            style={{ width: 96, height: 96 }}
+            contentFit="contain"
+          />
         </View>
         <Text className="text-[40px] font-heading font-black text-foreground text-center mb-2 leading-[48px]">
-          Bexie<Text className="text-primary">Mart</Text>
+          Kua<Text className="text-primary">pa</Text>
         </Text>
         <Text className="text-body-lg text-muted-foreground font-body text-center">
-          Shop smart on campus
+          Farmer-to-Buyer Digital Marketplace
         </Text>
       </View>
 

@@ -20,8 +20,8 @@ export default function HelpCenterScreen() {
       a: "We accept returns within 7 days of delivery for unused items.",
     },
     {
-      q: "How do I use BexieCoins?",
-      a: "You can apply BexieCoins during checkout for a discount.",
+      q: "How do I use Kuapa Coins?",
+      a: "You can apply Kuapa Coins during checkout for a discount.",
     },
   ];
 

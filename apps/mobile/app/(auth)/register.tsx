@@ -278,7 +278,7 @@ export default function RegisterScreen() {
           <View className="gap-5">
             <Input
               label="Email address"
-              placeholder="you@school.edu.gh"
+              placeholder="john123@mail.com"
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}

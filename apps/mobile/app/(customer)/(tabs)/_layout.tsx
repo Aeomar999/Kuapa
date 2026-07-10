@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCartStore } from "@/lib/stores/cart-store";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
+import { FEATURES } from "@/lib/config/agri";
 
 function TabIcon({ name, color }: { name: string; color: string }) {
   return <Icon name={name} color={color} size={24} />;
@@ -113,7 +114,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="(shop)"
         options={{
-          title: "Shop",
+          title: "Market",
           tabBarIcon: ({ color }) => <TabIcon name="grid" color={color} />,
         }}
       />
@@ -121,6 +122,8 @@ export default function TabsLayout() {
         name="reels"
         options={{
           title: "Reels",
+          // Hidden in agri mode; flip FEATURES.reels to restore the tab.
+          href: FEATURES.reels ? undefined : null,
           tabBarIcon: ({ color }) => <TabIcon name="video" color={color} />,
         }}
       />

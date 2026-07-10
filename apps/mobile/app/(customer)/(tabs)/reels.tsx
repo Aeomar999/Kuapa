@@ -57,7 +57,7 @@ export default function ReelsScreen() {
   const handleShare = async (reel: any) => {
     try {
       await Share.share({
-        message: `Check out this reel from ${reel.user?.name || "vendor"} on Bexiemart!`,
+        message: `Check out this reel from ${reel.user?.name || "vendor"} on Kuapa!`,
       });
     } catch (error) {
       console.log(error);

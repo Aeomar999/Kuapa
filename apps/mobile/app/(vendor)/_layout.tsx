@@ -100,7 +100,7 @@ export default function VendorLayout() {
         name="(dashboard)"
         options={{
           title: "Dashboard",
-          headerTitle: "BexieMart Vendor",
+          headerTitle: "Kuapa Farmer",
           tabBarIcon: ({ color }) => <TabIcon name="grid" color={color} />,
         }}
       />

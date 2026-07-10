@@ -82,7 +82,7 @@ export default function OrderDetailsScreen() {
       return (
         <View className="gap-3">
           <Button
-            title="Request BexieMart Rider"
+            title="Request Kuapa Transporter"
             size="lg"
             loading={updateStatus.isPending}
             onPress={() => handleAction("rider_requested")}
