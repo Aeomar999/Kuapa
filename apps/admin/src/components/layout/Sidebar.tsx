@@ -3,31 +3,47 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Store, 
-  ShoppingBag, 
-  AlertTriangle, 
-  FileText, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Users,
+  Store,
+  ShoppingBasket,
+  AlertTriangle,
+  FileText,
+  Settings,
   LogOut,
-  Bike,
   Truck,
-  Pizza,
-  Wrench,
+  PackageCheck,
   Megaphone,
   ShieldAlert,
   ShieldCheck,
   Ticket,
   ChevronDown,
   ChevronRight,
-  Sprout
+  Sprout,
+  Leaf,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { useUiStore } from "../../lib/stores/ui-store";
 import { useAuthStore } from "../../lib/stores/auth-store";
 import { useUser } from "../../lib/hooks/use-auth";
+import { FEATURES } from "../../lib/config/agri";
+
+type FeatureKey = keyof typeof FEATURES;
+
+type RawSubItem = { name: string; href: string; feature?: FeatureKey };
+
+type RawItem = {
+  name: string;
+  href?: string;
+  icon: any;
+  badge?: number | string;
+  superAdminOnly?: boolean;
+  feature?: FeatureKey;
+  subItems?: RawSubItem[];
+};
+
+type RawGroup = { group: string; items: RawItem[] };
 
 type NavItem = {
   name: string;
@@ -38,88 +54,135 @@ type NavItem = {
   subItems?: { name: string; href: string }[];
 };
 
-type NavGroup = {
-  group: string;
-  items: NavItem[];
-};
+type NavGroup = { group: string; items: NavItem[] };
 
-const navigationConfig: NavGroup[] = [
+// ── Navigation, reframed farm-to-market ──────────────────────────────────────
+// Leads with the harvest surfaces (AgriMarket, Farmers, Produce Orders). The
+// general-marketplace verticals (restaurants, services, reels, flash sales)
+// carry a `feature` key and are gated behind config/agri.ts — hidden by default,
+// restored by flipping the flag.
+const navigationConfig: RawGroup[] = [
   {
     group: "Overview",
     items: [
       { name: "Dashboard", href: "/", icon: LayoutDashboard },
-      { name: "AgriMarket & Harvests", href: "/marketplace", icon: Sprout, badge: "NEW" },
+      { name: "AgriMarket", href: "/marketplace", icon: Sprout, badge: "Harvests" },
       { name: "Reports", href: "/reports", icon: FileText },
-    ]
+    ],
   },
   {
-    group: "Commerce",
+    group: "Marketplace",
     items: [
-      { name: "Users", href: "/users", icon: Users },
-      { 
-        name: "Vendors & Stores", 
+      { name: "Farmers", href: "/vendors", icon: Leaf },
+      { name: "Buyers & Users", href: "/users", icon: Users },
+      {
+        name: "Storefronts",
         icon: Store,
         subItems: [
-          { name: "Retail Vendors", href: "/vendors" },
-          { name: "Restaurants", href: "/food-vendors" },
-          { name: "Service Providers", href: "/service-vendors" },
-        ]
+          { name: "Restaurants", href: "/food-vendors", feature: "restaurant" },
+          { name: "Service Providers", href: "/service-vendors", feature: "services" },
+        ],
       },
-      { 
-        name: "Orders & Bookings", 
-        icon: ShoppingBag,
+      {
+        name: "Orders",
+        icon: ShoppingBasket,
         subItems: [
-          { name: "Retail Orders", href: "/orders" },
-          { name: "Food Orders", href: "/food-orders" },
-          { name: "Service Bookings", href: "/service-bookings" },
-        ]
+          { name: "Produce Orders", href: "/orders" },
+          { name: "Food Orders", href: "/food-orders", feature: "restaurant" },
+          { name: "Service Bookings", href: "/service-bookings", feature: "services" },
+        ],
       },
-    ]
+    ],
   },
   {
     group: "Logistics",
     items: [
-      { name: "Dispatchers", href: "/dispatchers", icon: Bike },
-      { name: "Deliveries", href: "/deliveries", icon: Truck },
-    ]
+      { name: "Transporters", href: "/dispatchers", icon: Truck },
+      { name: "Deliveries", href: "/deliveries", icon: PackageCheck },
+    ],
   },
   {
     group: "Growth",
     items: [
-      { 
-        name: "Marketing", 
+      {
+        name: "Marketing",
         icon: Megaphone,
         subItems: [
           { name: "Banners", href: "/marketing/banners" },
-          { name: "Flash Sales", href: "/marketing/flash-sales" },
+          { name: "Flash Sales", href: "/marketing/flash-sales", feature: "flashSales" },
           { name: "Coupons", href: "/marketing/coupons" },
-        ]
+        ],
       },
       { name: "Referrals", href: "/referrals", icon: Ticket },
-    ]
+    ],
   },
   {
     group: "Moderation",
     items: [
-      { 
-        name: "Content", 
+      {
+        name: "Content",
         icon: ShieldAlert,
         subItems: [
-          { name: "Reels", href: "/moderation/reels" },
+          { name: "Reels", href: "/moderation/reels", feature: "reels" },
           { name: "Reviews", href: "/moderation/reviews" },
-        ]
+        ],
       },
       { name: "Disputes", href: "/disputes", icon: AlertTriangle, badge: 3 },
-    ]
+    ],
   },
   {
     group: "System",
     items: [
       { name: "Admins", href: "/admins", icon: ShieldCheck, superAdminOnly: true },
       { name: "Settings", href: "/settings", icon: Settings },
-    ]
-  }
+    ],
+  },
 ];
+
+const featureOn = (feature?: FeatureKey) => !feature || FEATURES[feature];
+
+// Apply feature flags: drop hidden sub-items, hide a parent whose children are
+// all gone, and collapse a parent with a single surviving child into a direct
+// link (keeping the parent's icon).
+function resolveNav(config: RawGroup[]): NavGroup[] {
+  return config
+    .map((group) => {
+      const items = group.items
+        .filter((item) => featureOn(item.feature))
+        .map((item): NavItem | null => {
+          if (!item.subItems) {
+            return {
+              name: item.name,
+              href: item.href,
+              icon: item.icon,
+              badge: item.badge,
+              superAdminOnly: item.superAdminOnly,
+            };
+          }
+          const subItems = item.subItems.filter((sub) => featureOn(sub.feature));
+          if (subItems.length === 0) return null;
+          if (subItems.length === 1) {
+            return {
+              name: subItems[0].name,
+              href: subItems[0].href,
+              icon: item.icon,
+              badge: item.badge,
+            };
+          }
+          return {
+            name: item.name,
+            icon: item.icon,
+            badge: item.badge,
+            subItems: subItems.map(({ name, href }) => ({ name, href })),
+          };
+        })
+        .filter((item): item is NavItem => item !== null);
+      return { group: group.group, items };
+    })
+    .filter((group) => group.items.length > 0);
+}
+
+const navigation = resolveNav(navigationConfig);
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -134,10 +197,12 @@ export function Sidebar() {
     const newExpanded = { ...expandedItems };
     let changed = false;
 
-    navigationConfig.forEach(group => {
-      group.items.forEach(item => {
+    navigation.forEach((group) => {
+      group.items.forEach((item) => {
         if (item.subItems) {
-          const isChildActive = item.subItems.some(sub => pathname === sub.href || pathname.startsWith(`${sub.href}/`));
+          const isChildActive = item.subItems.some(
+            (sub) => pathname === sub.href || pathname.startsWith(`${sub.href}/`)
+          );
           if (isChildActive && !newExpanded[item.name]) {
             newExpanded[item.name] = true;
             changed = true;
@@ -154,32 +219,42 @@ export function Sidebar() {
   const toggleExpand = (name: string) => {
     if (!isSidebarOpen) {
       toggleSidebar();
-      setExpandedItems(prev => ({ ...prev, [name]: true }));
+      setExpandedItems((prev) => ({ ...prev, [name]: true }));
     } else {
-      setExpandedItems(prev => ({ ...prev, [name]: !prev[name] }));
+      setExpandedItems((prev) => ({ ...prev, [name]: !prev[name] }));
     }
   };
 
   return (
     <div
       className={cn(
-        "flex flex-col border-r border-[var(--color-border)] bg-[var(--color-card)] transition-all duration-300 overflow-hidden",
+        // The signature: a deep forest-green rail. Cream text, gold for the one
+        // thing that matters — where you are.
+        "flex flex-col bg-gradient-to-b from-[#09442a] to-[#073B24] text-[#F8F4EA] transition-all duration-300 overflow-hidden",
         isSidebarOpen ? "w-[260px]" : "w-[72px]"
       )}
     >
-      <div className="flex h-16 items-center justify-center border-b border-[var(--color-border)] px-4">
-        {isSidebarOpen ? (
-          <img src="/brand/kuapa-lockup.svg" alt="Kuapa" className="h-9 w-auto" />
-        ) : (
-          <img src="/brand/kuapa-icon.svg" alt="Kuapa" className="h-8 w-8" />
-        )}
+      <div className="flex h-16 items-center border-b border-white/10 px-4">
+        <div className={cn("flex items-center gap-3", !isSidebarOpen && "w-full justify-center")}>
+          <img src="/brand/kuapa-icon.svg" alt="Kuapa" className="h-9 w-9 shrink-0 rounded-[10px] shadow-sm" />
+          {isSidebarOpen && (
+            <div className="flex flex-col leading-none">
+              <span className="font-[family-name:var(--font-heading)] text-lg font-bold tracking-tight text-[#F8F4EA]">
+                Kuapa
+              </span>
+              <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#F2A81D]">
+                Farm to Market
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-4 custom-scrollbar">
-        {navigationConfig.map((group, groupIdx) => (
+      <nav className="flex-1 overflow-y-auto py-4 kuapa-rail-scroll">
+        {navigation.map((group) => (
           <div key={group.group} className="mb-6 px-3">
             {isSidebarOpen && (
-              <h3 className="mb-2 px-3 text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">
+              <h3 className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#F8F4EA]/40">
                 {group.group}
               </h3>
             )}
@@ -188,124 +263,136 @@ export function Sidebar() {
               {group.items
                 .filter((item) => !item.superAdminOnly || isSuperAdmin)
                 .map((item) => {
-                const isActive = item.href ? (pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`))) : false;
-                const isChildActive = item.subItems?.some(sub => pathname === sub.href || pathname.startsWith(`${sub.href}/`));
-                const isExpanded = expandedItems[item.name];
-                const Icon = item.icon;
+                  const isActive = item.href
+                    ? pathname === item.href || (item.href !== "/" && pathname.startsWith(`${item.href}/`))
+                    : false;
+                  const isChildActive = item.subItems?.some(
+                    (sub) => pathname === sub.href || pathname.startsWith(`${sub.href}/`)
+                  );
+                  const isExpanded = expandedItems[item.name];
+                  const Icon = item.icon;
+                  const isHarvestBadge = typeof item.badge === "string";
 
-                return (
-                  <div key={item.name} className="flex flex-col">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "group relative flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
-                          isActive
-                            ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)] shadow-sm"
-                            : "text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-100)] hover:text-[var(--color-text)]",
-                          !isSidebarOpen && "justify-center px-0"
-                        )}
-                        title={!isSidebarOpen ? item.name : undefined}
-                      >
-                        <div className="flex items-center">
-                          <Icon
-                            className={cn(
-                              "flex-shrink-0 transition-colors",
-                              isActive ? "text-[var(--color-primary)]" : "text-[var(--color-text-muted)] group-hover:text-[var(--color-text)]",
-                              isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6"
-                            )}
-                          />
-                          {isSidebarOpen && <span>{item.name}</span>}
-                        </div>
-                        {isSidebarOpen && item.badge && (
-                          <span className="ml-auto inline-flex items-center rounded-full bg-[var(--color-surface-100)] px-2 py-0.5 text-xs font-medium text-[var(--color-text)]">
-                            {item.badge}
-                          </span>
-                        )}
-                      </Link>
-                    ) : (
-                      <button
-                        onClick={() => toggleExpand(item.name)}
-                        className={cn(
-                          "group relative flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
-                          isChildActive
-                            ? "bg-[var(--color-primary)]/5 text-[var(--color-primary)] font-semibold"
-                            : "text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-100)] hover:text-[var(--color-text)]",
-                          !isSidebarOpen && "justify-center px-0"
-                        )}
-                        title={!isSidebarOpen ? item.name : undefined}
-                      >
-                        <div className="flex items-center">
-                          <Icon
-                            className={cn(
-                              "flex-shrink-0 transition-colors",
-                              isChildActive ? "text-[var(--color-primary)]" : "text-[var(--color-text-muted)] group-hover:text-[var(--color-text)]",
-                              isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6"
-                            )}
-                          />
-                          {isSidebarOpen && <span>{item.name}</span>}
-                        </div>
-                        {isSidebarOpen && (
+                  return (
+                    <div key={item.name} className="flex flex-col">
+                      {item.href ? (
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "group relative flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                            isActive
+                              ? "bg-white/10 text-[#F2A81D]"
+                              : "text-[#F8F4EA]/75 hover:bg-white/5 hover:text-white",
+                            !isSidebarOpen && "justify-center px-0"
+                          )}
+                          title={!isSidebarOpen ? item.name : undefined}
+                        >
+                          {isActive && (
+                            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-[#F2A81D]" />
+                          )}
                           <div className="flex items-center">
-                            {item.badge && (
-                              <span className="mr-2 inline-flex items-center rounded-full bg-[var(--color-surface-100)] px-2 py-0.5 text-xs font-medium text-[var(--color-text)]">
-                                {item.badge}
-                              </span>
-                            )}
-                            {isExpanded ? (
-                              <ChevronDown className="h-4 w-4 text-[var(--color-text-muted)]" />
-                            ) : (
-                              <ChevronRight className="h-4 w-4 text-[var(--color-text-muted)]" />
-                            )}
-                          </div>
-                        )}
-                      </button>
-                    )}
-
-                    {isSidebarOpen && isExpanded && item.subItems && (
-                      <div className="mt-1 flex flex-col space-y-1 relative before:absolute before:left-[21px] before:top-0 before:bottom-0 before:w-[1px] before:bg-[var(--color-border)]">
-                        {item.subItems.map((sub) => {
-                          const isSubActive = pathname === sub.href || pathname.startsWith(`${sub.href}/`);
-                          return (
-                            <Link
-                              key={sub.name}
-                              href={sub.href}
+                            <Icon
                               className={cn(
-                                "group relative flex items-center rounded-md py-2 pl-10 pr-3 text-sm font-medium transition-colors",
-                                isSubActive
-                                  ? "text-[var(--color-primary)]"
-                                  : "text-[var(--color-text-secondary)] hover:text-[var(--color-text)]"
+                                "flex-shrink-0 transition-colors",
+                                isActive ? "text-[#F2A81D]" : "text-[#F8F4EA]/55 group-hover:text-white",
+                                isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6"
+                              )}
+                            />
+                            {isSidebarOpen && <span>{item.name}</span>}
+                          </div>
+                          {isSidebarOpen && item.badge != null && (
+                            <span
+                              className={cn(
+                                "ml-auto inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold",
+                                isHarvestBadge
+                                  ? "bg-[#F2A81D] text-[#0B5233]"
+                                  : "bg-[#EF4444] text-white"
                               )}
                             >
-                              <div className="absolute left-[21px] top-1/2 w-3 h-[1px] bg-[var(--color-border)]"></div>
-                              <span>{sub.name}</span>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+                              {item.badge}
+                            </span>
+                          )}
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => toggleExpand(item.name)}
+                          className={cn(
+                            "group relative flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                            isChildActive
+                              ? "bg-white/5 text-white font-semibold"
+                              : "text-[#F8F4EA]/75 hover:bg-white/5 hover:text-white",
+                            !isSidebarOpen && "justify-center px-0"
+                          )}
+                          title={!isSidebarOpen ? item.name : undefined}
+                        >
+                          <div className="flex items-center">
+                            <Icon
+                              className={cn(
+                                "flex-shrink-0 transition-colors",
+                                isChildActive ? "text-[#F2A81D]" : "text-[#F8F4EA]/55 group-hover:text-white",
+                                isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6"
+                              )}
+                            />
+                            {isSidebarOpen && <span>{item.name}</span>}
+                          </div>
+                          {isSidebarOpen && (
+                            <div className="flex items-center">
+                              {item.badge != null && (
+                                <span className="mr-2 inline-flex items-center rounded-full bg-[#F2A81D] px-2 py-0.5 text-[10px] font-bold text-[#0B5233]">
+                                  {item.badge}
+                                </span>
+                              )}
+                              {isExpanded ? (
+                                <ChevronDown className="h-4 w-4 text-[#F8F4EA]/45" />
+                              ) : (
+                                <ChevronRight className="h-4 w-4 text-[#F8F4EA]/45" />
+                              )}
+                            </div>
+                          )}
+                        </button>
+                      )}
+
+                      {isSidebarOpen && isExpanded && item.subItems && (
+                        <div className="mt-1 flex flex-col space-y-1 relative before:absolute before:left-[21px] before:top-0 before:bottom-0 before:w-px before:bg-white/15">
+                          {item.subItems.map((sub) => {
+                            const isSubActive = pathname === sub.href || pathname.startsWith(`${sub.href}/`);
+                            return (
+                              <Link
+                                key={sub.name}
+                                href={sub.href}
+                                className={cn(
+                                  "group relative flex items-center rounded-lg py-2 pl-10 pr-3 text-sm font-medium transition-colors",
+                                  isSubActive
+                                    ? "text-[#F2A81D]"
+                                    : "text-[#F8F4EA]/60 hover:text-white"
+                                )}
+                              >
+                                <div className="absolute left-[21px] top-1/2 h-px w-3 bg-white/15" />
+                                <span>{sub.name}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
         ))}
       </nav>
 
-      <div className="border-t border-[var(--color-border)] p-3 bg-[var(--color-card)]">
+      <div className="border-t border-white/10 p-3">
         <button
           onClick={logout}
           className={cn(
-            "group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-error)]/10 hover:text-[var(--color-error)] transition-colors",
+            "group flex w-full items-center rounded-lg px-3 py-2 text-sm font-medium text-[#F8F4EA]/70 transition-colors hover:bg-[#EF4444]/20 hover:text-[#FCA5A5]",
             !isSidebarOpen && "justify-center px-0"
           )}
           title={!isSidebarOpen ? "Logout" : undefined}
         >
           <LogOut
-            className={cn(
-              "flex-shrink-0 transition-colors",
-              isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6"
-            )}
+            className={cn("flex-shrink-0 transition-colors", isSidebarOpen ? "mr-3 h-5 w-5" : "h-6 w-6")}
             aria-hidden="true"
           />
           {isSidebarOpen && <span>Logout</span>}

@@ -19,39 +19,47 @@ export default function LoginPage() {
       { email, password },
       {
         onSuccess: () => {
-          toast.success("Successfully logged in");
+          toast.success("Signed in");
           router.push("/");
         },
         onError: (err: any) => {
-          toast.error(err.response?.data?.message || "Failed to login");
+          toast.error(err.response?.data?.message || "We couldn't sign you in. Check your details and try again.");
         },
       }
     );
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-[var(--color-card)] p-8 shadow-md border border-[var(--color-border)]">
-        <div className="text-center">
-          <div className="flex items-center justify-center mb-6">
+    <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] shadow-lg">
+        {/* Gold hairline — the same accent that marks your place in the rail */}
+        <div className="h-1 w-full bg-[var(--color-accent-500)]" />
+
+        <div className="p-8">
+          <div className="flex flex-col items-center text-center">
             <img
-              src="/brand/kuapa-lockup.svg"
+              src="/brand/kuapa-icon.svg"
               alt="Kuapa"
-              className="h-14 w-auto drop-shadow-sm"
+              className="h-14 w-14 rounded-2xl shadow-sm"
             />
+            <div className="mt-4 flex flex-col items-center">
+              <span className="font-[family-name:var(--font-heading)] text-2xl font-bold tracking-tight text-[var(--color-text)]">
+                Kuapa
+              </span>
+              <span className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--color-accent-600)]">
+                Farm to Market · Admin
+              </span>
+            </div>
+            <h2 className="mt-6 text-lg font-semibold text-[var(--color-text)]">Welcome back</h2>
+            <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+              Sign in to manage farmers, harvests &amp; deliveries.
+            </p>
           </div>
-          <h2 className="mt-2 text-center text-2xl font-bold tracking-tight text-[var(--color-text)]">
-            Farmer-to-Buyer Marketplace Admin
-          </h2>
-          <p className="mt-1 text-center text-sm text-[var(--color-text-muted)]">
-            Sign in to manage farms, produce listings & deliveries
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4 rounded-md shadow-sm">
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+
+          <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+            <div className="space-y-1.5">
+              <label htmlFor="email-address" className="text-sm font-medium text-[var(--color-text)]">
+                Email
               </label>
               <Input
                 id="email-address"
@@ -59,13 +67,13 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="john123@mail.com"
+                placeholder="you@kuapa.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="text-sm font-medium text-[var(--color-text)]">
                 Password
               </label>
               <Input
@@ -74,19 +82,17 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                placeholder="Password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
 
-          <div>
-            <Button type="submit" className="w-full" isLoading={isPending}>
+            <Button type="submit" size="lg" className="w-full" isLoading={isPending}>
               Sign in
             </Button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

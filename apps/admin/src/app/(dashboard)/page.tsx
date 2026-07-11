@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Users, Store, ShoppingBag, DollarSign } from "lucide-react";
+import { Users, Sprout, ShoppingBasket, Coins } from "lucide-react";
 import { DashboardLayout } from "../../components/layout/DashboardLayout";
 import { Stat } from "../../components/ui/Stat";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
@@ -18,7 +18,10 @@ export default function DashboardPage() {
     return (
       <DashboardLayout>
         <div className="flex h-full items-center justify-center">
-          <p className="text-[var(--color-text-muted)]">Here&apos;s an overview of your platform today.</p>
+          <div className="flex flex-col items-center gap-3 text-[var(--color-text-muted)]">
+            <Sprout className="h-8 w-8 animate-pulse text-[var(--color-primary)]" />
+            <p>Gathering today&apos;s harvest data…</p>
+          </div>
         </div>
       </DashboardLayout>
     );
@@ -30,52 +33,58 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="flex flex-col space-y-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)]">Dashboard Overview</h1>
-          <p className="text-[var(--color-text-muted)]">Welcome back, Admin! Here is what&apos;s happening today.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text)]">
+            Farm-to-Market Overview
+          </h1>
+          <p className="text-[var(--color-text-muted)]">
+            Here&apos;s how produce is moving across Kuapa today.
+          </p>
         </div>
 
-        {/* Stats Grid */}
+        {/* KPIs — settlements leads, in gold */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Stat
-            title="Total Revenue"
+            title="Settlements"
             value={formatCurrency(displayStats.totalRevenue)}
-            icon={<DollarSign className="h-6 w-6" />}
+            icon={<Coins className="h-6 w-6" />}
+            highlight
+            hint="Farm-gate value moved"
             trend={{ value: 12.5, isPositive: true }}
           />
           <Stat
-            title="Active Vendors"
+            title="Active Farmers"
             value={displayStats.activeVendors}
-            icon={<Store className="h-6 w-6" />}
+            icon={<Sprout className="h-6 w-6" />}
             trend={{ value: 4.3, isPositive: true }}
           />
           <Stat
-            title="Total Orders"
+            title="Produce Orders"
             value={displayStats.totalOrders}
-            icon={<ShoppingBag className="h-6 w-6" />}
+            icon={<ShoppingBasket className="h-6 w-6" />}
             trend={{ value: 8.2, isPositive: true }}
           />
           <Stat
-            title="Total Users"
+            title="Farmers & Buyers"
             value={displayStats.totalUsers}
             icon={<Users className="h-6 w-6" />}
             trend={{ value: 2.1, isPositive: true }}
           />
         </div>
 
-        {/* Charts Grid */}
+        {/* Charts */}
         <div className="grid gap-4 md:grid-cols-7">
           <Card className="col-span-4">
             <CardHeader>
-              <CardTitle>Revenue Overview</CardTitle>
+              <CardTitle>Settlement Volume</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
               <RevenueChart />
             </CardContent>
           </Card>
-          
+
           <Card className="col-span-3">
             <CardHeader>
-              <CardTitle>User Demographics</CardTitle>
+              <CardTitle>Community by Role</CardTitle>
             </CardHeader>
             <CardContent>
               <RoleDistribution />
@@ -86,7 +95,7 @@ export default function DashboardPage() {
         <div className="grid gap-4 md:grid-cols-1">
           <Card>
             <CardHeader>
-              <CardTitle>Orders Timeline</CardTitle>
+              <CardTitle>Order Activity</CardTitle>
             </CardHeader>
             <CardContent>
               <OrdersTimeline />

@@ -26,9 +26,10 @@ export function Header() {
 
       <div className="flex flex-1 items-center justify-end gap-x-4 self-stretch lg:gap-x-6">
         <div className="flex items-center gap-x-4 lg:gap-x-6">
-          <button type="button" className="-m-2.5 p-2.5 text-[var(--color-text-secondary)] hover:text-[var(--color-text)]">
+          <button type="button" className="relative -m-2.5 p-2.5 text-[var(--color-text-secondary)] hover:text-[var(--color-text)]">
             <span className="sr-only">View notifications</span>
             <Bell className="h-6 w-6" aria-hidden="true" />
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[var(--color-accent-500)] ring-2 ring-[var(--color-card)]" />
           </button>
 
           {/* Separator */}
@@ -44,7 +45,7 @@ export function Header() {
               aria-haspopup="true"
             >
               <span className="sr-only">Open user menu</span>
-              <div className="h-8 w-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-primary)] font-bold text-white ring-2 ring-[var(--color-accent-500)]/30">
                 {displayName.charAt(0).toUpperCase()}
               </div>
               <span className="hidden lg:flex lg:items-center">

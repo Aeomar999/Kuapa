@@ -126,9 +126,10 @@
     --color-secondary-hover: var(--color-accent-600);
     --color-secondary-text: #ffffff;
 
-    --color-background: var(--color-surface-50);
+    --color-background: var(--color-surface-100);
     --color-surface: #ffffff;
     --color-surface-hover: var(--color-surface-50);
+    --color-bg-hover: var(--color-surface-100);
     --color-border: var(--color-surface-200);
 
     --color-text-primary: var(--color-surface-900);
@@ -139,7 +140,7 @@
     /* ── Legacy aliases — DEPRECATED. Migrate usages to canonical names in the
        component phases (Phase 2–4), then delete these. Point at the same fixed
        primitives so dark mode stays correct without var-to-var theme aliasing. ── */
-    --color-bg: var(--color-surface-50);
+    --color-bg: var(--color-surface-100);
     --color-card: #ffffff;
     --color-text: var(--color-surface-900);
   }
@@ -159,6 +160,7 @@
     --color-background: var(--color-surface-950);
     --color-surface: var(--color-surface-900);
     --color-surface-hover: var(--color-surface-800);
+    --color-bg-hover: var(--color-surface-800);
     --color-border: var(--color-surface-700);
 
     --color-text-primary: var(--color-surface-50);
@@ -195,5 +197,21 @@
 
   .animate-fade-in {
     animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  /* Thin, translucent scrollbar tuned for the dark green sidebar rail. */
+  .kuapa-rail-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(248, 244, 234, 0.18) transparent;
+  }
+  .kuapa-rail-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .kuapa-rail-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(248, 244, 234, 0.18);
+    border-radius: 9999px;
+  }
+  .kuapa-rail-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(248, 244, 234, 0.3);
   }
 }

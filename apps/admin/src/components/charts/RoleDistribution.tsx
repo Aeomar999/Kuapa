@@ -4,13 +4,16 @@ import React, { useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useUsersReport } from "../../lib/hooks/use-reports";
 import { Skeleton } from "../ui/Skeleton";
+import { roleLabel } from "../../lib/config/agri";
 
-// Theme-compliant colors for different user roles
+// Agri palette per role — leaf green (farmers), harvest gold (buyers),
+// sprout green (transporters), stone (admins).
 const ROLE_COLORS: Record<string, string> = {
-  ADMIN: "var(--color-warning)",
-  VENDOR: "var(--color-secondary)",
-  CUSTOMER: "var(--color-primary)",
-  DEFAULT: "var(--color-border)"
+  VENDOR: "var(--color-brand-600)",
+  CUSTOMER: "var(--color-accent-500)",
+  DISPATCHER: "var(--color-brand-400)",
+  ADMIN: "var(--color-surface-500)",
+  DEFAULT: "var(--color-border)",
 };
 
 export function RoleDistribution() {
@@ -23,7 +26,7 @@ export function RoleDistribution() {
     const total = report.usersByRole.reduce((sum: number, item: any) => sum + item.count, 0);
     
     return report.usersByRole.map((item: any) => ({
-      name: item.role.charAt(0).toUpperCase() + item.role.slice(1).toLowerCase(),
+      name: roleLabel(item.role),
       originalRole: item.role,
       value: item.count,
       percentage: total > 0 ? Math.round((item.count / total) * 100) : 0
@@ -86,8 +89,8 @@ export function RoleDistribution() {
         
         {/* Central Total Metric */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-4xl font-black text-(--color-text) tracking-tighter">{totalUsers}</span>
-          <span className="text-[10px] font-bold text-(--color-text-muted) uppercase tracking-[0.2em] mt-1">Total Users</span>
+          <span className="text-4xl font-black text-(--color-text) tracking-tighter tabular-nums">{totalUsers}</span>
+          <span className="text-[10px] font-bold text-(--color-text-muted) uppercase tracking-[0.2em] mt-1">Total People</span>
         </div>
       </div>
 
@@ -126,7 +129,7 @@ const CustomTooltip = ({ active, payload }: any) => {
           <span className="text-xs font-medium text-(--color-text-muted) uppercase tracking-wider">{data.name}</span>
           <div className="flex items-baseline space-x-1">
             <span className="text-xl font-bold text-(--color-text)">{data.value}</span>
-            <span className="text-xs font-medium text-(--color-text-muted)">users</span>
+            <span className="text-xs font-medium text-(--color-text-muted)">people</span>
           </div>
         </div>
       </div>

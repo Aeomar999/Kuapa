@@ -6,6 +6,9 @@ interface StatProps {
   title: string;
   value: string | number;
   icon?: React.ReactNode;
+  hint?: string;
+  /** Gold-accented treatment — reserve for the single most important metric. */
+  highlight?: boolean;
   trend?: {
     value: number;
     isPositive: boolean;
@@ -13,35 +16,59 @@ interface StatProps {
   className?: string;
 }
 
-export function Stat({ title, value, icon, trend, className }: StatProps) {
+export function Stat({ title, value, icon, hint, highlight, trend, className }: StatProps) {
   return (
-    <Card className={cn("overflow-hidden transition-all hover:shadow-md", className)}>
+    <Card
+      className={cn(
+        "overflow-hidden",
+        highlight && "border-[var(--color-accent-300)] bg-[var(--color-accent-50)]",
+        className
+      )}
+    >
       <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-(--color-text-muted)">{title}</span>
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-sm font-medium text-[var(--color-text-muted)]">{title}</span>
           {icon && (
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--color-primary-subtle) text-(--color-primary) shadow-sm">
-              {React.isValidElement(icon) 
-                ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "h-5 w-5" }) 
+            <div
+              className={cn(
+                "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-sm",
+                highlight
+                  ? "bg-[var(--color-accent-500)] text-white"
+                  : "bg-[var(--color-primary-subtle)] text-[var(--color-primary)]"
+              )}
+            >
+              {React.isValidElement(icon)
+                ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, {
+                    className: "h-5 w-5",
+                  })
                 : icon}
             </div>
           )}
         </div>
-        
+
         <div className="flex flex-col space-y-1">
-          <span className="text-2xl font-bold text-(--color-text) tracking-tight truncate">{value}</span>
-          
-          {trend && (
+          <span className="truncate text-2xl font-bold tracking-tight text-[var(--color-text)] tabular-nums">
+            {value}
+          </span>
+
+          {(trend || hint) && (
             <div className="flex items-center pt-1">
-              <span
-                className={cn(
-                  "inline-flex items-center font-semibold text-xs",
-                  trend.isPositive ? "text-(--color-success)" : "text-(--color-error)"
-                )}
-              >
-                {trend.isPositive ? "+" : "-"}{trend.value}%
-              </span>
-              <span className="ml-1.5 text-xs text-(--color-text-muted) truncate">vs last month</span>
+              {trend && (
+                <span
+                  className={cn(
+                    "inline-flex items-center text-xs font-semibold",
+                    trend.isPositive ? "text-[var(--color-success)]" : "text-[var(--color-error)]"
+                  )}
+                >
+                  {trend.isPositive ? "+" : "-"}
+                  {trend.value}%
+                </span>
+              )}
+              {(hint || trend) && (
+                <span className="ml-1.5 truncate text-xs text-[var(--color-text-muted)]">
+                  {hint ?? "vs last month"}
+                </span>
+              )}
             </div>
           )}
         </div>
