@@ -17,7 +17,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://bexiemart-production.up.railway.app/api/v1",
+        "EXPO_PUBLIC_API_URL": "https://kuapa-production.up.railway.app/api/v1",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_nQvLXaLZDchbn2RLbeBkZhtpFbDyPfU7jcSMYYnh8Dkx",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY": "pk_test_8cd3b286f7b46cf8700f982bb1c8bb0f41afca0c",
@@ -30,7 +30,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://bexiemart-production.up.railway.app/api/v1",
+        "EXPO_PUBLIC_API_URL": "https://kuapa-production.up.railway.app/api/v1",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_nQvLXaLZDchbn2RLbeBkZhtpFbDyPfU7jcSMYYnh8Dkx",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY": "pk_test_8cd3b286f7b46cf8700f982bb1c8bb0f41afca0c",
@@ -44,8 +44,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://bexiemart-production.up.railway.app/api/v1",
-        "EXPO_PUBLIC_SOCKET_URL": "wss://bexiemart-production.up.railway.app",
+        "EXPO_PUBLIC_API_URL": "https://kuapa-production.up.railway.app/api/v1",
+        "EXPO_PUBLIC_SOCKET_URL": "wss://kuapa-production.up.railway.app",
         "EXPO_PUBLIC_SENTRY_DSN": "https://0c4866316a83164b10cafea12af5a195@o4511490466119680.ingest.de.sentry.io/4511490530148432",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phc_nQvLXaLZDchbn2RLbeBkZhtpFbDyPfU7jcSMYYnh8Dkx",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",

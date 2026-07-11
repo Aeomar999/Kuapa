@@ -37,13 +37,13 @@ export const authClient = createAuthClient({
   baseURL: `${ENV.API_URL}/auth`,
   fetchOptions: {
     headers: {
-      Origin: "com.bexiemart.app://",
+      Origin: "com.kuapa.app://",
     },
   },
   plugins: [
     expoClient({
-      scheme: "bexiemart",
-      storagePrefix: "bexiemart",
+      scheme: "kuapa",
+      storagePrefix: "kuapa",
       storage: expoStorage,
     }),
     phoneNumberClient(),

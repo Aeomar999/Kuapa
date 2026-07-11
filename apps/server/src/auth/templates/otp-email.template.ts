@@ -12,7 +12,7 @@ export function buildOtpEmailHtml(params: {
     ? `
       <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-left:4px solid #15803d;border-radius:8px;padding:14px 18px;margin-top:28px;text-align:left;">
         <p style="color:#334155;font-size:13px;line-height:1.5;margin:0;">
-          <strong style="color:#0F172A;">Dual-Channel Security:</strong> For your convenience and protection, this verification code was also sent to your mobile device (<strong>${phoneNumber}</strong>) via SMS.
+          <strong style="color:#0F172A;">Phone Verification:</strong> You requested a verification code for your mobile number (<strong>${phoneNumber}</strong>).
         </p>
       </div>`
     : "";

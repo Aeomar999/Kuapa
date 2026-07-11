@@ -152,10 +152,12 @@ export default function VerifyPhoneScreen() {
               Enter code
             </Text>
             <Text className="text-body-lg text-muted-foreground font-body text-center leading-relaxed">
-              We sent a verification code to your phone and email:{"\n"}
-              <Text className="font-bold text-foreground">{maskPhone(phone)}</Text>
+              We sent a verification code to your email{email ? ":" : " address."}
               {email ? (
-                <Text className="font-bold text-foreground"> &amp; {maskEmail(email)}</Text>
+                <Text className="font-bold text-foreground">
+                  {"\n"}
+                  {maskEmail(email)}
+                </Text>
               ) : null}
             </Text>
 

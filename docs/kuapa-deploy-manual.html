@@ -1,0 +1,554 @@
+<title>Kuapa — Deployment Manual</title>
+<style>
+  :root {
+    --green:#0B5233; --green-2:#15803d; --gold:#F2A81D; --gold-deep:#b9800f;
+    --bg:#FAF9F4; --surface:#ffffff; --surface-2:#f3f2ea;
+    --ink:#18211c; --muted:#5c6b62; --faint:#8a978e; --border:#e5e6dd;
+    --term-bg:#0e1712; --term-ink:#d6e4da; --term-green:#5fce93; --term-gold:#f2c14e; --term-muted:#7f9488;
+    --warn-bg:#fbf1dc; --warn-ink:#8a5a06; --warn-bar:#e0a72e;
+    --crit-bg:#fbe6e2; --crit-ink:#a3271a; --crit-bar:#d1493a;
+    --ok-bg:#e4f1e6; --ok-ink:#1e6b3a; --ok-bar:#3c9a5a;
+    --info-bg:#e6eef0; --info-ink:#215a63; --info-bar:#3f8794;
+    --radius:10px; --maxw:1200px;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Segoe UI Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0c1310; --surface:#111a15; --surface-2:#16211b;
+      --ink:#e6ece8; --muted:#9aaaa0; --faint:#6f8177; --border:#243029;
+      --green:#3fa06e; --green-2:#4fb27e; --gold:#f2c14e; --gold-deep:#e0a72e;
+      --term-bg:#0a120d; --term-ink:#d6e4da; --term-muted:#788d81;
+      --warn-bg:#2a220f; --warn-ink:#e7c477; --warn-bar:#c69526;
+      --crit-bg:#2c1512; --crit-ink:#f0a99d; --crit-bar:#cf5344;
+      --ok-bg:#12241a; --ok-ink:#7fd39e; --ok-bar:#3c9a5a;
+      --info-bg:#0f2429; --info-ink:#8ac6d0; --info-bar:#3f8794;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#FAF9F4; --surface:#ffffff; --surface-2:#f3f2ea;
+    --ink:#18211c; --muted:#5c6b62; --faint:#8a978e; --border:#e5e6dd;
+    --green:#0B5233; --green-2:#15803d; --gold:#F2A81D; --gold-deep:#b9800f;
+    --term-bg:#0e1712; --term-ink:#d6e4da; --term-muted:#7f9488;
+    --warn-bg:#fbf1dc; --warn-ink:#8a5a06; --warn-bar:#e0a72e;
+    --crit-bg:#fbe6e2; --crit-ink:#a3271a; --crit-bar:#d1493a;
+    --ok-bg:#e4f1e6; --ok-ink:#1e6b3a; --ok-bar:#3c9a5a;
+    --info-bg:#e6eef0; --info-ink:#215a63; --info-bar:#3f8794;
+  }
+  :root[data-theme="dark"] {
+    --bg:#0c1310; --surface:#111a15; --surface-2:#16211b;
+    --ink:#e6ece8; --muted:#9aaaa0; --faint:#6f8177; --border:#243029;
+    --green:#3fa06e; --green-2:#4fb27e; --gold:#f2c14e; --gold-deep:#e0a72e;
+    --term-bg:#0a120d; --term-ink:#d6e4da; --term-muted:#788d81;
+    --warn-bg:#2a220f; --warn-ink:#e7c477; --warn-bar:#c69526;
+    --crit-bg:#2c1512; --crit-ink:#f0a99d; --crit-bar:#cf5344;
+    --ok-bg:#12241a; --ok-ink:#7fd39e; --ok-bar:#3c9a5a;
+    --info-bg:#0f2429; --info-ink:#8ac6d0; --info-bar:#3f8794;
+  }
+
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+    line-height:1.6; -webkit-font-smoothing:antialiased; font-size:16px; }
+  a { color:var(--green-2); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  ::selection { background:color-mix(in srgb, var(--gold) 40%, transparent); }
+
+  /* ---- Header ---- */
+  header.masthead {
+    background:
+      radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--green) 22%, transparent) 0%, transparent 55%),
+      linear-gradient(180deg, var(--surface), var(--bg));
+    border-bottom:1px solid var(--border);
+  }
+  .masthead-inner { max-width:var(--maxw); margin:0 auto; padding:40px 28px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold-deep); margin:0 0 12px; display:flex; align-items:center; gap:10px; }
+  .eyebrow .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 4px color-mix(in srgb,var(--gold) 25%,transparent); }
+  h1.title { font-size:clamp(30px,5vw,46px); line-height:1.05; margin:0; font-weight:800;
+    letter-spacing:-.02em; text-wrap:balance; color:var(--ink); }
+  h1.title .accent { color:var(--green-2); }
+  .lede { margin:14px 0 0; max-width:65ch; color:var(--muted); font-size:17px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+  .chip { display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600;
+    background:var(--surface); border:1px solid var(--border); color:var(--ink);
+    padding:6px 11px; border-radius:999px; }
+  .chip b { color:var(--green-2); font-weight:700; }
+  .chip .sq { width:8px; height:8px; border-radius:2px; background:var(--green-2); }
+
+  /* ---- Layout ---- */
+  .layout { max-width:var(--maxw); margin:0 auto; padding:0 28px 80px;
+    display:grid; grid-template-columns:250px 1fr; gap:44px; align-items:start; }
+  @media (max-width:940px){ .layout { grid-template-columns:1fr; gap:0; padding-bottom:60px; } }
+
+  /* ---- TOC ---- */
+  .toc { position:sticky; top:16px; margin-top:28px; }
+  .toc summary { display:none; }
+  .toc[open] > .toc-body, .toc > .toc-body { display:block; }
+  .toc-title { font-size:11px; font-weight:700; letter-spacing:.15em; text-transform:uppercase;
+    color:var(--faint); margin:0 0 12px 12px; }
+  .toc nav { display:flex; flex-direction:column; gap:1px; max-height:calc(100vh - 70px); overflow-y:auto;
+    padding-right:6px; }
+  .toc a { display:flex; gap:10px; align-items:baseline; font-size:13.5px; color:var(--muted);
+    padding:5px 12px; border-radius:7px; border-left:2px solid transparent; }
+  .toc a .n { font-family:var(--mono); font-size:11px; color:var(--faint); min-width:20px; font-variant-numeric:tabular-nums; }
+  .toc a:hover { background:var(--surface-2); color:var(--ink); text-decoration:none; }
+  .toc a.active { color:var(--green-2); background:color-mix(in srgb,var(--green) 9%,transparent);
+    border-left-color:var(--green-2); font-weight:600; }
+  @media (max-width:940px){
+    .toc { position:static; margin:22px 0 6px; background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--radius); padding:6px 8px; }
+    .toc summary { display:block; cursor:pointer; font-weight:700; padding:8px 10px; font-size:14px; list-style:none; }
+    .toc summary::-webkit-details-marker { display:none; }
+    .toc summary::after { content:"▾"; float:right; color:var(--muted); }
+    .toc nav { max-height:52vh; }
+    .toc-title { display:none; }
+  }
+
+  /* ---- Content ---- */
+  main { min-width:0; max-width:840px; padding-top:20px; }
+  section { scroll-margin-top:18px; padding:30px 0; border-top:1px solid var(--border); }
+  section:first-of-type { border-top:none; }
+  .sec-head { display:flex; align-items:center; gap:14px; margin:0 0 6px; }
+  .sec-badge { flex:none; width:38px; height:38px; border-radius:9px; display:grid; place-items:center;
+    font-family:var(--mono); font-weight:700; font-size:15px; color:#fff;
+    background:linear-gradient(150deg,var(--green-2),var(--green)); }
+  .sec-badge.part { background:linear-gradient(150deg,var(--gold),var(--gold-deep)); color:#3a2606; }
+  h2 { font-size:25px; font-weight:800; letter-spacing:-.015em; margin:0; text-wrap:balance; }
+  h3 { font-size:17px; font-weight:700; margin:26px 0 8px; letter-spacing:-.01em; }
+  h3 .tag { font-family:var(--mono); font-size:12px; color:var(--faint); font-weight:600; }
+  p { margin:10px 0; }
+  main ul, main ol { margin:10px 0; padding-left:22px; }
+  main li { margin:6px 0; }
+  code { font-family:var(--mono); font-size:.9em; background:var(--surface-2); color:var(--green-2);
+    padding:1.5px 6px; border-radius:5px; border:1px solid var(--border); }
+  .subtle { color:var(--muted); }
+  strong { color:var(--ink); }
+
+  /* ---- Terminal code blocks ---- */
+  .code { position:relative; background:var(--term-bg); border:1px solid color-mix(in srgb,var(--term-ink) 12%,transparent);
+    border-radius:var(--radius); margin:16px 0; overflow:hidden; }
+  .code-bar { display:flex; align-items:center; gap:8px; padding:9px 13px;
+    border-bottom:1px solid color-mix(in srgb,var(--term-ink) 10%,transparent); background:rgba(255,255,255,.02); }
+  .code-bar .lights { display:flex; gap:6px; }
+  .code-bar .lights i { width:10px; height:10px; border-radius:50%; display:block; background:#3a4740; }
+  .code-bar .lights i.g { background:#3c8f5f; }
+  .code-bar .label { font-family:var(--mono); font-size:11px; color:var(--term-muted); letter-spacing:.04em; }
+  .code-bar .copy { margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--term-muted);
+    background:transparent; border:1px solid color-mix(in srgb,var(--term-ink) 18%,transparent);
+    border-radius:6px; padding:3px 9px; cursor:pointer; }
+  .code-bar .copy:hover { color:var(--term-ink); border-color:color-mix(in srgb,var(--term-ink) 32%,transparent); }
+  .code pre { margin:0; padding:14px 16px; overflow-x:auto; }
+  .code code { font-family:var(--mono); font-size:13px; line-height:1.65; color:var(--term-ink);
+    background:none; border:none; padding:0; display:block; white-space:pre; }
+  .code .c { color:var(--term-muted); } /* comment */
+  .code .k { color:var(--term-gold); }  /* key/keyword */
+  .code .v { color:var(--term-green); } /* value/emphasis */
+
+  /* ---- Tables ---- */
+  .tw { overflow-x:auto; margin:16px 0; border:1px solid var(--border); border-radius:var(--radius); }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; min-width:480px; }
+  th, td { text-align:left; padding:9px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  thead th { background:var(--surface-2); font-weight:700; font-size:12px; letter-spacing:.03em;
+    text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:none; }
+  tbody tr:nth-child(even) { background:color-mix(in srgb,var(--surface-2) 45%,transparent); }
+  td code { font-size:12px; }
+  .req { color:var(--ok-ink); font-weight:700; }
+  .opt { color:var(--faint); }
+
+  /* ---- Callouts ---- */
+  .call { display:flex; gap:12px; padding:14px 16px; border-radius:var(--radius); margin:16px 0;
+    border:1px solid var(--border); border-left-width:4px; background:var(--surface); }
+  .call .ic { flex:none; font-family:var(--mono); font-weight:700; font-size:13px; margin-top:1px; }
+  .call .body { min-width:0; }
+  .call .body > *:first-child { margin-top:0; }
+  .call .body > *:last-child { margin-bottom:0; }
+  .call .ct { font-weight:700; display:block; margin-bottom:2px; }
+  .call.warn { background:var(--warn-bg); border-left-color:var(--warn-bar); color:var(--warn-ink); }
+  .call.warn a, .call.warn strong { color:var(--warn-ink); }
+  .call.warn .ic, .call.warn .ct { color:var(--warn-ink); }
+  .call.crit { background:var(--crit-bg); border-left-color:var(--crit-bar); color:var(--crit-ink); }
+  .call.crit .ic, .call.crit .ct, .call.crit strong { color:var(--crit-ink); }
+  .call.ok { background:var(--ok-bg); border-left-color:var(--ok-bar); color:var(--ok-ink); }
+  .call.ok .ic, .call.ok .ct, .call.ok strong { color:var(--ok-ink); }
+  .call.info { background:var(--info-bg); border-left-color:var(--info-bar); color:var(--info-ink); }
+  .call.info .ic, .call.info .ct, .call.info strong { color:var(--info-ink); }
+  .call code { background:color-mix(in srgb,var(--ink) 6%,transparent); color:inherit; }
+
+  /* checklist */
+  ul.check { list-style:none; padding-left:2px; }
+  ul.check li { padding-left:28px; position:relative; }
+  ul.check li::before { content:"○"; position:absolute; left:4px; top:0; color:var(--faint); font-size:15px; }
+
+  .flow { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:16px 0; }
+  .flow .step { background:var(--surface); border:1px solid var(--border); border-radius:8px;
+    padding:8px 12px; font-size:13px; font-weight:600; }
+  .flow .step b { color:var(--green-2); font-family:var(--mono); font-size:11px; margin-right:6px; }
+  .flow .arw { color:var(--gold-deep); font-weight:700; }
+
+  footer { max-width:var(--maxw); margin:0 auto; padding:26px 28px 50px; border-top:1px solid var(--border);
+    color:var(--faint); font-size:13px; display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:space-between; }
+
+  html { scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce){ html { scroll-behavior:auto; } }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline:2px solid var(--green-2); outline-offset:2px; border-radius:4px; }
+</style>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow"><span class="dot"></span>Kuapa AgriMarket · Deployment Runbook</p>
+    <h1 class="title">Ship it: <span class="accent">API, database, admin &amp; APK</span> from cold start to production</h1>
+    <p class="lede">A step-by-step manual mapped to this exact repository — the NestJS API on Railway, Postgres on Neon, the Next.js admin on Vercel, and the Android APK via Expo EAS. Every command, path, and variable matches the real code.</p>
+    <div class="chips">
+      <span class="chip"><span class="sq"></span><b>API</b> NestJS → Railway</span>
+      <span class="chip"><span class="sq"></span><b>DB</b> Prisma 7 → Neon</span>
+      <span class="chip"><span class="sq"></span><b>Admin</b> Next.js 16 → Vercel</span>
+      <span class="chip"><span class="sq"></span><b>Mobile</b> Expo SDK 54 → EAS APK</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <details class="toc" open>
+    <summary>On this page</summary>
+    <div class="toc-body">
+      <p class="toc-title">Contents</p>
+      <nav id="toc">
+        <a href="#arch"><span class="n">0</span> Architecture at a glance</a>
+        <a href="#preflight"><span class="n">1</span> Pre-flight fixes</a>
+        <a href="#accounts"><span class="n">2</span> Accounts &amp; tooling</a>
+        <a href="#neon"><span class="n">A</span> Database on Neon</a>
+        <a href="#railway"><span class="n">B</span> Backend API on Railway</a>
+        <a href="#vercel"><span class="n">C</span> Admin portal on Vercel</a>
+        <a href="#eas"><span class="n">D</span> Mobile APK via EAS</a>
+        <a href="#envref"><span class="n">7</span> Env-var reference</a>
+        <a href="#order"><span class="n">8</span> Deployment order</a>
+        <a href="#trouble"><span class="n">9</span> Troubleshooting</a>
+        <a href="#harden"><span class="n">10</span> Production hardening</a>
+      </nav>
+    </div>
+  </details>
+
+  <main>
+    <!-- 0 -->
+    <section id="arch">
+      <div class="sec-head"><span class="sec-badge">0</span><h2>Architecture at a glance</h2></div>
+      <p>Both clients talk to one Railway service over HTTPS (<code>/api/v1</code>) and WSS (socket.io). The server reaches Neon Postgres through Prisma 7's pg driver adapter. External services are wired purely through environment variables.</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">topology</span></div><pre><code>  Mobile APK ─┐                        ┌─ Cloudinary · Paystack · Sentry
+  (Expo/EAS)  ├─ HTTPS /api/v1 ──▶  Railway  ├─ PostHog · Arkesel SMS · SMTP
+  Admin (Next)┘   WSS socket.io    NestJS API ┴─ Google Maps · Better Auth Cloud
+                                      │  node dist/main · binds 0.0.0.0:$PORT
+                                      ▼  Prisma 7 (pg adapter) · DATABASE_URL (SSL)
+                                  Neon Postgres</code></pre></div>
+      <p><strong>Facts baked into the code — don't fight these:</strong></p>
+      <div class="tw"><table>
+        <thead><tr><th>Fact</th><th>Source</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Server listens on</td><td>main.ts</td><td><code>0.0.0.0</code>, <code>process.env.PORT ?? 3000</code></td></tr>
+          <tr><td>Route prefix</td><td>main.ts</td><td><code>/api/v1/…</code> (global prefix + URI v1)</td></tr>
+          <tr><td>Health check</td><td>health.controller.ts</td><td><code>GET /api/v1/health</code></td></tr>
+          <tr><td>Auth base URL</td><td>better-auth.ts</td><td><code>${BETTER_AUTH_URL}/api/v1/auth</code></td></tr>
+          <tr><td>DB connection</td><td>prisma.service.ts</td><td>pg adapter from <code>DATABASE_URL</code></td></tr>
+          <tr><td>Admin dev port</td><td>admin/package.json</td><td><code>3001</code></td></tr>
+          <tr><td>Mobile scheme</td><td>app.json</td><td><code>kuapa://</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="call info"><span class="ic">i</span><div class="body"><span class="ct">Repo root</span>The git repo is the inner <code>Kuapa/Kuapa/</code> folder (the one with <code>apps/</code>, <code>packages/</code>, root <code>package.json</code>). That's what you push and what Railway/Vercel treat as the root. The apps are <strong>not</strong> npm workspaces — each installs independently from its own lockfile.</div></div>
+    </section>
+
+    <!-- 1 -->
+    <section id="preflight">
+      <div class="sec-head"><span class="sec-badge">1</span><h2>Pre-flight fixes</h2></div>
+      <p>Real inconsistencies in the repo. Skipping them yields a "deployed but broken" system.</p>
+      <div class="call ok"><span class="ic">✓</span><div class="body"><span class="ct">Already applied to your repo</span><strong>1.1</strong> — all backend URLs standardized to <code>kuapa-production.up.railway.app</code> (in <code>eas.json</code>, <code>apps/mobile/.env</code>). &nbsp;<strong>1.2</strong> — mobile deep-link scheme fixed to <code>kuapa://</code> and App Links host set to <code>kuapa.com</code> in <code>app.json</code>. You still own the items below.</div></div>
+
+      <h3>1.3 <span class="tag">— pending: fill native Google Maps keys</span></h3>
+      <p><code>app.json</code> still has <code>REPLACE_WITH_GOOGLE_MAPS_IOS_KEY</code> / <code>REPLACE_WITH_GOOGLE_MAPS_ANDROID_KEY</code>. Create <strong>Maps SDK for Android/iOS</strong> keys in Google Cloud (restrict by package/bundle + SHA-1) and paste them in before an EAS build, or map screens crash on device.</p>
+
+      <h3>1.4 <span class="tag">— decision: app bundle identifier</span></h3>
+      <p>I intentionally <strong>left</strong> <code>ios.bundleIdentifier</code> / <code>android.package</code> as <code>com.bexiemart.app</code>. Renaming to <code>com.kuapa.app</code> is a store-identity change: it means new EAS Android signing credentials and orphans any existing installs. Better Auth already trusts <code>com.kuapa.agrimarket://</code> and <code>kuapa://</code>, so login isn't blocked either way. Tell me if you want the rename — I'll also add the matching <code>&lt;package&gt;://</code> to <code>trustedOrigins</code>.</p>
+      <div class="call warn"><span class="ic">!</span><div class="body"><span class="ct">Two other stale strings left on purpose</span><code>eas.json</code> iOS <code>appleId: developer@bexiemart.com</code> (a placeholder you replace with real Apple credentials) and <code>app.json</code> Sentry <code>project: bexiemart-mobile</code> (must match the real project name in your Sentry org <code>kreddible</code> — renaming here would break source-map uploads).</div></div>
+
+      <h3>1.5 <span class="tag">— required env not in .env.example</span></h3>
+      <p><code>better-auth.ts</code> uses <code>process.env.BETTER_AUTH_API_KEY!</code> (non-null) for the <code>dash</code> + <code>sentinel</code> plugins. It's missing from <code>.env.example</code>. Get a key from Better Auth Cloud and set it on Railway, or the server throws at boot.</p>
+    </section>
+
+    <!-- 2 -->
+    <section id="accounts">
+      <div class="sec-head"><span class="sec-badge">2</span><h2>Accounts &amp; tooling</h2></div>
+      <p>All have free tiers sufficient to launch.</p>
+      <div class="tw"><table>
+        <thead><tr><th>Service</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Neon</td><td>Postgres database</td></tr>
+          <tr><td>Railway</td><td>Backend API hosting</td></tr>
+          <tr><td>Vercel</td><td>Admin portal hosting</td></tr>
+          <tr><td>Expo (EAS)</td><td>Mobile builds → APK</td></tr>
+          <tr><td>Better Auth Cloud</td><td>Auth infra — <code>dash</code>/<code>sentinel</code> API key</td></tr>
+          <tr><td>Cloudinary</td><td>Image storage / CDN</td></tr>
+          <tr><td>Paystack</td><td>Payments (Ghana)</td></tr>
+          <tr><td>Sentry · PostHog</td><td>Errors · analytics + feature flags</td></tr>
+          <tr><td>Arkesel</td><td>SMS OTP (Ghana)</td></tr>
+          <tr><td>Google Cloud</td><td>Maps Platform + (optional) Google OAuth</td></tr>
+        </tbody>
+      </table></div>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">install CLIs</span><button class="copy">copy</button></div><pre><code><span class="c"># Node 22 LTS recommended</span>
+npm i -g @railway/cli
+npm i -g eas-cli
+npm i -g vercel   <span class="c"># optional — dashboard works too</span></code></pre></div>
+      <p>Push the repo to GitHub first (Railway &amp; Vercel deploy from Git). <code>.env*</code> files are gitignored — secrets stay local and get re-entered in each platform's dashboard.</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">first push</span><button class="copy">copy</button></div><pre><code>cd "C:\Users\Jerry\Desktop\PROJECT 2026\Kuapa\Kuapa"
+git status   <span class="c"># confirm apps/ and packages/ are present</span>
+git remote add origin https://github.com/&lt;you&gt;/kuapa.git
+git push -u origin main</code></pre></div>
+    </section>
+
+    <!-- A / Neon -->
+    <section id="neon">
+      <div class="sec-head"><span class="sec-badge part">A</span><h2>Database on Neon</h2></div>
+      <h3>Create the project</h3>
+      <p>Neon console → <strong>New Project</strong>. Name <code>kuapa</code>. Pick a region <strong>close to your Railway region</strong> (keep them together to cut latency). Postgres 16+, default database <code>neondb</code>.</p>
+      <h3>Grab the connection string</h3>
+      <p>Neon offers <strong>direct</strong> (<code>ep-xxxx…</code>) and <strong>pooled</strong> (<code>…-pooler…</code>) endpoints.</p>
+      <div class="call info"><span class="ic">i</span><div class="body"><span class="ct">Use the direct endpoint</span>The NestJS server is a single long-lived process that keeps its own pg pool, so the <strong>direct</strong> connection avoids PgBouncer prepared-statement quirks and one URL serves both runtime and migrations. Switch runtime to pooled only if you later run many replicas. Keep <code>?sslmode=require</code> — Neon mandates TLS.</div></div>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">DATABASE_URL shape</span></div><pre><code>postgresql://&lt;user&gt;:&lt;pw&gt;@ep-xxxx.&lt;region&gt;.aws.neon.tech/neondb?sslmode=require&amp;channel_binding=require</code></pre></div>
+      <h3>Run the initial migration <span class="tag">— from your machine</span></h3>
+      <p>Migrations aren't part of the Railway build, so apply the repo's migrations (<code>0_init</code>, support tickets, escrow, super-admin, banners) against Neon once.</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">PowerShell · apps/server</span><button class="copy">copy</button></div><pre><code>cd "C:\Users\Jerry\Desktop\PROJECT 2026\Kuapa\Kuapa\apps\server"
+<span class="k">$env:DATABASE_URL</span> = <span class="v">"postgresql://…neon.tech/neondb?sslmode=require&amp;channel_binding=require"</span>
+npm install --legacy-peer-deps
+npm run prisma:generate
+npm run prisma:deploy   <span class="c"># = prisma migrate deploy → applies all migrations</span>
+npm run prisma:studio   <span class="c"># verify tables exist</span></code></pre></div>
+      <div class="call warn"><span class="ic">!</span><div class="body"><span class="ct">Free-tier autosuspend</span>Neon suspends compute after ~5 min idle; the first request after idle cold-starts (a few hundred ms). Railway's health check pinging the DB keeps it warm-ish. Upgrade the plan to disable autosuspend for production.</div></div>
+    </section>
+
+    <!-- B / Railway -->
+    <section id="railway">
+      <div class="sec-head"><span class="sec-badge part">B</span><h2>Backend API on Railway</h2></div>
+      <h3>Create the service</h3>
+      <p>Railway → <strong>New Project → Deploy from GitHub repo</strong> → your <code>kuapa</code> repo. Leave <strong>Root Directory</strong> as <code>/</code>: the root <code>package.json</code> scripts drive the build (<code>npm --prefix apps/server install … &amp;&amp; prisma generate &amp;&amp; nest build</code>) and start (<code>node dist/main</code>). Under <strong>Settings → Networking</strong>, <strong>Generate Domain</strong> → note it (e.g. <code>kuapa-production.up.railway.app</code>).</p>
+      <h3>Set the environment variables</h3>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">Railway · Variables (Raw Editor)</span><button class="copy">copy</button></div><pre><code><span class="k">NODE_ENV</span>=<span class="v">production</span>
+<span class="k">NPM_CONFIG_PRODUCTION</span>=<span class="v">false</span>          <span class="c"># keeps build devDeps (prisma, nest CLI) — see note</span>
+<span class="c"># PORT — LEAVE UNSET; Railway injects it</span>
+<span class="k">DATABASE_URL</span>=<span class="v">postgresql://…neon.tech/neondb?sslmode=require&amp;channel_binding=require</span>
+<span class="k">BETTER_AUTH_SECRET</span>=<span class="v">&lt;64+ char random&gt;</span>
+<span class="k">BETTER_AUTH_URL</span>=<span class="v">https://kuapa-production.up.railway.app</span>   <span class="c"># NO trailing /api</span>
+<span class="k">BETTER_AUTH_API_KEY</span>=<span class="v">&lt;key from Better Auth Cloud&gt;</span>          <span class="c"># REQUIRED</span>
+<span class="k">CORS_ORIGIN</span>=<span class="v">https://kuapa-admin.vercel.app,https://admin.kuapa.com,https://kuapa.com</span>
+<span class="k">WEB_URL</span>=<span class="v">https://kuapa-admin.vercel.app</span>
+<span class="k">CLIENT_URL</span>=<span class="v">https://kuapa-admin.vercel.app</span>
+<span class="k">PAYSTACK_SECRET_KEY</span>=<span class="v">sk_live_xxx</span>                        <span class="c"># sk_test_ while testing</span>
+<span class="k">CLOUDINARY_URL</span>=<span class="v">cloudinary://&lt;key&gt;:&lt;secret&gt;@&lt;cloud_name&gt;</span>
+<span class="k">SMTP_HOST</span>=<span class="v">smtp.gmail.com</span>
+<span class="k">SMTP_PORT</span>=<span class="v">465</span>
+<span class="k">SMTP_USER</span>=<span class="v">&lt;email&gt;</span>
+<span class="k">SMTP_PASS</span>=<span class="v">&lt;gmail app password&gt;</span>
+<span class="k">EMAIL_FROM</span>=<span class="v">Kuapa AgriMarket &lt;no-reply@kuapa.com&gt;</span>
+<span class="k">ARKESEL_API_KEY</span>=<span class="v">&lt;key&gt;</span>
+<span class="k">ARKESEL_SENDER_ID</span>=<span class="v">Kuapa</span>                              <span class="c"># approved sender, ≤11 chars</span>
+<span class="k">SENTRY_DSN</span>=<span class="v">&lt;server dsn&gt;</span>
+<span class="k">SENTRY_TRACES_SAMPLE_RATE</span>=<span class="v">0.1</span>
+<span class="k">SENTRY_PROFILES_SAMPLE_RATE</span>=<span class="v">0.1</span>
+<span class="k">GOOGLE_MAPS_API_KEY</span>=<span class="v">&lt;server key, restrict by API+IP&gt;</span>       <span class="c"># optional; Haversine fallback</span>
+<span class="k">GOOGLE_CLIENT_ID</span>=<span class="v">&lt;id&gt;.apps.googleusercontent.com</span>       <span class="c"># optional Google login</span>
+<span class="k">GOOGLE_CLIENT_SECRET</span>=<span class="v">&lt;secret&gt;</span>
+<span class="k">LOG_LEVEL</span>=<span class="v">log</span></code></pre></div>
+      <div class="call crit"><span class="ic">✕</span><div class="body"><span class="ct">Why NPM_CONFIG_PRODUCTION=false is mandatory</span><code>NODE_ENV=production</code> makes npm skip <code>devDependencies</code> — but the build needs <code>@nestjs/cli</code> (<code>nest build</code>) and <code>prisma</code> (<code>prisma generate</code>), both devDeps. Without the flag the build fails with <code>nest: not found</code> / <code>prisma: not found</code>. Setting both keeps prod runtime behavior <em>and</em> a working build.</div></div>
+      <h3>Generate the auth secret</h3>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">BETTER_AUTH_SECRET</span><button class="copy">copy</button></div><pre><code><span class="c"># PowerShell</span>
+[Convert]::ToBase64String((1..48 | ForEach-Object { Get-Random -Max 256 }))
+<span class="c"># Bash</span>
+openssl rand -base64 48</code></pre></div>
+      <h3>Health check &amp; deploy</h3>
+      <p>Settings → <strong>Health Check Path</strong> <code>/api/v1/health</code>, timeout ~300s. Leave the start command blank (uses root <code>start</code>). Optional auto-migrate on every deploy:</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">optional custom start command</span><button class="copy">copy</button></div><pre><code>npm --prefix apps/server run prisma:deploy &amp;&amp; npm --prefix apps/server run start:prod</code></pre></div>
+      <p>Deploy, then verify:</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">verify live</span><button class="copy">copy</button></div><pre><code>curl https://kuapa-production.up.railway.app/api/v1/health
+<span class="c"># → { "status":"ok", "database":{"connected":true}, … }</span></code></pre></div>
+      <h3>Seed the first admin <span class="tag">— bootstraps admin login</span></h3>
+      <p>The admin portal has no self-signup. The seed script creates the account via Better Auth (correct hashing), then elevates it to <code>ADMIN</code> + <code>isSuperAdmin</code>.</p>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">seed super-admin (locally, against Neon)</span><button class="copy">copy</button></div><pre><code>cd "C:\Users\Jerry\Desktop\PROJECT 2026\Kuapa\Kuapa\apps\server"
+<span class="k">$env:DATABASE_URL</span>=<span class="v">"&lt;neon direct url&gt;"</span>
+<span class="k">$env:ADMIN_EMAIL</span>=<span class="v">"admin@kuapa.com"</span>; <span class="k">$env:ADMIN_PASSWORD</span>=<span class="v">"&lt;strong&gt;"</span>; <span class="k">$env:ADMIN_NAME</span>=<span class="v">"Super Admin"</span>
+npm run seed:admin
+<span class="c"># → Successfully bootstrapped super-admin: admin@kuapa.com</span>
+<span class="c"># others: seed:system · seed:banners · seed:agri</span></code></pre></div>
+    </section>
+
+    <!-- C / Vercel -->
+    <section id="vercel">
+      <div class="sec-head"><span class="sec-badge part">C</span><h2>Admin portal on Vercel</h2></div>
+      <p>Standalone Next.js 16 app in <code>apps/admin</code>; it talks to the API purely over HTTP/WS via two public vars.</p>
+      <h3>Import &amp; configure</h3>
+      <ol>
+        <li>Vercel → <strong>Add New → Project</strong> → import the GitHub repo.</li>
+        <li><strong>Root Directory:</strong> <code>apps/admin</code> (Edit → select — it's a monorepo).</li>
+        <li>Framework auto-detects <strong>Next.js</strong>.</li>
+      </ol>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">Vercel · Environment Variables</span><button class="copy">copy</button></div><pre><code><span class="k">NEXT_PUBLIC_API_URL</span>=<span class="v">https://kuapa-production.up.railway.app/api/v1</span>   <span class="c"># includes /api/v1</span>
+<span class="k">NEXT_PUBLIC_WS_URL</span>=<span class="v">https://kuapa-production.up.railway.app</span>           <span class="c"># bare origin</span></code></pre></div>
+      <div class="call crit"><span class="ic">✕</span><div class="body"><span class="ct">Wire the admin URL back into the API</span>Whatever domain Vercel assigns <strong>must</strong> be in the server's <code>CORS_ORIGIN</code> <em>and</em> Better Auth <code>trustedOrigins</code> or login fails. <code>kuapa-admin.vercel.app</code>, <code>admin.kuapa.com</code>, and <code>kuapa.com</code> are already in the code defaults. A custom domain means: add to <code>CORS_ORIGIN</code> (redeploy API) + add to <code>trustedOrigins</code> in <code>better-auth.ts</code> (commit, redeploy).</div></div>
+      <p>Log in at the Vercel URL with the seeded <code>ADMIN_EMAIL</code> / <code>ADMIN_PASSWORD</code>. The account is pre-verified and super-admin, so you can manage the admin team from inside the portal.</p>
+    </section>
+
+    <!-- D / EAS -->
+    <section id="eas">
+      <div class="sec-head"><span class="sec-badge part">D</span><h2>Mobile APK via Expo EAS</h2></div>
+      <p>Expo SDK 54 with EAS Build. Every profile in <code>eas.json</code> (<code>preview</code>, <code>device</code>, <code>production</code>) outputs an <strong>APK</strong>. EAS project <code>a830e794…</code>, owner <code>amoahjerry835</code>.</p>
+      <div class="call ok"><span class="ic">✓</span><div class="body"><span class="ct">URLs already corrected</span>The <code>eas.json</code> env blocks (which previously pointed at the old <code>bexiemart-production…</code> backend) now use <code>kuapa-production.up.railway.app</code>. Still do §1.3 (Maps keys) before building.</div></div>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">login &amp; secret</span><button class="copy">copy</button></div><pre><code>cd "C:\Users\Jerry\Desktop\PROJECT 2026\Kuapa\Kuapa\apps\mobile"
+eas login          <span class="c"># use the account that owns the project</span>
+eas build:configure
+<span class="c"># Store the ONE build-time secret as an EAS secret (not in eas.json):</span>
+eas secret:create --scope project --name SENTRY_AUTH_TOKEN --value "&lt;token&gt;" --type string</code></pre></div>
+      <div class="call info"><span class="ic">i</span><div class="body"><span class="ct">Public vs secret</span><code>EXPO_PUBLIC_*</code> vars ship inside the app bundle — only ever public keys (API URL, Paystack <em>public</em> key, Cloudinary cloud name, PostHog key). Real secrets live only on Railway. The lone build-time secret is <code>SENTRY_AUTH_TOKEN</code> (source-map upload).</div></div>
+      <h3>Build the APK</h3>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">eas build</span><button class="copy">copy</button></div><pre><code>eas build --platform android --profile preview      <span class="c"># shareable internal APK</span>
+eas build --platform android --profile production   <span class="c"># auto-incremented release APK</span>
+eas build:list --platform android --limit 5         <span class="c"># get the download URL</span></code></pre></div>
+      <p>EAS builds on their servers (no local Android SDK). Download the <code>.apk</code>, install on a device (enable "Install unknown apps"). It reaches Railway over HTTPS. Smoke-test: register/login (watch <code>railway logs</code>), email-verify deep link opens the app via <code>kuapa://verify-email</code>, image upload, Paystack, maps.</p>
+      <div class="call info"><span class="ic">i</span><div class="body"><span class="ct">OTA updates</span>After an install, ship JS-only changes without a new APK: <code>eas update --branch production -m "…"</code>. Native changes (new packages, permissions, app.json native config) still need a fresh <code>eas build</code>.</div></div>
+    </section>
+
+    <!-- 7 -->
+    <section id="envref">
+      <div class="sec-head"><span class="sec-badge">7</span><h2>Env-var reference</h2></div>
+      <h3>Server <span class="tag">— Railway · apps/server</span></h3>
+      <div class="tw"><table>
+        <thead><tr><th>Variable</th><th>Req</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>NODE_ENV</code></td><td class="req">✓</td><td><code>production</code> — disables Swagger, prod paths</td></tr>
+          <tr><td><code>NPM_CONFIG_PRODUCTION</code></td><td class="req">✓</td><td><code>false</code> — keep build devDeps</td></tr>
+          <tr><td><code>PORT</code></td><td class="opt">auto</td><td>Injected by Railway</td></tr>
+          <tr><td><code>DATABASE_URL</code></td><td class="req">✓</td><td>Neon Postgres (SSL)</td></tr>
+          <tr><td><code>BETTER_AUTH_SECRET</code></td><td class="req">✓</td><td>Session/token signing (64+ chars)</td></tr>
+          <tr><td><code>BETTER_AUTH_URL</code></td><td class="req">✓</td><td>API root; auth mounts at <code>/api/v1/auth</code></td></tr>
+          <tr><td><code>BETTER_AUTH_API_KEY</code></td><td class="req">✓</td><td>Better Auth Cloud key (dash+sentinel)</td></tr>
+          <tr><td><code>CORS_ORIGIN</code></td><td class="req">✓</td><td>Comma-separated allowed browser origins</td></tr>
+          <tr><td><code>WEB_URL</code> · <code>CLIENT_URL</code></td><td class="opt">○</td><td>Web base for email links / redirects</td></tr>
+          <tr><td><code>PAYSTACK_SECRET_KEY</code></td><td class="req">✓*</td><td>Payments (<code>sk_live_</code>/<code>sk_test_</code>)</td></tr>
+          <tr><td><code>CLOUDINARY_URL</code></td><td class="req">✓*</td><td>Image storage</td></tr>
+          <tr><td>SMTP_* · <code>EMAIL_FROM</code></td><td class="req">✓*</td><td>Transactional email</td></tr>
+          <tr><td>ARKESEL_*</td><td class="req">✓*</td><td>SMS OTP (Ghana)</td></tr>
+          <tr><td>SENTRY_* · <code>GOOGLE_MAPS_API_KEY</code> · GOOGLE_CLIENT_*</td><td class="opt">○</td><td>Monitoring · routing · Google login</td></tr>
+          <tr><td>ADMIN_EMAIL/PASSWORD/NAME</td><td class="opt">seed</td><td>Consumed by <code>seed:admin</code> only</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tw"><table>
+        <thead><tr><th>Admin — Vercel</th><th>Req</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>NEXT_PUBLIC_API_URL</code></td><td class="req">✓</td><td>API base <strong>including</strong> <code>/api/v1</code></td></tr>
+          <tr><td><code>NEXT_PUBLIC_WS_URL</code></td><td class="req">✓</td><td>socket.io origin (bare, no path)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tw"><table>
+        <thead><tr><th>Mobile — EAS / eas.json</th><th>Req</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>EXPO_PUBLIC_API_URL</code></td><td class="req">✓</td><td>API base incl. <code>/api/v1</code></td></tr>
+          <tr><td><code>EXPO_PUBLIC_SOCKET_URL</code></td><td class="req">✓</td><td><code>wss://&lt;railway-domain&gt;</code></td></tr>
+          <tr><td><code>EXPO_PUBLIC_PAYSTACK_PUBLIC_KEY</code></td><td class="req">✓*</td><td>Paystack <em>public</em> key</td></tr>
+          <tr><td><code>EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME</code></td><td class="req">✓*</td><td>Cloudinary cloud name</td></tr>
+          <tr><td>EXPO_PUBLIC_SENTRY_DSN · POSTHOG_*</td><td class="opt">○</td><td>Errors · analytics + flags</td></tr>
+          <tr><td><code>SENTRY_AUTH_TOKEN</code></td><td class="opt">build</td><td>Source-map upload — <strong>EAS secret</strong>, not eas.json</td></tr>
+        </tbody>
+      </table></div>
+      <p class="subtle"><code>✓</code> required · <code>✓*</code> required for that feature · <code>○</code> optional. Rule: <code>EXPO_PUBLIC_*</code> / <code>NEXT_PUBLIC_*</code> are shipped to the client — only ever public keys.</p>
+    </section>
+
+    <!-- 8 -->
+    <section id="order">
+      <div class="sec-head"><span class="sec-badge">8</span><h2>Deployment order</h2></div>
+      <div class="flow">
+        <span class="step"><b>1</b>Neon: create + copy URL</span><span class="arw">→</span>
+        <span class="step"><b>2</b>Migrate (prisma:deploy)</span><span class="arw">→</span>
+        <span class="step"><b>3</b>Railway: vars + deploy</span><span class="arw">→</span>
+        <span class="step"><b>4</b>curl /health</span><span class="arw">→</span>
+        <span class="step"><b>5</b>seed:admin</span><span class="arw">→</span>
+        <span class="step"><b>6</b>Vercel admin</span><span class="arw">→</span>
+        <span class="step"><b>7</b>CORS/trustedOrigins</span><span class="arw">→</span>
+        <span class="step"><b>8</b>EAS build APK</span><span class="arw">→</span>
+        <span class="step"><b>9</b>Flip to live keys</span>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="trouble">
+      <div class="sec-head"><span class="sec-badge">9</span><h2>Troubleshooting</h2></div>
+      <div class="tw"><table>
+        <thead><tr><th>Symptom</th><th>Cause → Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Build: <code>nest/prisma: not found</code></td><td><code>NODE_ENV=production</code> skipped devDeps → set <code>NPM_CONFIG_PRODUCTION=false</code></td></tr>
+          <tr><td><code>/health</code> → <code>database:false</code></td><td>Wrong URL / SSL → Neon direct URL + <code>?sslmode=require</code>; confirm migrations ran</td></tr>
+          <tr><td>Crash on auth at boot</td><td><code>BETTER_AUTH_API_KEY</code> unset (code uses <code>apiKey!</code>) → set it</td></tr>
+          <tr><td>Admin login CORS/session error</td><td>Origin not trusted → add to <code>CORS_ORIGIN</code> + <code>trustedOrigins</code>, redeploy</td></tr>
+          <tr><td>Admin loads, API 404s</td><td><code>NEXT_PUBLIC_API_URL</code> missing <code>/api/v1</code> suffix</td></tr>
+          <tr><td>APK can't reach backend</td><td>Stale URL in <code>eas.json</code> → rebuild (already fixed in repo)</td></tr>
+          <tr><td>Email "verify" won't open app</td><td>Deep-link scheme → now <code>kuapa://</code> (fixed); rebuild the APK</td></tr>
+          <tr><td>Maps screen crashes</td><td>Placeholder native keys → add real Maps SDK keys (§1.3)</td></tr>
+          <tr><td>WebSocket won't connect</td><td>Use <code>wss://</code> over HTTPS, not <code>ws://</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="code"><div class="code-bar"><span class="lights"><i class="g"></i><i></i><i></i></span><span class="label">handy commands</span><button class="copy">copy</button></div><pre><code>railway logs --service kuapa-api          <span class="c"># tail server logs</span>
+railway variables --service kuapa-api      <span class="c"># list current vars</span>
+railway run --service kuapa-api -- &lt;cmd&gt;    <span class="c"># run with prod env</span>
+eas build:list --platform android          <span class="c"># recent builds</span>
+eas update --branch production -m "…"       <span class="c"># OTA JS update</span></code></pre></div>
+    </section>
+
+    <!-- 10 -->
+    <section id="harden">
+      <div class="sec-head"><span class="sec-badge">10</span><h2>Production hardening</h2></div>
+      <ul class="check">
+        <li>Rotate <code>BETTER_AUTH_SECRET</code>, SMTP password, and any key that ever sat in a committed file.</li>
+        <li>Switch Paystack and other sandbox integrations to <strong>live</strong> keys.</li>
+        <li>Restrict the server Maps key by API + IP; restrict native keys by package/bundle + SHA-1.</li>
+        <li>Disable Neon autosuspend (or accept cold starts); enable Neon PITR/backups.</li>
+        <li>Add custom domains — <code>api.kuapa.com</code> (Railway), <code>admin.kuapa.com</code> (Vercel) — and update <code>BETTER_AUTH_URL</code>, <code>CORS_ORIGIN</code>, <code>trustedOrigins</code>, client env, and the App Links host.</li>
+        <li>Tune Sentry sample rates; confirm both server + mobile DSNs report.</li>
+        <li>Add a second replica only after moving <code>DATABASE_URL</code> to Neon's pooled endpoint.</li>
+        <li>Take a Neon branch for staging before testing risky migrations.</li>
+        <li>Finalize store identity (<code>bundleIdentifier</code>/<code>package</code>) before publishing — changing it later means a new listing.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <span>Kuapa AgriMarket · Deployment Manual — generated against the repo at <code>Kuapa/Kuapa</code>.</span>
+  <span>Full source: <code>docs/DEPLOYMENT.md</code></span>
+</footer>
+
+<script>
+  // Copy buttons
+  document.querySelectorAll('.code').forEach(function(block){
+    var btn = block.querySelector('.copy');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var code = block.querySelector('code');
+      var text = code ? code.innerText : '';
+      var done = function(){ var o = btn.textContent; btn.textContent='copied'; setTimeout(function(){ btn.textContent=o; }, 1400); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(text); done(); });
+      } else { fallback(text); done(); }
+    });
+  });
+  function fallback(text){
+    try { var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch(e){}
+  }
+  // Scroll-spy TOC
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var map = {}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var spy = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var a = map[e.target.id]; if(a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+  document.querySelectorAll('main section[id]').forEach(function(s){ spy.observe(s); });
+</script>
