@@ -53,8 +53,8 @@ export class AuthController {
     );
 
     const res = await this.auth.api.signUpEmail({
-      body: { email, password, name, callbackURL: "bexiemart://verify-email" },
-      headers: new Headers({ origin: "bexiemart://" }),
+      body: { email, password, name, callbackURL: "kuapa://verify-email" },
+      headers: new Headers({ origin: "kuapa://" }),
       asResponse: true,
     });
 
@@ -157,7 +157,7 @@ export class AuthController {
 
     const res = await this.auth.api.signInEmail({
       body: { email, password },
-      headers: new Headers({ origin: "bexiemart://" }),
+      headers: new Headers({ origin: "kuapa://" }),
       asResponse: true,
     });
 
@@ -220,8 +220,8 @@ export class AuthController {
       this.logger.log(`Resending verification email to: ${email}`);
       try {
         await (this.auth.api as any).sendVerificationEmail({
-          body: { email, callbackURL: "bexiemart://verify-email" },
-          headers: new Headers({ origin: "bexiemart://" }),
+          body: { email, callbackURL: "kuapa://verify-email" },
+          headers: new Headers({ origin: "kuapa://" }),
         });
       } catch (e) {
         this.logger.error(`Resend verification error for ${email}: ${e}`);
@@ -238,7 +238,7 @@ export class AuthController {
     try {
       await (this.auth.api as any).forgetPassword({
         body: { email: body.email, redirectTo: "/reset-password" },
-        headers: new Headers({ origin: "bexiemart://" }),
+        headers: new Headers({ origin: "kuapa://" }),
       });
     } catch (e) {
       console.error("Forget password error:", e);

@@ -12,7 +12,7 @@ export function wsCorsOptions() {
   return {
     origin: process.env.CORS_ORIGIN
       ? process.env.CORS_ORIGIN.split(",")
-      : ["bexiemart://", "exp://", "http://localhost:3001", "https://admin.bexiemart.com"],
+      : ["kuapa://", "exp://", "http://localhost:3001", "https://admin.kuapa.com"],
     credentials: true,
   };
 }
