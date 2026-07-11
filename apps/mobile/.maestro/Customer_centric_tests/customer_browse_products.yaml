@@ -1,4 +1,4 @@
-appId: com.bexiemart.app
+appId: com.kuapa.app
 ---
 - launchApp:
     clearState: true

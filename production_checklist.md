@@ -527,7 +527,7 @@ Use a scheduled job (e.g., `@nestjs/schedule`) to check for abandoned carts and 
   "applinks": {
     "apps": [],
     "details": [{
-      "appID": "TEAM_ID.com.bexiemart.app",
+      "appID": "TEAM_ID.com.kuapa.app",
       "paths": ["*"]
     }]
   }
@@ -1063,7 +1063,7 @@ describe('useLogin', () => {
 
 ```yaml
 # tests/e2e/checkout-flow.yaml
-appId: com.bexiemart.app
+appId: com.kuapa.app
 ---
 - launchApp
 - assertVisible: "Shop"
@@ -1932,7 +1932,7 @@ eas build --profile production --platform all
 ```
 
 For iOS, make sure:
-- App Store Connect has a new app entry with the bundle ID `com.bexiemart.app`
+- App Store Connect has a new app entry with the bundle ID `com.kuapa.app`
 - Distribution certificate and provisioning profile are set up (EAS handles this with `eas credentials`)
 
 For Android:
