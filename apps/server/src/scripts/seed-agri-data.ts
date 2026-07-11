@@ -66,21 +66,21 @@ async function main() {
     {
       id: "demo-farmer-user",
       name: "Kofi Mensah",
-      email: "kofi.farmer@kuapa.demo",
+      email: "kofi.farmer@kuapa.com",
       role: UserRole.VENDOR,
       phoneNumber: "+233240000001",
     },
     {
       id: "demo-buyer-user",
       name: "Ama Serwaa",
-      email: "ama.buyer@kuapa.demo",
+      email: "ama.buyer@kuapa.com",
       role: UserRole.CUSTOMER,
       phoneNumber: "+233240000002",
     },
     {
       id: "demo-transporter-user",
       name: "Yaw Boateng",
-      email: "yaw.transporter@kuapa.demo",
+      email: "yaw.transporter@kuapa.com",
       role: UserRole.DISPATCHER,
       phoneNumber: "+233240000003",
     },
@@ -89,7 +89,7 @@ async function main() {
   for (const u of demoUsers) {
     await prisma.user.upsert({
       where: { id: u.id },
-      update: { role: u.role, name: u.name },
+      update: { role: u.role, name: u.name, email: u.email },
       create: {
         ...u,
         emailVerified: true,
@@ -264,9 +264,9 @@ async function main() {
   }
 
   console.log("\n🎉 Kuapa demo data seeded. Demo logins (password: %s):", DEMO_PASSWORD);
-  console.log("   Farmer:      kofi.farmer@kuapa.demo");
-  console.log("   Buyer:       ama.buyer@kuapa.demo");
-  console.log("   Transporter: yaw.transporter@kuapa.demo");
+  console.log("   Farmer:      kofi.farmer@kuapa.com");
+  console.log("   Buyer:       ama.buyer@kuapa.com");
+  console.log("   Transporter: yaw.transporter@kuapa.com");
 }
 
 main()
