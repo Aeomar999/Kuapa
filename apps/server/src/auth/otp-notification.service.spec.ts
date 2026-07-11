@@ -31,6 +31,7 @@ describe("OtpNotificationService", () => {
 
     it("should call Arkesel API and return true on success", async () => {
       process.env.ARKESEL_API_KEY = "test-key";
+      process.env.SEND_SMS_OTP = "true";
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
         json: async () => ({ status: "success" }),
@@ -49,6 +50,7 @@ describe("OtpNotificationService", () => {
 
     it("should return false on Arkesel API failure", async () => {
       process.env.ARKESEL_API_KEY = "test-key";
+      process.env.SEND_SMS_OTP = "true";
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: false,
         json: async () => ({ status: "error", message: "Insufficient balance" }),
