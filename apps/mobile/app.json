@@ -9,9 +9,9 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.bexiemart.app",
+      "bundleIdentifier": "com.kuapa.app",
       "associatedDomains": [
-        "applinks:bexiemart.com"
+        "applinks:kuapa.com"
       ],
       "config": {
         "googleMapsApiKey": "REPLACE_WITH_GOOGLE_MAPS_IOS_KEY"
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/images/icon-adaptive-foreground.png",
         "backgroundColor": "#F8F4EA"
       },
-      "package": "com.bexiemart.app",
+      "package": "com.kuapa.app",
       "config": {
         "googleMaps": {
           "apiKey": "REPLACE_WITH_GOOGLE_MAPS_ANDROID_KEY"
@@ -45,7 +45,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "bexiemart.com",
+              "host": "kuapa.com",
               "pathPrefix": "/"
             }
           ],
@@ -58,15 +58,15 @@
           "action": "VIEW",
           "data": [
             {
-              "scheme": "bexiemart",
+              "scheme": "kuapa",
               "host": "verify-email"
             },
             {
-              "scheme": "bexiemart",
+              "scheme": "kuapa",
               "host": "reset-password"
             },
             {
-              "scheme": "bexiemart",
+              "scheme": "kuapa",
               "host": "auth"
             }
           ],

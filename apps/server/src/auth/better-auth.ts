@@ -154,8 +154,7 @@ export function createAuth(prisma: PrismaClient) {
     trustedOrigins: [
       "kuapa://",
       "com.kuapa.agrimarket://",
-      "bexiemart://",
-      "com.bexiemart.app://",
+      "com.kuapa.app://",
       "exp://",
       "http://localhost:3000",
       "http://localhost:3001",
