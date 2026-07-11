@@ -166,12 +166,11 @@ Scan the QR code displayed in your terminal using the **Expo Go** application on
 
 After running `npm run seed:agri` in `apps/server`, you can log in with any of the pre-seeded demo accounts to test role-specific workflows:
 
-| Role | Demo Email | Password | Primary Capabilities |
-| :--- | :--- | :--- | :--- |
-| **Farmer / Vendor** | `farmer@kuapa.com` | `Password123!` | List farm produce, set unit prices, manage harvest orders |
-| **Aggregator** | `aggregator@kuapa.com` | `Password123!` | Bulk produce sourcing, multi-round negotiations, depot inventory |
-| **Institutional Buyer** | `buyer@kuapa.com` | `Password123!` | Wholesale purchasing, contract requests, mobile money escrow |
-| **Transporter** | `transporter@kuapa.com` | `Password123!` | Accept logistics requests, track deliveries, farm-gate pickups |
+| Role | Name | Demo Email | Password | Phone | Primary Capabilities |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Farmer / Vendor** | Kofi Mensah | `kofi.farmer@kuapa.com` | `Kuapa1234!` | `+233240000001` | List farm produce, set unit prices, manage harvest orders |
+| **Institutional Buyer** | Ama Serwaa | `ama.buyer@kuapa.com` | `Kuapa1234!` | `+233240000002` | Wholesale purchasing, contract requests, mobile money escrow |
+| **Transporter / Dispatcher** | Yaw Boateng | `yaw.transporter@kuapa.com` | `Kuapa1234!` | `+233240000003` | Accept logistics requests, track deliveries, farm-gate pickups |
 
 ---
 
