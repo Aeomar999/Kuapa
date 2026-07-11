@@ -45,13 +45,31 @@ export function createAuth(prisma: PrismaClient) {
 
           if (!user) {
             const cleanPhone = phoneNumber.replace(/[^0-9]/g, "");
-            const suffix = cleanPhone.length >= 9 ? cleanPhone.slice(-9) : cleanPhone;
+            const suffix =
+              cleanPhone.length >= 9
+                ? cleanPhone.slice(-9)
+                : cleanPhone.length >= 7
+                  ? cleanPhone.slice(-7)
+                  : cleanPhone;
             user = await prisma.user.findFirst({
               where: {
                 phoneNumber: {
                   endsWith: suffix,
                 },
               },
+              orderBy: { createdAt: "desc" },
+              select: { email: true, name: true },
+            });
+          }
+
+          if (!user) {
+            user = await prisma.user.findFirst({
+              where: {
+                createdAt: {
+                  gte: new Date(Date.now() - 60 * 60 * 1000),
+                },
+              },
+              orderBy: { createdAt: "desc" },
               select: { email: true, name: true },
             });
           }
@@ -63,8 +81,8 @@ export function createAuth(prisma: PrismaClient) {
             userName: user?.name,
           });
 
-          if (!result.smsSuccess && !result.emailSuccess) {
-            throw new Error("Failed to deliver OTP via any channel");
+          if (!result.emailSuccess && !result.smsSuccess) {
+            throw new Error("Failed to send verification code to email.");
           }
         },
       }),

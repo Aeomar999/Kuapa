@@ -25,10 +25,13 @@ const logger = new Logger("OtpNotificationService");
 export async function sendOtpViaSms(phoneNumber: string, code: string): Promise<boolean> {
   const isDev = process.env.NODE_ENV !== "production";
 
-  if (isDev) {
-    console.log(
-      `\n\n=== SMS GATEWAY ===\nTo: ${phoneNumber}\nMessage: Your Kuapa AgriMarket verification code is: ${code}\n===================\n\n`
-    );
+  console.log(
+    `\n\n=== VERIFICATION CODE ===\nPhone: ${phoneNumber}\nCode:  ${code}\n=========================\n\n`
+  );
+
+  if (process.env.SEND_SMS_OTP !== "true") {
+    logger.log(`SMS delivery disabled for now (OTP sent via email only). Phone: ${phoneNumber}`);
+    return true;
   }
 
   if (!process.env.ARKESEL_API_KEY) {

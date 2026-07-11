@@ -101,8 +101,8 @@ export default function EditPhoneScreen() {
       <ScrollView className="flex-1" contentContainerClassName="px-5 pb-12">
         <Text className="text-body-lg text-muted-foreground font-body mt-4 mb-8">
           {step === "request"
-            ? "Enter your new phone number. We'll send a verification code via SMS and email to confirm your identity."
-            : `We've sent a 6-digit verification code to ${phone} and your email. Please enter it below.`}
+            ? "Enter your new phone number. We'll send a verification code to your email address to confirm your identity."
+            : `We've sent a 6-digit verification code to your email address. Please enter it below.`}
         </Text>
 
         {error ? <Announcement type="error" message={error} /> : null}
